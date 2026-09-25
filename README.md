@@ -44,6 +44,23 @@ Or register the namespace once in your `components.json` and use short names:
 npx shadcn@latest add @noice/accordion
 ```
 
+### Install from GitHub
+
+The repository is itself a registry, so components install with no domain and no
+`components.json` entry. The CLI reads `registry.json` and the sources straight
+from the repo:
+
+```bash
+npx shadcn@latest add ishivamgaur/noice-ui/accordion
+```
+
+This keeps working if the site is down, and every install traces to a commit.
+Pin a tag for a reproducible install:
+
+```bash
+npx shadcn@latest add ishivamgaur/noice-ui/accordion#v1.0.0
+```
+
 ### Prerequisites
 
 Every component imports a `cn()` helper from `@/lib/utils`, and reads the CSS

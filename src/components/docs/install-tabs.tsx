@@ -6,12 +6,13 @@ import { siBun, siNpm, siPnpm, siYarn } from "simple-icons";
 import { CodeBlock } from "@/components/code-block";
 import { cn } from "@/lib/utils";
 import {
- installCommand,
- PACKAGE_MANAGERS,
- registryUrl,
- type PackageManager,
+  githubInstallCommand,
+  installCommand,
+  PACKAGE_MANAGERS,
+  registryUrl,
+  type PackageManager,
 } from "@/lib/registry";
-import { REGISTRY_NAMESPACE, SITE_URL } from "@/lib/site";
+import { GITHUB_SLUG, REGISTRY_NAMESPACE, SITE_URL } from "@/lib/site";
 
 const LOGOS: Record<PackageManager, { path: string; color: string }> = {
  npm: { path: siNpm.path, color: "var(--color-icon-npm)" },
@@ -20,22 +21,25 @@ const LOGOS: Record<PackageManager, { path: string; color: string }> = {
  bun: { path: siBun.path, color: "var(--color-icon-bun)" },
 };
 
-/** CLI / namespace / manual install options for one component. */
+/** CLI / namespace / GitHub / manual install options for one component. */
 export function InstallTabs({ name }: { name: string }) {
- const [tab, setTab] = React.useState<"cli" | "namespace" | "manual">("cli");
- const [pm, setPm] = React.useState<PackageManager>("npm");
+  const [tab, setTab] = React.useState<"cli" | "namespace" | "github" | "manual">(
+    "cli"
+  );
+  const [pm, setPm] = React.useState<PackageManager>("npm");
 
- return (
- <div className="overflow-hidden rounded-2xl border border-border bg-card">
- <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border px-4 py-2">
- <div className="flex gap-1">
- {(
- [
- ["cli", "CLI"],
- ["namespace", "Namespace"],
- ["manual", "Manual"],
- ] as const
- ).map(([t, label]) => (
+  return (
+  <div className="overflow-hidden rounded-2xl border border-border bg-card">
+  <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border px-4 py-2">
+  <div className="flex gap-1">
+  {(
+  [
+  ["cli", "CLI"],
+  ["namespace", "Namespace"],
+  ["github", "GitHub"],
+  ["manual", "Manual"],
+  ] as const
+  ).map(([t, label]) => (
  <button
  key={t}
  type="button"
@@ -51,12 +55,12 @@ export function InstallTabs({ name }: { name: string }) {
  </button>
  ))}
  </div>
- {tab === "cli" && (
- <div
- className="flex flex-wrap gap-1"
- role="group"
- aria-label="Package manager"
- >
+  {(tab === "cli" || tab === "github") && (
+  <div
+  className="flex flex-wrap gap-1"
+  role="group"
+  aria-label="Package manager"
+  >
  {(Object.keys(PACKAGE_MANAGERS) as PackageManager[]).map((key) => (
  <button
  key={key}
@@ -86,12 +90,34 @@ export function InstallTabs({ name }: { name: string }) {
  </div>
  <div className="p-4">
  {tab === "cli" && <CodeBlock code={installCommand(name, pm)} />}
- {tab === "namespace" && (
- <CodeBlock
- lang="json"
- code={`// components.json\n{\n "registries": {\n "${REGISTRY_NAMESPACE}": "${SITE_URL}/r/{name}.json"\n }\n}\n\n// then:\nnpx shadcn@latest add ${REGISTRY_NAMESPACE}/${name}`}
- />
- )}
+  {tab === "namespace" && (
+  <CodeBlock
+  lang="json"
+  code={`// components.json\n{\n "registries": {\n "${REGISTRY_NAMESPACE}": "${SITE_URL}/r/{name}.json"\n }\n}\n\n// then:\nnpx shadcn@latest add ${REGISTRY_NAMESPACE}/${name}`}
+  />
+  )}
+  {tab === "github" && (
+  <div className="space-y-3">
+  <CodeBlock code={githubInstallCommand(name, pm)} />
+  <p className="text-sm text-muted-foreground">
+  Reads{" "}
+  <Link
+  href={`https://github.com/${GITHUB_SLUG}/blob/main/registry.json`}
+  className="text-foreground underline underline-offset-4"
+  >
+  registry.json
+  </Link>{" "}
+  straight from the repository, so this works with no domain and no{" "}
+  <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
+  components.json
+  </code>{" "}
+  entry. Pin a ref for a reproducible install:
+  </p>
+  <CodeBlock
+  code={`npx shadcn@latest add ${GITHUB_SLUG}/${name}#v1.0.0`}
+  />
+  </div>
+  )}
  {tab === "manual" && (
  <div className="space-y-3 text-sm text-muted-foreground">
  <p>

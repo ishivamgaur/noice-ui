@@ -1,5 +1,5 @@
 import meta from "../../registry/meta.json";
-import { SITE_URL } from "./site";
+import { GITHUB_SLUG, SITE_URL } from "./site";
 
 export interface ComponentProp {
   name: string;
@@ -42,6 +42,11 @@ export function registryUrl(name: string) {
   return `${SITE_URL}/r/${name}.json`;
 }
 
+/** GitHub owner/repo/item address. The repo doubles as the registry. */
+export function githubItem(name: string) {
+  return `${GITHUB_SLUG}/${name}`;
+}
+
 export const PACKAGE_MANAGERS = {
   npm: { label: "npm", exec: "npx" },
   pnpm: { label: "pnpm", exec: "pnpm dlx" },
@@ -54,4 +59,14 @@ export type PackageManager = keyof typeof PACKAGE_MANAGERS;
 /** CLI command to install a component with a given package manager. */
 export function installCommand(name: string, pm: PackageManager = "npm") {
   return `${PACKAGE_MANAGERS[pm].exec} shadcn@latest add ${registryUrl(name)}`;
+}
+
+/**
+ * Install straight from GitHub. Needs no domain and no `registries` entry in
+ * components.json, because the CLI reads registry.json and the sources from
+ * the repository itself. Worth advertising: it keeps working if the site is
+ * down, and it makes every install traceable to a commit.
+ */
+export function githubInstallCommand(name: string, pm: PackageManager = "npm") {
+  return `${PACKAGE_MANAGERS[pm].exec} shadcn@latest add ${githubItem(name)}`;
 }

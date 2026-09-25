@@ -1,5 +1,10 @@
-import { components, registryUrl } from "@/lib/registry";
-import { SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
+import { components, githubItem, registryUrl } from "@/lib/registry";
+import {
+  GITHUB_SLUG,
+  SITE_DESCRIPTION,
+  SITE_NAME,
+  SITE_URL,
+} from "@/lib/site";
 
 /**
  * AI-friendly index of the library (llms.txt convention).
@@ -14,6 +19,8 @@ export function GET() {
     ``,
     `Registry namespace for shadcn CLI 3.0+: \`@noice\` -> \`${SITE_URL}/r/{name}.json\``,
     ``,
+    `Install straight from GitHub (no domain, no components.json entry): \`npx shadcn@latest add ${GITHUB_SLUG}/<name>\``,
+    ``,
     `## Components`,
     ``,
     ...components.flatMap((c) => [
@@ -22,6 +29,7 @@ export function GET() {
       `- Category: ${c.category}`,
       `- Docs: ${SITE_URL}/components/${c.name}`,
       `- Install: \`npx shadcn@latest add ${registryUrl(c.name)}\``,
+      `- Install (GitHub): \`npx shadcn@latest add ${githubItem(c.name)}\``,
       c.dependencies.length
         ? `- Dependencies: ${c.dependencies.join(", ")}`
         : `- Dependencies: none`,
