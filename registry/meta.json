@@ -1,0 +1,120 @@
+{
+  "components": [
+    {
+      "name": "button",
+      "title": "Button",
+      "description": "Displays a button with multiple variants and sizes.",
+      "category": "General",
+      "dependencies": ["class-variance-authority", "clsx", "tailwind-merge"],
+      "registryDependencies": [],
+      "usage": "import { Button } from \"@/components/ui/button\";\n\nexport function Demo() {\n  return (\n    <div className=\"flex gap-2\">\n      <Button>Get started</Button>\n      <Button variant=\"outline\">Documentation</Button>\n      <Button variant=\"ghost\">Learn more</Button>\n    </div>\n  );\n}",
+      "props": [
+        {
+          "name": "variant",
+          "type": "\"default\" | \"destructive\" | \"outline\" | \"secondary\" | \"ghost\" | \"link\"",
+          "default": "\"default\"",
+          "description": "The visual style of the button."
+        },
+        {
+          "name": "size",
+          "type": "\"default\" | \"sm\" | \"lg\" | \"icon\"",
+          "default": "\"default\"",
+          "description": "The size of the button."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "default": "-",
+          "description": "Additional classes merged with the variant styles."
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "description": "Disables the button and reduces opacity."
+        }
+      ]
+    },
+    {
+      "name": "card",
+      "title": "Card",
+      "description": "Displays a card with header, content, and footer sections.",
+      "category": "Layout",
+      "dependencies": ["clsx", "tailwind-merge"],
+      "registryDependencies": [],
+      "usage": "import {\n  Card,\n  CardContent,\n  CardDescription,\n  CardFooter,\n  CardHeader,\n  CardTitle,\n} from \"@/components/ui/card\";\nimport { Button } from \"@/components/ui/button\";\n\nexport function Demo() {\n  return (\n    <Card className=\"w-[350px]\">\n      <CardHeader>\n        <CardTitle>Create project</CardTitle>\n        <CardDescription>\n          Deploy your new project in one-click.\n        </CardDescription>\n      </CardHeader>\n      <CardContent>\n        <p className=\"text-sm\">Your project is ready to ship.</p>\n      </CardContent>\n      <CardFooter className=\"gap-2\">\n        <Button>Deploy</Button>\n        <Button variant=\"outline\">Cancel</Button>\n      </CardFooter>\n    </Card>\n  );\n}",
+      "props": [
+        {
+          "name": "Card / CardHeader / CardContent / CardFooter",
+          "type": "React.HTMLAttributes<HTMLDivElement>",
+          "default": "-",
+          "description": "Container parts. Accept className and all div props."
+        },
+        {
+          "name": "CardTitle / CardDescription",
+          "type": "React.HTMLAttributes<HTMLDivElement>",
+          "default": "-",
+          "description": "Pre-styled typography for the header section."
+        }
+      ]
+    },
+    {
+      "name": "spotlight",
+      "title": "Spotlight",
+      "description": "A container with a soft glow that follows the cursor. Perfect for hero sections.",
+      "category": "Backgrounds",
+      "dependencies": ["motion", "clsx", "tailwind-merge"],
+      "registryDependencies": [],
+      "usage": "import { Spotlight } from \"@/components/ui/spotlight\";\n\nexport function Demo() {\n  return (\n    <Spotlight className=\"rounded-xl border p-12 text-center\">\n      <h2 className=\"text-2xl font-bold\">Move your cursor</h2>\n      <p className=\"mt-2 text-sm text-muted-foreground\">\n        The glow follows you.\n      </p>\n    </Spotlight>\n  );\n}",
+      "props": [
+        {
+          "name": "size",
+          "type": "number",
+          "default": "600",
+          "description": "Diameter of the glow in px."
+        },
+        {
+          "name": "intensity",
+          "type": "number",
+          "default": "0.18",
+          "description": "Glow strength from 0 to 1."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "default": "-",
+          "description": "Additional classes for the container."
+        }
+      ]
+    },
+    {
+      "name": "dot-grid",
+      "title": "Dot Grid",
+      "description": "A dotted texture layer that dissolves outward. Drop it under any section.",
+      "category": "Backgrounds",
+      "dependencies": ["clsx", "tailwind-merge"],
+      "registryDependencies": [],
+      "usage": "import { DotGrid } from \"@/components/ui/dot-grid\";\n\nexport function Demo() {\n  return (\n    <div className=\"relative h-48 overflow-hidden rounded-xl border\">\n      <DotGrid />\n      <p className=\"relative p-6 text-sm text-muted-foreground\">\n        Content sits above the grid.\n      </p>\n    </div>\n  );\n}",
+      "props": [
+        {
+          "name": "size",
+          "type": "number",
+          "default": "22",
+          "description": "Distance between dots in px."
+        },
+        {
+          "name": "dot",
+          "type": "string",
+          "default": "var(--color-border)",
+          "description": "Dot color, any CSS color."
+        },
+        {
+          "name": "mask",
+          "type": "string",
+          "default": "radial fade",
+          "description": "CSS mask so the field dissolves outward."
+        }
+      ]
+    }
+  ]
+}

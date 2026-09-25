@@ -1,0 +1,26 @@
+[
+  {
+    "name": "button",
+    "title": "Button",
+    "description": "Displays a button with multiple variants and sizes.",
+    "category": "General"
+  },
+  {
+    "name": "card",
+    "title": "Card",
+    "description": "Displays a card with header, content, and footer sections.",
+    "category": "Layout"
+  },
+  {
+    "name": "spotlight",
+    "title": "Spotlight",
+    "description": "A container with a soft glow that follows the cursor. Perfect for hero sections.",
+    "category": "Backgrounds"
+  },
+  {
+    "name": "dot-grid",
+    "title": "Dot Grid",
+    "description": "A dotted texture layer that dissolves outward. Drop it under any section.",
+    "category": "Backgrounds"
+  }
+]

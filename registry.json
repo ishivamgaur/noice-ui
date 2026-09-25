@@ -1,0 +1,31 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "noiceui",
+  "homepage": "https://noiceui.com",
+  "items": [
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Displays a button with multiple variants and sizes."
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "Displays a card with header, content, and footer sections."
+    },
+    {
+      "name": "spotlight",
+      "type": "registry:ui",
+      "title": "Spotlight",
+      "description": "A container with a soft glow that follows the cursor. Perfect for hero sections."
+    },
+    {
+      "name": "dot-grid",
+      "type": "registry:ui",
+      "title": "Dot Grid",
+      "description": "A dotted texture layer that dissolves outward. Drop it under any section."
+    }
+  ]
+}

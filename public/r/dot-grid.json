@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "dot-grid",
+  "type": "registry:ui",
+  "title": "Dot Grid",
+  "description": "A dotted texture layer that dissolves outward. Drop it under any section.",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/ui/dot-grid.tsx",
+      "content": "import * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\n\nexport interface DotGridProps extends React.HTMLAttributes<HTMLDivElement> {\n  /** Distance between dots in px. @default 22 */\n  size?: number;\n  /** Dot color. @default var(--color-border) */\n  dot?: string;\n  /** CSS mask so the field dissolves outward. */\n  mask?: string;\n}\n\n/**\n * A dotted texture layer. Absolutely positioned to fill its parent -\n * drop it inside any relative container, typically under content.\n */\nexport function DotGrid({\n  className,\n  size = 22,\n  dot = \"var(--color-border)\",\n  mask = \"radial-gradient(ellipse 55% 50% at 50% 42%, black 15%, transparent 72%)\",\n  ...props\n}: DotGridProps) {\n  return (\n    <div\n      aria-hidden\n      className={cn(\"pointer-events-none absolute inset-0\", className)}\n      style={{\n        backgroundImage: `radial-gradient(${dot} 1.2px, transparent 1.2px)`,\n        backgroundSize: `${size}px ${size}px`,\n        maskImage: mask,\n        WebkitMaskImage: mask,\n      }}\n      {...props}\n    />\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/ui/dot-grid.tsx"
+    }
+  ],
+  "categories": [
+    "backgrounds"
+  ]
+}
