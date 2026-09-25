@@ -32,6 +32,162 @@
       "type": "registry:ui",
       "title": "Marquee",
       "description": "An infinite scrolling row with edge fade. Children loop seamlessly."
+    },
+    {
+      "name": "number-ticker",
+      "type": "registry:ui",
+      "title": "Number Ticker",
+      "description": "Counts up to a value the first time it scrolls into view."
+    },
+    {
+      "name": "scroll-progress",
+      "type": "registry:ui",
+      "title": "Scroll Progress",
+      "description": "A spring-smoothed bar that tracks document scroll."
+    },
+    {
+      "name": "glare-card",
+      "type": "registry:ui",
+      "title": "Glare Card",
+      "description": "A card with a soft glare that follows the pointer."
+    },
+    {
+      "name": "animated-list",
+      "type": "registry:ui",
+      "title": "Animated List",
+      "description": "Reveals its children in sequence when scrolled into view."
+    },
+    {
+      "name": "border-beam",
+      "type": "registry:ui",
+      "title": "Border Beam",
+      "description": "A light travelling around the border of any element."
+    },
+    {
+      "name": "text-reveal",
+      "type": "registry:ui",
+      "title": "Text Reveal",
+      "description": "Blurs and lifts each word into place, in sequence."
+    },
+    {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "Panels unfold from a hairline, each open on its own."
+    },
+    {
+      "name": "gauge",
+      "type": "registry:ui",
+      "title": "Gauge",
+      "description": "A half-circle meter whose needle springs to the value."
+    },
+    {
+      "name": "loader-set",
+      "type": "registry:ui",
+      "title": "Loader Set",
+      "description": "Ring, dots, bar, and skeleton, each with a finished state."
+    },
+    {
+      "name": "avatar-stack",
+      "type": "registry:ui",
+      "title": "Avatar Stack",
+      "description": "Overlapping avatars that fan out on hover and focus."
+    },
+    {
+      "name": "number-stepper",
+      "type": "registry:ui",
+      "title": "Number Stepper",
+      "description": "Minus and plus around a display that rolls digit by digit."
+    },
+    {
+      "name": "expanding-search",
+      "type": "registry:ui",
+      "title": "Expanding Search",
+      "description": "A pill that grows into a real input and stays clickable."
+    },
+    {
+      "name": "otp-input",
+      "type": "registry:ui",
+      "title": "OTP Input",
+      "description": "One-time-code slots with paste fan-out and success rings."
+    },
+    {
+      "name": "code-block",
+      "type": "registry:ui",
+      "title": "Code Block",
+      "description": "Framed code with line numbers and copy, no highlighter needed."
+    },
+    {
+      "name": "gooey-nav",
+      "type": "registry:ui",
+      "title": "Gooey Nav",
+      "description": "Segmented nav where the active pill melts between stops."
+    },
+    {
+      "name": "command-palette",
+      "type": "registry:ui",
+      "title": "Command Palette",
+      "description": "Cmd+K panel with grouped fuzzy search, no dependency."
+    },
+    {
+      "name": "magnetic-button",
+      "type": "registry:ui",
+      "title": "Magnetic Button",
+      "description": "A button that leans toward the cursor, then settles."
+    },
+    {
+      "name": "text-scramble",
+      "type": "registry:ui",
+      "title": "Text Scramble",
+      "description": "Headlines that decode through glyphs, left to right."
+    },
+    {
+      "name": "compare-slider",
+      "type": "registry:ui",
+      "title": "Compare Slider",
+      "description": "Before and after split by a draggable divider."
+    },
+    {
+      "name": "slide-to-confirm",
+      "type": "registry:ui",
+      "title": "Slide to Confirm",
+      "description": "A knob that must travel to commit, flicks count too."
+    },
+    {
+      "name": "hold-to-delete",
+      "type": "registry:ui",
+      "title": "Hold to Delete",
+      "description": "A destructive action that only fires if you keep holding."
+    },
+    {
+      "name": "tilt-card",
+      "type": "registry:ui",
+      "title": "Tilt Card",
+      "description": "A card that tips toward the pointer with real perspective."
+    },
+    {
+      "name": "segmented-control",
+      "type": "registry:ui",
+      "title": "Segmented Control",
+      "description": "A radio group where the selection pill stretches as it travels."
+    },
+    {
+      "name": "sparkline",
+      "type": "registry:ui",
+      "title": "Sparkline",
+      "description": "A self-drawing line chart that scales to any width."
+    },
+    {
+      "name": "task-list",
+      "type": "registry:ui",
+      "title": "Task List",
+      "description": "Checklist where finishing a row sweeps a strike across it."
+    },
+    {
+      "name": "word-rotator",
+      "type": "registry:ui",
+      "title": "Word Rotator",
+      "description": "Cycles words by moving the letters they share."
     }
   ]
 }

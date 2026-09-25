@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "avatar-stack",
+  "type": "registry:ui",
+  "title": "Avatar Stack",
+  "description": "Overlapping avatars that fan out on hover and focus.",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/ui/avatar-stack.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\n\nexport interface AvatarStackProps extends React.HTMLAttributes<HTMLDivElement> {\n  /** Initials or image URLs, in order. */\n  people: string[];\n  /** How many to show before the overflow count. @default 5 */\n  max?: number;\n}\n\n/**\n * Overlapping avatars that fan apart on hover and focus. Width is\n * preallocated at the open pitch, so nothing around it reflows.\n */\nexport function AvatarStack({\n  people,\n  max = 5,\n  className,\n  ...props\n}: AvatarStackProps) {\n  const [open, setOpen] = React.useState(false);\n  const shown = people.slice(0, max);\n  const extra = people.length - shown.length;\n  // Avatars are size-8 (32px). Closed they overlap heavily, open they fan.\n  const pitch = open ? 28 : 12;\n  const overlap = pitch - 32;\n  const total = shown.length + (extra > 0 ? 1 : 0);\n\n  return (\n    <div\n      className={cn(\n        \"flex items-center transition-[width] duration-300 ease-out\",\n        className\n      )}\n      onMouseEnter={() => setOpen(true)}\n      onMouseLeave={() => setOpen(false)}\n      onFocus={() => setOpen(true)}\n      onBlur={(e) => {\n        if (!e.currentTarget.contains(e.relatedTarget)) setOpen(false);\n      }}\n      style={{ width: total * pitch + 20 }}\n      {...props}\n    >\n      {shown.map((person, i) => (\n        <span\n          key={`${person}-${i}`}\n          title={person}\n          className={cn(\n            \"flex size-8 shrink-0 items-center justify-center rounded-full border-2 border-background bg-muted text-[11px] font-medium text-muted-foreground transition-[margin,transform] duration-300 ease-out hover:z-10 hover:-translate-y-0.5 motion-safe:hover:scale-105\"\n          )}\n          style={{ marginLeft: i === 0 ? 0 : overlap }}\n        >\n          {person.slice(0, 1).toUpperCase()}\n        </span>\n      ))}\n      {extra > 0 && (\n        <span\n          className=\"flex size-8 shrink-0 items-center justify-center rounded-full border-2 border-background bg-muted text-[11px] font-medium text-muted-foreground\"\n          style={{ marginLeft: overlap }}\n        >\n          +{extra}\n        </span>\n      )}\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/ui/avatar-stack.tsx"
+    }
+  ],
+  "categories": [
+    "general"
+  ]
+}

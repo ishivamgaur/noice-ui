@@ -3,7 +3,6 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { components, getCategories } from "@/lib/registry";
 
@@ -13,85 +12,117 @@ const GUIDES = [
   { href: "/docs/mcp", title: "AI + MCP" },
 ];
 
-function Nav({ onNavigate }: { onNavigate?: () => void }) {
+/** Alphabetical inside each category, the way a reference index reads. */
+const byTitle = (a: { title: string }, b: { title: string }) =>
+  a.title.localeCompare(b.title);
+
+function SidebarRow({
+  href,
+  label,
+  onNavigate,
+}: {
+  href: string;
+  label: string;
+  onNavigate?: () => void;
+}) {
   const pathname = usePathname();
-  const link = (href: string, title: string, extra?: string) => {
-    const active = pathname === href;
-    return (
-      <Link
-        key={href}
-        href={href}
-        onClick={onNavigate}
-        className={cn(
-          "flex items-center justify-between rounded-md px-3 py-1.5 text-sm transition-colors",
-          active
-            ? "bg-accent font-medium text-accent-foreground"
-            : "text-muted-foreground hover:bg-accent/50 hover:text-foreground"
-        )}
-      >
-        {title}
-        {extra && (
-          <span className="rounded bg-muted px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">
-            {extra}
-          </span>
-        )}
-      </Link>
-    );
-  };
+  const active = pathname === href;
+  const ref = React.useRef<HTMLAnchorElement>(null);
+
+  // Arriving on a page brings its row to the middle of the list, clear
+  // of the fades at either end. Only the list scrolls, never the page.
+  React.useEffect(() => {
+    const el = ref.current;
+    const list = el?.closest("nav");
+    if (!active || !el || !list) return;
+    const top = el.offsetTop - list.clientHeight / 2 + el.offsetHeight / 2;
+    if (
+      el.offsetTop < list.scrollTop + 40 ||
+      el.offsetTop > list.scrollTop + list.clientHeight - 80
+    )
+      list.scrollTo({ top });
+  }, [active]);
 
   return (
-    <nav className="space-y-6">
-      <div>
-        <p className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          Getting started
-        </p>
-        <div className="space-y-0.5">
-          {GUIDES.map((g) => link(g.href, g.title))}
-        </div>
-      </div>
-      {getCategories().map((cat) => (
-        <div key={cat}>
-          <p className="mb-2 px-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            {cat}
-          </p>
-          <div className="space-y-0.5">
-            {components
-              .filter((c) => c.category === cat)
-              .map((c) =>
-                link(`/components/${c.name}`, c.title, `${components.indexOf(c) + 1}`)
-              )}
-          </div>
-        </div>
-      ))}
-    </nav>
+    <li>
+      <Link
+        ref={ref}
+        href={href}
+        onClick={onNavigate}
+        aria-current={active ? "page" : undefined}
+        className={cn(
+          "flex h-8 items-center rounded-md px-3 text-[13px] outline-none transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2",
+          active
+            ? "font-medium text-brand"
+            : "text-muted-foreground hover:text-foreground"
+        )}
+      >
+        <span className="truncate">{label}</span>
+      </Link>
+    </li>
+  );
+}
+
+function Group({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <p className="mb-1 px-3 text-xs font-medium text-muted-foreground/80">
+        {label}
+      </p>
+      <ul className="flex flex-col">{children}</ul>
+    </div>
+  );
+}
+
+/** The list itself, shared by the desktop column and the phone menu. */
+export function SidebarNav({ onNavigate }: { onNavigate?: () => void }) {
+  return (
+    <div className="flex flex-col gap-7">
+      <Group label="Getting started">
+        {GUIDES.map((g) => (
+          <SidebarRow
+            key={g.href}
+            href={g.href}
+            label={g.title}
+            onNavigate={onNavigate}
+          />
+        ))}
+      </Group>
+      {getCategories().map((cat) => {
+        const items = components
+          .filter((c) => c.category === cat)
+          .sort(byTitle);
+        if (items.length === 0) return null;
+        return (
+          <Group key={cat} label={cat}>
+            {items.map((c) => (
+              <SidebarRow
+                key={c.name}
+                href={`/components/${c.name}`}
+                label={c.title}
+                onNavigate={onNavigate}
+              />
+            ))}
+          </Group>
+        );
+      })}
+    </div>
   );
 }
 
 export function DocsSidebar() {
-  const [open, setOpen] = React.useState(false);
-
   return (
-    <>
-      {/* Desktop */}
-      <aside className="sticky top-20 hidden w-64 shrink-0 self-start overflow-y-auto py-8 pr-6 lg:block">
-        <Nav />
-      </aside>
-      {/* Mobile */}
-      <div className="lg:hidden">
-        <button
-          type="button"
-          onClick={() => setOpen(!open)}
-          className="mb-4 inline-flex items-center gap-2 rounded-md border border-border px-3 py-2 text-sm text-muted-foreground"
-        >
-          <Menu className="size-3.5" />
-          Browse library
-        </button>
-        {open && (
-          <div className="mb-6 rounded-xl border border-border bg-card p-4">
-            <Nav onNavigate={() => setOpen(false)} />
-          </div>
-        )}
-      </div>
-    </>
+    /* A real column on wide screens: full height, its own scroll, one
+        hairline between it and the work. */
+    <aside className="sticky top-14 hidden h-[calc(100dvh-3.5rem)] w-64 shrink-0 self-start border-r border-border lg:block">
+      <nav
+        aria-label="Library"
+        // Fades at both ends, so the list reads as continuing out of view
+        // rather than being cut.
+        className="h-full overflow-y-auto overscroll-contain px-3 pt-6 pb-12 [mask-image:linear-gradient(to_bottom,transparent,black_20px,black_calc(100%-40px),transparent)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      >
+        <SidebarNav />
+      </nav>
+    </aside>
   );
 }

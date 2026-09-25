@@ -2,42 +2,90 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { siBun, siNpm, siPnpm, siYarn } from "simple-icons";
 import { CodeBlock } from "@/components/code-block";
 import { cn } from "@/lib/utils";
-import { installCommand, registryUrl } from "@/lib/registry";
+import {
+  installCommand,
+  PACKAGE_MANAGERS,
+  registryUrl,
+  type PackageManager,
+} from "@/lib/registry";
 import { REGISTRY_NAMESPACE, SITE_URL } from "@/lib/site";
+
+const LOGOS: Record<PackageManager, { path: string; color: string }> = {
+  npm: { path: siNpm.path, color: "var(--color-icon-npm)" },
+  pnpm: { path: siPnpm.path, color: "var(--color-icon-pnpm)" },
+  yarn: { path: siYarn.path, color: "var(--color-icon-yarn)" },
+  bun: { path: siBun.path, color: "var(--color-icon-bun)" },
+};
 
 /** CLI / namespace / manual install options for one component. */
 export function InstallTabs({ name }: { name: string }) {
   const [tab, setTab] = React.useState<"cli" | "namespace" | "manual">("cli");
+  const [pm, setPm] = React.useState<PackageManager>("npm");
 
   return (
     <div className="overflow-hidden rounded-2xl border border-border bg-card">
-      <div className="flex gap-1 border-b border-border px-4 py-2">
-        {(
-          [
-            ["cli", "CLI"],
-            ["namespace", "Namespace"],
-            ["manual", "Manual"],
-          ] as const
-        ).map(([t, label]) => (
-          <button
-            key={t}
-            type="button"
-            onClick={() => setTab(t)}
-            className={cn(
-              "rounded-md px-3 py-1.5 text-sm transition-colors",
-              tab === t
-                ? "bg-accent text-accent-foreground"
-                : "text-muted-foreground hover:text-foreground"
-            )}
+      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border px-4 py-2">
+        <div className="flex gap-1">
+          {(
+            [
+              ["cli", "CLI"],
+              ["namespace", "Namespace"],
+              ["manual", "Manual"],
+            ] as const
+          ).map(([t, label]) => (
+            <button
+              key={t}
+              type="button"
+              onClick={() => setTab(t)}
+              className={cn(
+                "rounded-md px-3 py-1.5 text-sm transition-colors",
+                tab === t
+                  ? "bg-accent text-accent-foreground"
+                  : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+        {tab === "cli" && (
+          <div
+            className="flex flex-wrap gap-1"
+            role="group"
+            aria-label="Package manager"
           >
-            {label}
-          </button>
-        ))}
+            {(Object.keys(PACKAGE_MANAGERS) as PackageManager[]).map((key) => (
+              <button
+                key={key}
+                type="button"
+                onClick={() => setPm(key)}
+                aria-pressed={pm === key}
+                className={cn(
+                  "inline-flex h-8 items-center gap-2 rounded-lg px-2.5 text-[13px] font-medium transition-colors",
+                  pm === key
+                    ? "bg-accent text-accent-foreground"
+                    : "text-muted-foreground hover:bg-accent/60 hover:text-foreground"
+                )}
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  aria-hidden
+                  className="size-4 shrink-0"
+                  style={{ fill: LOGOS[key].color }}
+                >
+                  <path d={LOGOS[key].path} />
+                </svg>
+                {PACKAGE_MANAGERS[key].label}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
       <div className="p-4">
-        {tab === "cli" && <CodeBlock code={installCommand(name)} />}
+        {tab === "cli" && <CodeBlock code={installCommand(name, pm)} />}
         {tab === "namespace" && (
           <CodeBlock
             lang="json"

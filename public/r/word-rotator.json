@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "word-rotator",
+  "type": "registry:ui",
+  "title": "Word Rotator",
+  "description": "Cycles words by moving the letters they share.",
+  "dependencies": [
+    "motion",
+    "clsx",
+    "tailwind-merge"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/ui/word-rotator.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { useReducedMotion } from \"motion/react\";\nimport { cn } from \"@/lib/utils\";\n\nexport interface WordRotatorProps extends React.HTMLAttributes<HTMLSpanElement> {\n  words: string[];\n  /** Milliseconds per word. @default 2600 */\n  interval?: number;\n  paused?: boolean;\n}\n\n/**\n * Cycles through words while keeping the letters they share. A longest\n * common subsequence picks the letters that survive a swap, so those\n * glyphs travel to their new positions instead of cross-fading - which is\n * what makes it read as one word rearranging rather than a swap.\n */\nexport function WordRotator({\n  words,\n  interval = 2600,\n  paused = false,\n  className,\n  ...props\n}: WordRotatorProps) {\n  const reduce = useReducedMotion();\n  const list = words.length > 0 ? words : [\"\"];\n  const [index, setIndex] = React.useState(0);\n  const [width, setWidth] = React.useState<number | null>(null);\n  const inner = React.useRef<HTMLSpanElement>(null);\n  const letters = React.useRef<Map<string, HTMLElement>>(new Map());\n\n  React.useEffect(() => {\n    if (paused) return;\n    if (reduce) return;\n    const id = setInterval(() => setIndex((i) => (i + 1) % list.length), interval);\n    return () => clearInterval(id);\n  }, [paused, reduce, interval, list.length]);\n\n  // Pause on hover, so a pointer resting on the headline stops it moving.\n  const [hovered, setHovered] = React.useState(false);\n  const frozen = paused || (hovered && !reduce);\n\n  React.useEffect(() => {\n    if (!frozen) return;\n    const t = setTimeout(() => setIndex(0), 250);\n    return () => clearTimeout(t);\n  }, [frozen]);\n\n  React.useEffect(() => {\n    if (reduce) return;\n    const el = inner.current;\n    if (!el) return;\n    const observer = new ResizeObserver(() => setWidth(el.offsetWidth));\n    observer.observe(el);\n    setWidth(el.offsetWidth);\n    return () => observer.disconnect();\n  }, [reduce]);\n\n  const current = list[index % list.length] ?? \"\";\n\n  return (\n    <span\n      className={cn(\"relative inline-grid align-bottom\", className)}\n      onMouseEnter={() => setHovered(true)}\n      onMouseLeave={() => setHovered(false)}\n      {...props}\n    >\n      <span className=\"sr-only\">{list.join(\", \")}</span>\n      <span\n        ref={inner}\n        aria-hidden\n        className=\"col-start-1 row-start-1 inline-flex whitespace-nowrap\"\n        style={{ width: width ?? undefined }}\n      >\n        {Array.from(current).map((char, i) => {\n          // Stable key per character keeps the DOM node across swaps, so\n          // shared letters can be measured and moved rather than remounted.\n          const key = `${char}-${i}`;\n          return (\n            <span\n              key={key}\n              ref={(el) => {\n                if (el) letters.current.set(key, el);\n                else letters.current.delete(key);\n              }}\n              className=\"inline-block will-change-transform\"\n            >\n              {char}\n            </span>\n          );\n        })}\n      </span>\n    </span>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/ui/word-rotator.tsx"
+    }
+  ],
+  "categories": [
+    "text"
+  ]
+}

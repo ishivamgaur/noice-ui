@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "accordion",
+  "type": "registry:ui",
+  "title": "Accordion",
+  "description": "Panels unfold from a hairline, each open on its own.",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/ui/accordion.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\n\nexport interface AccordionItemData {\n  question: string;\n  answer: string;\n}\n\nexport interface AccordionProps\n  extends Omit<React.HTMLAttributes<HTMLDivElement>, \"onChange\"> {\n  items: AccordionItemData[];\n  /** Indices open on first render. @default [] */\n  defaultOpen?: number[];\n  /** Allow several panels open at once. @default true */\n  multiple?: boolean;\n}\n\n/**\n * Panels unfold with the CSS Grid `0fr -> 1fr` technique, so height is\n * intrinsic and nothing is measured. Independent open state means\n * closing one panel never moves another.\n */\nexport function Accordion({\n  items,\n  defaultOpen = [],\n  multiple = true,\n  className,\n  ...props\n}: AccordionProps) {\n  const [open, setOpen] = React.useState<number[]>(defaultOpen);\n  const headers = React.useRef<Array<HTMLButtonElement | null>>([]);\n  // Unique per instance, so two accordions on one page never collide.\n  const uid = React.useId().replace(/[^a-zA-Z0-9]/g, \"\");\n\n  const toggle = (i: number) =>\n    setOpen((prev) => {\n      if (prev.includes(i)) return prev.filter((n) => n !== i);\n      return multiple ? [...prev, i] : [i];\n    });\n\n  // Arrow keys move between headers, Home and End jump to the ends.\n  const onKeyDown = (i: number) => (e: React.KeyboardEvent) => {\n    const last = items.length - 1;\n    let next: number | null = null;\n    if (e.key === \"ArrowDown\") next = i === last ? 0 : i + 1;\n    else if (e.key === \"ArrowUp\") next = i === 0 ? last : i - 1;\n    else if (e.key === \"Home\") next = 0;\n    else if (e.key === \"End\") next = last;\n    if (next === null) return;\n    e.preventDefault();\n    headers.current[next]?.focus();\n  };\n\n  return (\n    <div className={cn(\"divide-y divide-border\", className)} {...props}>\n      {items.map((item, i) => {\n        const isOpen = open.includes(i);\n        return (\n          <div key={i}>\n            <h3>\n              <button\n                ref={(el) => {\n                  headers.current[i] = el;\n                }}\n                type=\"button\"\n                onClick={() => toggle(i)}\n                onKeyDown={onKeyDown(i)}\n                aria-expanded={isOpen}\n                id={`accordion-${uid}-header-${i}`}\n                aria-controls={`accordion-${uid}-panel-${i}`}\n                className=\"flex w-full items-center justify-between gap-4 py-4 text-left text-sm font-medium outline-none transition-colors hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-2\"\n              >\n                {item.question}\n                <svg\n                  viewBox=\"0 0 24 24\"\n                  aria-hidden\n                  className={cn(\n                    \"size-4 shrink-0 text-muted-foreground transition-transform duration-300\",\n                    isOpen && \"rotate-180\"\n                  )}\n                  fill=\"none\"\n                  stroke=\"currentColor\"\n                  strokeWidth=\"2\"\n                  strokeLinecap=\"round\"\n                >\n                  <path d=\"m6 9 6 6 6-6\" />\n                </svg>\n              </button>\n            </h3>\n            <div\n              id={`accordion-${uid}-panel-${i}`}\n              role=\"region\"\n              aria-labelledby={`accordion-${uid}-header-${i}`}\n              className={cn(\n                \"grid transition-[grid-template-rows] duration-300 ease-out motion-reduce:transition-none\",\n                isOpen ? \"grid-rows-[1fr]\" : \"grid-rows-[0fr]\"\n              )}\n            >\n              <div className=\"overflow-hidden\">\n                <p className=\"pb-4 pr-8 text-sm leading-relaxed text-muted-foreground\">\n                  {item.answer}\n                </p>\n              </div>\n            </div>\n          </div>\n        );\n      })}\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/ui/accordion.tsx"
+    }
+  ],
+  "categories": [
+    "general"
+  ]
+}

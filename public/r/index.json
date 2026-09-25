@@ -28,5 +28,161 @@
     "title": "Marquee",
     "description": "An infinite scrolling row with edge fade. Children loop seamlessly.",
     "category": "Animation"
+  },
+  {
+    "name": "number-ticker",
+    "title": "Number Ticker",
+    "description": "Counts up to a value the first time it scrolls into view.",
+    "category": "Text"
+  },
+  {
+    "name": "scroll-progress",
+    "title": "Scroll Progress",
+    "description": "A spring-smoothed bar that tracks document scroll.",
+    "category": "Effects"
+  },
+  {
+    "name": "glare-card",
+    "title": "Glare Card",
+    "description": "A card with a soft glare that follows the pointer.",
+    "category": "Effects"
+  },
+  {
+    "name": "animated-list",
+    "title": "Animated List",
+    "description": "Reveals its children in sequence when scrolled into view.",
+    "category": "Effects"
+  },
+  {
+    "name": "border-beam",
+    "title": "Border Beam",
+    "description": "A light travelling around the border of any element.",
+    "category": "Effects"
+  },
+  {
+    "name": "text-reveal",
+    "title": "Text Reveal",
+    "description": "Blurs and lifts each word into place, in sequence.",
+    "category": "Text"
+  },
+  {
+    "name": "accordion",
+    "title": "Accordion",
+    "description": "Panels unfold from a hairline, each open on its own.",
+    "category": "General"
+  },
+  {
+    "name": "gauge",
+    "title": "Gauge",
+    "description": "A half-circle meter whose needle springs to the value.",
+    "category": "Animation"
+  },
+  {
+    "name": "loader-set",
+    "title": "Loader Set",
+    "description": "Ring, dots, bar, and skeleton, each with a finished state.",
+    "category": "Animation"
+  },
+  {
+    "name": "avatar-stack",
+    "title": "Avatar Stack",
+    "description": "Overlapping avatars that fan out on hover and focus.",
+    "category": "General"
+  },
+  {
+    "name": "number-stepper",
+    "title": "Number Stepper",
+    "description": "Minus and plus around a display that rolls digit by digit.",
+    "category": "General"
+  },
+  {
+    "name": "expanding-search",
+    "title": "Expanding Search",
+    "description": "A pill that grows into a real input and stays clickable.",
+    "category": "Navigation"
+  },
+  {
+    "name": "otp-input",
+    "title": "OTP Input",
+    "description": "One-time-code slots with paste fan-out and success rings.",
+    "category": "General"
+  },
+  {
+    "name": "code-block",
+    "title": "Code Block",
+    "description": "Framed code with line numbers and copy, no highlighter needed.",
+    "category": "General"
+  },
+  {
+    "name": "gooey-nav",
+    "title": "Gooey Nav",
+    "description": "Segmented nav where the active pill melts between stops.",
+    "category": "Navigation"
+  },
+  {
+    "name": "command-palette",
+    "title": "Command Palette",
+    "description": "Cmd+K panel with grouped fuzzy search, no dependency.",
+    "category": "Navigation"
+  },
+  {
+    "name": "magnetic-button",
+    "title": "Magnetic Button",
+    "description": "A button that leans toward the cursor, then settles.",
+    "category": "Animation"
+  },
+  {
+    "name": "text-scramble",
+    "title": "Text Scramble",
+    "description": "Headlines that decode through glyphs, left to right.",
+    "category": "Text"
+  },
+  {
+    "name": "compare-slider",
+    "title": "Compare Slider",
+    "description": "Before and after split by a draggable divider.",
+    "category": "Layout"
+  },
+  {
+    "name": "slide-to-confirm",
+    "title": "Slide to Confirm",
+    "description": "A knob that must travel to commit, flicks count too.",
+    "category": "General"
+  },
+  {
+    "name": "hold-to-delete",
+    "title": "Hold to Delete",
+    "description": "A destructive action that only fires if you keep holding.",
+    "category": "Animation"
+  },
+  {
+    "name": "tilt-card",
+    "title": "Tilt Card",
+    "description": "A card that tips toward the pointer with real perspective.",
+    "category": "Animation"
+  },
+  {
+    "name": "segmented-control",
+    "title": "Segmented Control",
+    "description": "A radio group where the selection pill stretches as it travels.",
+    "category": "Navigation"
+  },
+  {
+    "name": "sparkline",
+    "title": "Sparkline",
+    "description": "A self-drawing line chart that scales to any width.",
+    "category": "Data"
+  },
+  {
+    "name": "task-list",
+    "title": "Task List",
+    "description": "Checklist where finishing a row sweeps a strike across it.",
+    "category": "General"
+  },
+  {
+    "name": "word-rotator",
+    "title": "Word Rotator",
+    "description": "Cycles words by moving the letters they share.",
+    "category": "Text"
   }
 ]

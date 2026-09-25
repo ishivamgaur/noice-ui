@@ -1,100 +1,149 @@
 import type { Metadata } from "next";
 import { CodeBlock } from "@/components/code-block";
+import { DocsArticle } from "@/components/docs/docs-article";
+import { Step } from "@/components/docs/step";
 
 export const metadata: Metadata = {
-  title: "Theming - noiceui",
+  title: "Theming",
   description: "Customize colors, radius, and dark mode with CSS variables.",
 };
 
 export default function ThemingPage() {
   return (
-    <article className="max-w-2xl">
-      <h1 className="font-display text-3xl font-bold tracking-tight">Theming</h1>
-      <p className="mt-2 text-muted-foreground">
-        Every noiceui component reads from CSS variables - recolor the whole
-        library by changing tokens, not components.
+    <DocsArticle>
+      <h1 className="text-2xl font-semibold tracking-tight text-balance">
+        Theming
+      </h1>
+      <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
+        Every noiceui component reads from CSS variables. Recolor the entire
+        library by changing tokens, never components.
       </p>
 
-      <h2 className="mb-3 mt-10 text-lg font-semibold">Design tokens</h2>
-      <p className="text-sm leading-relaxed text-muted-foreground">
-        <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
-          :root
-        </code>{" "}
-        holds the light theme,{" "}
-        <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
-          .dark
-        </code>{" "}
-        holds the dark theme. Tailwind v4 maps them via{" "}
-        <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
-          @theme inline
-        </code>
-        , so classes like{" "}
-        <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
-          bg-primary text-primary-foreground
-        </code>{" "}
-        always follow the active theme:
-      </p>
-      <div className="mt-3">
-        <CodeBlock
-          lang="css"
-          code={`:root {\n  --radius: 0.625rem;\n  --background: oklch(1 0 0);\n  --foreground: oklch(0.145 0 0);\n  --primary: oklch(0.205 0 0);\n  --primary-foreground: oklch(0.985 0 0);\n  /* …card, muted, accent, border, ring… */\n}\n\n.dark {\n  --background: oklch(0.145 0 0);\n  --foreground: oklch(0.985 0 0);\n  --primary: oklch(0.922 0 0);\n  --primary-foreground: oklch(0.205 0 0);\n  /* … */\n}`}
-        />
-      </div>
-
-      <h2 className="mb-3 mt-10 text-lg font-semibold">Dark mode</h2>
-      <p className="text-sm leading-relaxed text-muted-foreground">
-        Use class-based dark mode so users can toggle it at runtime. With{" "}
-        <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
-          next-themes
-        </code>
-        , wrap your app once and add{" "}
-        <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
-          @custom-variant dark (&:where(.dark, .dark *));
-        </code>{" "}
-        to your CSS - that&apos;s exactly how this site does it.
-      </p>
-
-      <h2 className="mb-3 mt-10 text-lg font-semibold">Customizing</h2>
-      <div className="space-y-3 text-sm leading-relaxed text-muted-foreground">
+      <Step n={1} title="The token set">
         <p>
-          <span className="text-foreground">Brand color:</span> change{" "}
-          <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
-            --primary
-          </code>{" "}
-          (and its foreground) in both{" "}
           <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
             :root
           </code>{" "}
-          and{" "}
+          holds the light theme,{" "}
           <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
             .dark
+          </code>{" "}
+          holds the dark theme. Tailwind v4 maps them through{" "}
+          <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
+            @theme inline
           </code>
-          .
-        </p>
-        <p>
-          <span className="text-foreground">Roundness:</span> change{" "}
+          , so classes like{" "}
           <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
-            --radius
+            bg-primary text-primary-foreground
           </code>{" "}
-          - every component derives{" "}
-          <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
-            rounded-md/lg/sm
-          </code>{" "}
-          from it.
+          always follow the active theme.
         </p>
+        <CodeBlock
+          lang="css"
+          code={`:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  /* ...card, muted, accent, border, ring... */
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  /* ... */
+}`}
+        />
+      </Step>
+
+      <Step n={2} title="Your brand color">
         <p>
-          <span className="text-foreground">Per-component tweaks:</span>{" "}
-          components accept{" "}
+          The fastest way to make the library yours is to change{" "}
+          <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
+            --primary
+          </code>{" "}
+          and its foreground in both themes. Pick a foreground that clears
+          4.5:1 against the fill.
+        </p>
+        <CodeBlock
+          lang="css"
+          code={`:root {
+  --primary: oklch(0.45 0.14 19);        /* burgundy */
+  --primary-foreground: oklch(0.985 0.01 30);
+}
+
+.dark {
+  --primary: oklch(0.68 0.13 17);        /* lifted for dark */
+  --primary-foreground: oklch(0.25 0.06 16);
+}`}
+        />
+      </Step>
+
+      <Step n={3} title="Radius and density">
+        <p>
+          One value controls the whole feel. Components derive{" "}
+          <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
+            rounded-sm
+          </code>
+          ,{" "}
+          <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
+            rounded-md
+          </code>
+          , and{" "}
+          <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
+            rounded-lg
+          </code>{" "}
+          from it, so a single edit reshapes every surface at once.
+        </p>
+        <CodeBlock lang="css" code={`:root {
+  --radius: 0.375rem;   /* sharper */
+  /* or */
+  --radius: 1rem;       /* softer */
+}`} />
+      </Step>
+
+      <Step n={4} title="Dark mode">
+        <p>
+          Use class-based dark mode so the theme can be toggled at runtime.
+          Wrap your app once with the provider, then add the variant to your
+          stylesheet.
+        </p>
+        <CodeBlock
+          lang="tsx"
+          code={`// app/layout.tsx
+<ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+  {children}
+</ThemeProvider>`}
+        />
+        <CodeBlock lang="css" code={`@custom-variant dark (&:where(.dark, .dark *));`} />
+      </Step>
+
+      <Step n={5} title="Per-component overrides">
+        <p>
+          Every part accepts{" "}
           <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
             className
           </code>
-          , merged with{" "}
+          . Classes are merged with{" "}
           <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
             tailwind-merge
-          </code>{" "}
-          so your classes win over defaults.
+          </code>
+          , so your value wins over the default without needing{" "}
+          <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
+            !important
+          </code>
+          .
         </p>
-      </div>
-    </article>
+        <CodeBlock
+          lang="tsx"
+          code={`<Button className="rounded-full bg-brand text-brand-foreground">
+  Rounded brand button
+</Button>`}
+        />
+      </Step>
+    </DocsArticle>
   );
 }

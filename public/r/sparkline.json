@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "sparkline",
+  "type": "registry:ui",
+  "title": "Sparkline",
+  "description": "A self-drawing line chart that scales to any width.",
+  "dependencies": [
+    "motion",
+    "clsx",
+    "tailwind-merge"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/ui/sparkline.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { motion, useInView, useReducedMotion } from \"motion/react\";\nimport { cn } from \"@/lib/utils\";\n\nexport interface SparklineProps extends React.SVGProps<SVGSVGElement> {\n  /** The series to draw. */\n  data: number[];\n  /** Stroke colour. @default \"var(--color-brand)\" */\n  color?: string;\n  /** Fill the area under the line. @default true */\n  area?: boolean;\n  /** Draw the line on first view. @default true */\n  animate?: boolean;\n  /** Height in px. @default 40 */\n  height?: number;\n  label?: string;\n}\n\nconst W = 100;\n// Rounded so the emitted path data is stable and short. Pure arithmetic\n// is bit-identical across engines, but rounding keeps the markup tidy and\n// removes any chance of a server/client string difference.\nconst r2 = (n: number) => Math.round(n * 100) / 100;\n\n/**\n * A line chart sized in a fixed 100-unit viewBox, so it scales to any\n * width without measuring. The line draws itself with pathLength and the\n * area fades in behind it. Self-contained: no keyframes or plugins.\n */\nexport function Sparkline({\n  data,\n  color = \"var(--color-brand)\",\n  area = true,\n  animate = true,\n  height = 40,\n  label,\n  className,\n  style,\n  ...props\n}: SparklineProps) {\n  const reduceMotion = useReducedMotion();\n  const ref = React.useRef<SVGSVGElement>(null);\n  const inView = useInView(ref, { once: true, amount: 0.6 });\n  const play = animate && inView && !reduceMotion;\n  // Reduced motion, or a static chart, shows the finished line at once.\n  const shown = reduceMotion || !animate || inView;\n\n  const { line, fill } = React.useMemo(() => {\n    if (data.length === 0) return { line: \"\", fill: \"\" };\n    const min = Math.min(...data);\n    const max = Math.max(...data);\n    const span = max - min || 1;\n    // A flat series sits on the centre line rather than the bottom edge.\n    const y = (v: number) =>\n      max === min ? height / 2 : height - ((v - min) / span) * (height - 4) - 2;\n    const step = data.length > 1 ? W / (data.length - 1) : W;\n    const d = data\n      .map((v, i) => `${i === 0 ? \"M\" : \"L\"}${r2(i * step)} ${r2(y(v))}`)\n      .join(\" \");\n    return { line: d, fill: `${d} L${W} ${height} L0 ${height} Z` };\n  }, [data, height]);\n\n  return (\n    <svg\n      ref={ref}\n      viewBox={`0 0 ${W} ${height}`}\n      preserveAspectRatio=\"none\"\n      role={label ? \"img\" : \"presentation\"}\n      aria-label={label}\n      aria-hidden={label ? undefined : true}\n      className={cn(\"w-full overflow-visible\", className)}\n      style={{ height, ...style }}\n      {...props}\n    >\n      {area && (\n        <motion.path\n          d={fill}\n          fill={color}\n          initial={false}\n          animate={{ opacity: shown ? 0.12 : 0 }}\n          transition={{ duration: reduceMotion ? 0 : 0.4, delay: reduceMotion ? 0 : 0.5 }}\n        />\n      )}\n      <motion.path\n        d={line}\n        fill=\"none\"\n        stroke={color}\n        strokeWidth={1.5}\n        strokeLinecap=\"round\"\n        strokeLinejoin=\"round\"\n        vectorEffect=\"non-scaling-stroke\"\n        initial={{ pathLength: 0 }}\n        animate={{ pathLength: shown ? 1 : 0 }}\n        transition={{ duration: play ? 0.9 : 0, ease: \"easeOut\" }}\n      />\n    </svg>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/ui/sparkline.tsx"
+    }
+  ],
+  "categories": [
+    "data"
+  ]
+}

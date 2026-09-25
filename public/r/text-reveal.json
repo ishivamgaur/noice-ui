@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "text-reveal",
+  "type": "registry:ui",
+  "title": "Text Reveal",
+  "description": "Blurs and lifts each word into place, in sequence.",
+  "dependencies": [
+    "motion",
+    "clsx",
+    "tailwind-merge"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/ui/text-reveal.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { motion, useInView } from \"motion/react\";\nimport { cn } from \"@/lib/utils\";\n\nexport interface TextRevealProps extends React.HTMLAttributes<HTMLSpanElement> {\n  /** Seconds between each word. @default 0.045 */\n  stagger?: number;\n  /** Delay before the first word. @default 0 */\n  delay?: number;\n  /** Fraction visible before it plays. @default 0.5 */\n  amount?: number;\n}\n\n/**\n * Blurs and lifts each word into place, in sequence, the first time\n * the line scrolls into view. Plays once; static under reduced motion.\n */\nexport function TextReveal({\n  children,\n  className,\n  stagger = 0.045,\n  delay = 0,\n  amount = 0.5,\n  ...props\n}: TextRevealProps) {\n  const ref = React.useRef<HTMLSpanElement>(null);\n  const inView = useInView(ref, { once: true, amount });\n  const text = typeof children === \"string\" ? children : null;\n\n  if (text === null) {\n    return (\n      <span ref={ref} className={className} {...props}>\n        {children}\n      </span>\n    );\n  }\n\n  return (\n    <span\n      ref={ref}\n      className={cn(\"inline-block\", className)}\n      {...props}\n    >\n      {text.split(\" \").map((word, i) => (\n        <motion.span\n          key={`${word}-${i}`}\n          className=\"inline-block [will-change:transform,opacity,filter]\"\n          initial={{ opacity: 0, y: 10, filter: \"blur(6px)\" }}\n          animate={\n            inView\n              ? { opacity: 1, y: 0, filter: \"blur(0px)\" }\n              : { opacity: 0, y: 10, filter: \"blur(6px)\" }\n          }\n          transition={{\n            delay: delay + i * stagger,\n            type: \"spring\",\n            stiffness: 240,\n            damping: 26,\n          }}\n        >\n          {word}\n          {i < text.split(\" \").length - 1 ? \" \" : \"\"}\n        </motion.span>\n      ))}\n    </span>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/ui/text-reveal.tsx"
+    }
+  ],
+  "categories": [
+    "text"
+  ]
+}

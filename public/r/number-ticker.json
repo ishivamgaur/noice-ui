@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "number-ticker",
+  "type": "registry:ui",
+  "title": "Number Ticker",
+  "description": "Counts up to a value the first time it scrolls into view.",
+  "dependencies": [
+    "motion",
+    "clsx",
+    "tailwind-merge"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/ui/number-ticker.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { useInView } from \"motion/react\";\nimport { cn } from \"@/lib/utils\";\n\nexport interface NumberTickerProps\n  extends React.HTMLAttributes<HTMLSpanElement> {\n  /** Target value to count up to. */\n  value: number;\n  /** Decimal places. @default 0 */\n  decimals?: number;\n  prefix?: string;\n  suffix?: string;\n  /** Seconds the count takes. @default 2 */\n  duration?: number;\n  /** Fraction of the element that must be visible to start. @default 0.4 */\n  amount?: number;\n}\n\n/**\n * Counts up to `value` the first time it scrolls into view. Springs to\n * rest, holds still under reduced motion, and formats to `decimals`.\n */\nexport function NumberTicker({\n  value,\n  decimals = 0,\n  prefix = \"\",\n  suffix = \"\",\n  duration = 2,\n  amount = 0.4,\n  className,\n  ...props\n}: NumberTickerProps) {\n  const ref = React.useRef<HTMLSpanElement>(null);\n  const inView = useInView(ref, { once: true, amount });\n  const [display, setDisplay] = React.useState(() => (0).toFixed(decimals));\n\n  React.useEffect(() => {\n    if (!inView) return;\n    const reduce = window.matchMedia(\"(prefers-reduced-motion: reduce)\").matches;\n    const start = performance.now();\n    let frame = 0;\n    const tick = (now: number) => {\n      if (reduce) {\n        setDisplay(value.toFixed(decimals));\n        return;\n      }\n      const t = Math.min((now - start) / (duration * 1000), 1);\n      // Ease out cubic so it decelerates instead of stopping dead.\n      const eased = 1 - Math.pow(1 - t, 3);\n      setDisplay((value * eased).toFixed(decimals));\n      if (t < 1) frame = requestAnimationFrame(tick);\n    };\n    frame = requestAnimationFrame(tick);\n    return () => cancelAnimationFrame(frame);\n  }, [inView, value, decimals, duration]);\n\n  return (\n    <span\n      ref={ref}\n      className={cn(\"inline-flex tabular-nums tracking-tight\", className)}\n      {...props}\n    >\n      {prefix}\n      {display}\n      {suffix}\n    </span>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/ui/number-ticker.tsx"
+    }
+  ],
+  "categories": [
+    "text"
+  ]
+}

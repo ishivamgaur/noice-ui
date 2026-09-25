@@ -12,7 +12,7 @@ export function HeroCta() {
       <div className="flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row sm:flex-wrap lg:justify-start">
         <Link
           href="/components"
-          className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-brand px-7 text-[15px] font-semibold text-brand-foreground transition-all duration-200 hover:scale-[1.02] hover:opacity-90 active:scale-[0.98]"
+          className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-brand px-7 text-[15px] font-semibold text-brand-foreground [box-shadow:inset_0_-1px_1px_#0003,inset_0_0_0_1px_#0000001f,0_1px_3px_#0000002b,inset_0_2px_#ffffff26] transition-all duration-200 hover:scale-[1.02] hover:opacity-90 active:scale-[0.98]"
         >
           Browse components
           <ArrowRight className="size-4" />

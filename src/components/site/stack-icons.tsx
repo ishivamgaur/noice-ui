@@ -1,13 +1,21 @@
 import { siFramer, siReact, siTailwindcss } from "simple-icons";
 
-function BrandIcon({ path, label }: { path: string; label: string }) {
+function BrandIcon({
+  path,
+  color,
+  label,
+}: {
+  path: string;
+  color: string;
+  label: string;
+}) {
   return (
     <svg
       viewBox="0 0 24 24"
       role="img"
       aria-label={label}
       className="size-4"
-      fill="currentColor"
+      style={{ fill: color }}
     >
       <path d={path} />
     </svg>
@@ -15,12 +23,16 @@ function BrandIcon({ path, label }: { path: string; label: string }) {
 }
 
 const STACK = [
-  { label: "React", path: siReact.path },
-  { label: "Tailwind CSS", path: siTailwindcss.path },
-  { label: "Motion", path: siFramer.path },
+  { label: "React", path: siReact.path, color: "var(--color-icon-react)" },
+  {
+    label: "Tailwind CSS",
+    path: siTailwindcss.path,
+    color: "var(--color-icon-tailwind)",
+  },
+  { label: "Motion", path: siFramer.path, color: "var(--color-icon-framer)" },
 ];
 
-/** Stack strip with real brand icons. shadcn and MCP have no brand
+/** Stack strip with real brand marks. shadcn and MCP have no brand
     marks, so they stay as text pills alongside. */
 export function StackIcons() {
   return (
@@ -30,7 +42,7 @@ export function StackIcons() {
           key={s.label}
           className="inline-flex items-center gap-2 rounded-full border border-border bg-background/60 px-3.5 py-1 text-[13px] font-medium text-muted-foreground backdrop-blur transition-colors hover:text-foreground"
         >
-          <BrandIcon path={s.path} label={s.label} />
+          <BrandIcon path={s.path} color={s.color} label={s.label} />
           {s.label}
         </span>
       ))}

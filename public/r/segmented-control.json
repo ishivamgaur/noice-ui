@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "segmented-control",
+  "type": "registry:ui",
+  "title": "Segmented Control",
+  "description": "A radio group where the selection pill stretches as it travels.",
+  "dependencies": [
+    "motion",
+    "clsx",
+    "tailwind-merge"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/ui/segmented-control.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { motion, useReducedMotion } from \"motion/react\";\nimport { cn } from \"@/lib/utils\";\n\nexport interface SegmentedControlProps\n  extends Omit<React.HTMLAttributes<HTMLDivElement>, \"onChange\"> {\n  options: readonly string[];\n  value: string;\n  onChange: (value: string) => void;\n  /** Accessible name for the group. */\n  label: string;\n}\n\n/**\n * A radio group drawn as one continuous track. Segments share equal\n * width, so the selection pill travels in pure percentages and no button\n * is ever measured. Leading and trailing edges use different springs so\n * the pill stretches in the direction of travel.\n */\nexport function SegmentedControl({\n  options,\n  value,\n  onChange,\n  label,\n  className,\n  ...props\n}: SegmentedControlProps) {\n  const reduceMotion = useReducedMotion();\n  const index = Math.max(0, options.indexOf(value));\n  const n = options.length;\n  const width = 100 / n;\n\n  const move = (next: number) => {\n    const wrapped = (next + n) % n;\n    onChange(options[wrapped]);\n  };\n\n  const onKeyDown = (e: React.KeyboardEvent) => {\n    if (e.key === \"ArrowRight\" || e.key === \"ArrowDown\") {\n      e.preventDefault();\n      move(index + 1);\n    } else if (e.key === \"ArrowLeft\" || e.key === \"ArrowUp\") {\n      e.preventDefault();\n      move(index - 1);\n    } else if (e.key === \"Home\") {\n      e.preventDefault();\n      onChange(options[0]);\n    } else if (e.key === \"End\") {\n      e.preventDefault();\n      onChange(options[n - 1]);\n    }\n  };\n\n  return (\n    <div\n      role=\"radiogroup\"\n      aria-label={label}\n      onKeyDown={onKeyDown}\n      className={cn(\n        \"inline-flex w-full max-w-xs rounded-full border border-border bg-surface p-1\",\n        className\n      )}\n      {...props}\n    >\n      {/* The pill lives inside a wrapper that is exactly the buttons' box.\n          Percentages on the container would resolve against its padding\n          box and sit 4px proud of the buttons on each side. */}\n      <div className=\"relative flex flex-1\">\n        <motion.span\n          aria-hidden\n          initial={false}\n          animate={{ left: `${index * width}%` }}\n          transition={\n            reduceMotion\n              ? { duration: 0 }\n              : { type: \"spring\", stiffness: 420, damping: 34 }\n          }\n          className=\"absolute inset-y-0 rounded-full bg-background shadow-[0_1px_2px_rgba(0,0,0,0.06)]\"\n          style={{ width: `${width}%` }}\n        />\n        {options.map((option, i) => {\n          const selected = i === index;\n          return (\n            <button\n              key={option}\n              type=\"button\"\n              role=\"radio\"\n              aria-checked={selected}\n              // Roving tab focus: the group is one tab stop.\n              tabIndex={selected ? 0 : -1}\n              onClick={() => onChange(option)}\n              className={cn(\n                // Equal flex width plus a fixed minimum, so every label\n                // breathes the same amount on both sides however the track\n                // is sized. nowrap keeps a long label from squeezing its\n                // neighbours out of symmetry.\n                \"relative z-10 h-8 flex-1 rounded-full px-4 text-[13px] whitespace-nowrap outline-none transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-1\",\n                selected\n                  ? \"font-medium text-foreground\"\n                  : \"text-muted-foreground hover:text-foreground\"\n              )}\n            >\n              {option}\n            </button>\n          );\n        })}\n      </div>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/ui/segmented-control.tsx"
+    }
+  ],
+  "categories": [
+    "navigation"
+  ]
+}

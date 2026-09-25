@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "scroll-progress",
+  "type": "registry:ui",
+  "title": "Scroll Progress",
+  "description": "A spring-smoothed bar that tracks document scroll.",
+  "dependencies": [
+    "motion"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/ui/scroll-progress.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { motion, useScroll, useSpring } from \"motion/react\";\nimport { cn } from \"@/lib/utils\";\n\nexport interface ScrollProgressProps\n  extends React.HTMLAttributes<HTMLDivElement> {\n  /** Spring stiffness. @default 120 */\n  stiffness?: number;\n  /** Spring damping. @default 25 */\n  damping?: number;\n}\n\n/**\n * Scroll-linked progress bar. Place it in a `fixed` or `sticky`\n * container at the top of the page; the bar scales on the x-axis\n * with document scroll and follows the brand token.\n */\nexport function ScrollProgress({\n  className,\n  stiffness = 120,\n  damping = 25,\n  style,\n  ...props\n}: ScrollProgressProps) {\n  const { scrollYProgress } = useScroll();\n  const scaleX = useSpring(scrollYProgress, { stiffness, damping });\n\n  return (\n    <motion.div\n      style={{ scaleX, transformOrigin: \"left\", ...style }}\n      className={cn(\"h-0.5 w-full bg-brand\", className)}\n      {...(props as React.ComponentProps<typeof motion.div>)}\n    />\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/ui/scroll-progress.tsx"
+    }
+  ],
+  "categories": [
+    "effects"
+  ]
+}

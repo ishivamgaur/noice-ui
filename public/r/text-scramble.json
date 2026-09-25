@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "text-scramble",
+  "type": "registry:ui",
+  "title": "Text Scramble",
+  "description": "Headlines that decode through glyphs, left to right.",
+  "dependencies": [
+    "motion",
+    "clsx",
+    "tailwind-merge"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/ui/text-scramble.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { useInView, useReducedMotion } from \"motion/react\";\nimport { cn } from \"@/lib/utils\";\n\nexport interface TextScrambleProps\n  extends React.HTMLAttributes<HTMLSpanElement> {\n  text: string;\n}\n\nconst GLYPHS = \"!<>-_\\\\/[]{}=+*^?#\";\n\nfunction caseMatch(glyph: string, target: string) {\n  if (/[A-Z]/.test(target)) return glyph.toUpperCase();\n  return glyph.toLowerCase();\n}\n\n/**\n * Text that decodes left to right through random glyphs. The animation\n * writes straight to the DOM, so React never re-renders mid-scramble.\n * Monospace keeps the width rock steady.\n */\nexport function TextScramble({ text, className, ...props }: TextScrambleProps) {\n  const reduceMotion = useReducedMotion();\n  const settled = React.useRef<HTMLSpanElement>(null);\n  const cursor = React.useRef<HTMLSpanElement>(null);\n  const rest = React.useRef<HTMLSpanElement>(null);\n  const frame = React.useRef(0);\n  const wrapRef = React.useRef<HTMLSpanElement>(null);\n  const inView = useInView(wrapRef, { once: true, amount: 0.8 });\n\n  const scramble = React.useCallback(() => {\n    const s = settled.current;\n    const c = cursor.current;\n    const r = rest.current;\n    if (!s || !c || !r || reduceMotion) {\n      if (s && c && r) {\n        s.textContent = text;\n        c.textContent = \"\";\n        r.textContent = \"\";\n      }\n      return;\n    }\n    cancelAnimationFrame(frame.current);\n    const started = performance.now();\n    const lead = 250;\n    const perChar = 45;\n\n    const tick = (now: number) => {\n      const elapsed = now - started;\n      const settledCount = Math.max(\n        0,\n        Math.min(text.length, Math.floor((elapsed - lead) / perChar))\n      );\n      s.textContent = text.slice(0, settledCount);\n      if (settledCount >= text.length) {\n        c.textContent = \"\";\n        r.textContent = \"\";\n        return;\n      }\n      // Block cursor holds the exact 1ch width while glyphs churn under it.\n      c.textContent = caseMatch(\n        GLYPHS[Math.floor(Math.random() * GLYPHS.length)],\n        text[settledCount]\n      );\n      r.textContent = text\n        .slice(settledCount + 1)\n        .split(\"\")\n        .map((ch) =>\n          ch === \" \"\n            ? \" \"\n            : caseMatch(\n                GLYPHS[Math.floor(Math.random() * GLYPHS.length)],\n                ch\n              )\n        )\n        .join(\"\");\n      frame.current = requestAnimationFrame(tick);\n    };\n    frame.current = requestAnimationFrame(tick);\n  }, [text, reduceMotion]);\n\n  React.useEffect(() => {\n    if (inView) scramble();\n    return () => cancelAnimationFrame(frame.current);\n  }, [inView, scramble]);\n\n  return (\n    <span\n      ref={wrapRef}\n      role=\"button\"\n      tabIndex={0}\n      aria-label={`Replay scramble: ${text}`}\n      onMouseEnter={scramble}\n      onFocus={scramble}\n      onKeyDown={(e) => {\n        if (e.key === \"Enter\" || e.key === \" \") {\n          e.preventDefault();\n          scramble();\n        }\n      }}\n      className={cn(\"inline-flex cursor-default outline-none\", className)}\n      {...props}\n    >\n      <span aria-hidden className=\"font-mono\">\n        <span ref={settled}>{text}</span>\n        <span ref={cursor} className=\"bg-foreground text-background\" />\n        <span ref={rest} className=\"opacity-40\" />\n      </span>\n      <span className=\"sr-only\">{text}</span>\n    </span>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/ui/text-scramble.tsx"
+    }
+  ],
+  "categories": [
+    "text"
+  ]
+}

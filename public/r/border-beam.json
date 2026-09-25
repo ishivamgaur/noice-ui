@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "border-beam",
+  "type": "registry:ui",
+  "title": "Border Beam",
+  "description": "A light travelling around the border of any element.",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/ui/border-beam.tsx",
+      "content": "import * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\n\nexport interface BorderBeamProps extends React.HTMLAttributes<HTMLDivElement> {\n  /** Seconds per revolution. @default 8 */\n  duration?: number;\n  /** Beam width in px. @default 140 */\n  size?: number;\n  /** Offset along the border, in px. @default 0 */\n  offset?: number;\n  /** Seconds before the beam starts. @default 0 */\n  delay?: number;\n}\n\n/**\n * A light travelling around the border. The rotating conic gradient is\n * masked to a 1px ring, so only the edge glows. Decorative, so it is\n * aria-hidden and stops under reduced motion.\n */\nexport function BorderBeam({\n  className,\n  duration = 8,\n  size = 140,\n  offset = 0,\n  delay = 0,\n  style,\n  ...props\n}: BorderBeamProps) {\n  return (\n    <div\n      aria-hidden\n      className={cn(\n        \"pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit]\",\n        className\n      )}\n      style={{ ...style }}\n      {...props}\n    >\n      <div\n        className=\"aspect-square animate-[border-beam_var(--beam-duration)_linear_infinite_var(--beam-delay)] w-full [--beam-offset:0px] [--beam-size:140px] [--beam-duration:8s] [--beam-delay:0s] [mask-image:linear-gradient(#000_0_0)_content-box,linear-gradient(#000_0_0)] [mask-clip:padding-box,border-box] [padding:1px]\"\n        style={\n          {\n            background:\n              \"conic-gradient(from var(--beam-angle), transparent 0 70%, var(--color-brand) 85%, transparent 100%)\",\n            \"--beam-angle\": `${offset}deg`,\n            \"--beam-size\": `${size}px`,\n            \"--beam-duration\": `${duration}s`,\n            \"--beam-delay\": `${delay}s`,\n          } as React.CSSProperties\n        }\n      >\n        <div className=\"h-full w-full bg-card\" />\n      </div>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/ui/border-beam.tsx"
+    }
+  ],
+  "categories": [
+    "effects"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "glare-card",
+  "type": "registry:ui",
+  "title": "Glare Card",
+  "description": "A card with a soft glare that follows the pointer.",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/ui/glare-card.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\n\nexport interface GlareCardProps extends React.HTMLAttributes<HTMLDivElement> {\n  /** Radius of the glare in px. @default 350 */\n  size?: number;\n  /** Peak glare opacity 0-1. @default 0.18 */\n  intensity?: number;\n}\n\n/**\n * A card with a soft glare that tracks the pointer. Pure CSS custom\n * properties, so there is no re-render while the pointer moves.\n */\nexport function GlareCard({\n  children,\n  className,\n  size = 350,\n  intensity = 0.18,\n  onPointerMove,\n  onPointerLeave,\n  style,\n  ...props\n}: GlareCardProps) {\n  return (\n    <div\n      onPointerMove={(e) => {\n        onPointerMove?.(e);\n        const rect = e.currentTarget.getBoundingClientRect();\n        e.currentTarget.style.setProperty(\n          \"--glare-x\",\n          `${e.clientX - rect.left}px`\n        );\n        e.currentTarget.style.setProperty(\n          \"--glare-y\",\n          `${e.clientY - rect.top}px`\n        );\n      }}\n      onPointerLeave={(e) => {\n        onPointerLeave?.(e);\n        e.currentTarget.style.setProperty(\"--glare-x\", \"50%\");\n        e.currentTarget.style.setProperty(\"--glare-y\", \"50%\");\n      }}\n      style={\n        {\n          \"--glare-size\": `${size}px`,\n          \"--glare\": `radial-gradient(${size}px circle at var(--glare-x, 50%) var(--glare-y, 50%), color-mix(in oklab, var(--color-brand) ${Math.round(intensity * 100)}%, transparent), transparent 70%)`,\n          ...style,\n        } as React.CSSProperties\n      }\n      className={cn(\n        \"group relative overflow-hidden rounded-2xl border border-border bg-card transition-colors duration-300\",\n        className\n      )}\n      {...props}\n    >\n      <div\n        aria-hidden\n        className=\"pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100\"\n        style={{ background: \"var(--glare)\" }}\n      />\n      <div className=\"relative\">{children}</div>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/ui/glare-card.tsx"
+    }
+  ],
+  "categories": [
+    "effects"
+  ]
+}

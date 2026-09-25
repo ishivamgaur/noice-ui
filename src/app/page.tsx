@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, Star } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { HeroIntro } from "@/components/site/hero-intro";
 import { HeroCta } from "@/components/site/hero-cta";
@@ -9,6 +9,7 @@ import { Scribble } from "@/components/site/scribble";
 import { StackIcons } from "@/components/site/stack-icons";
 import { Faq } from "@/components/site/faq";
 import { Reveal } from "@/components/site/reveal";
+import { SectionHeading } from "@/components/docs/page-header";
 import { Logo } from "@/components/site/logo";
 import { HeroCollage } from "@/components/site/hero-collage";
 import { components } from "@/lib/registry";
@@ -73,19 +74,14 @@ export default function Home() {
             </HeroIntro>
             <p className="mt-8 flex items-center gap-2 text-[13px] text-muted-foreground">
               <span className="h-1.5 w-1.5 rounded-full bg-brand" />
-              {components.length} components live - new drops weekly
-              <span className="ml-1 flex items-center gap-0.5" aria-label="5 out of 5 stars">
-                {Array.from({ length: 5 }).map((_, i) => (
-                  <Star key={i} className="size-3 fill-amber-400 text-amber-400" />
-                ))}
-              </span>
+              {components.length} components live
             </p>
             </div>
             <HeroCollage />
           </div>
           <div className="relative mx-auto w-full max-w-[90rem] px-4 pb-12 sm:px-6">
             <div className="flex flex-col items-center gap-4 border-t border-border/70 pt-8">
-              <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
+              <p className="text-[13px] text-muted-foreground">
                 Built for the modern stack
               </p>
               <div className="flex flex-wrap items-center justify-center gap-2.5">
@@ -96,13 +92,8 @@ export default function Home() {
       </section>
 
       {/* How it works */}
-      <section className="mx-auto w-full max-w-[90rem] px-4 pb-10 pt-20 sm:px-6 sm:pb-12 sm:pt-24">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-          How it works
-        </p>
-        <h2 className="mt-3 max-w-xl font-display text-2xl font-bold tracking-tight sm:text-3xl">
-          From discovery to deploy in minutes
-        </h2>
+      <section className="mx-auto w-full max-w-[90rem] px-4 py-20 sm:px-6 sm:py-24">
+        <SectionHeading title="From discovery to deploy in minutes" />
         <Reveal>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
           {STEPS.map((s) => (
@@ -110,7 +101,7 @@ export default function Home() {
               key={s.n}
               className="rounded-2xl border border-border bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-black/[0.06] active:scale-[0.99] dark:hover:shadow-black/40"
             >
-              <p className="font-display text-2xl font-bold text-brand">{s.n}</p>
+              <p className="text-2xl font-bold text-brand">{s.n}</p>
               <h3 className="mt-3 font-semibold">{s.title}</h3>
               <p className="mt-1 text-sm text-muted-foreground">{s.text}</p>
             </div>
@@ -120,19 +111,12 @@ export default function Home() {
       </section>
 
       {/* Featured components */}
-      <section className="mx-auto w-full max-w-[90rem] px-4 py-10 sm:px-6 sm:py-12">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-          The library
-        </p>
-        <div className="mt-3 flex items-end justify-between">
-          <div>
-            <h2 className="font-display text-2xl font-bold tracking-tight sm:text-3xl">
-              Featured
-            </h2>
-            <p className="mt-1 text-muted-foreground">
-              Rendered live from the same source the CLI installs.
-            </p>
-          </div>
+      <section className="mx-auto w-full max-w-[90rem] px-4 py-20 sm:px-6 sm:py-24">
+        <div className="flex items-end justify-between gap-4">
+          <SectionHeading
+            title="Featured"
+            description="Rendered live from the same source the CLI installs."
+          />
           <Link
             href="/components"
             className="inline-flex items-center gap-1 text-sm text-muted-foreground underline underline-offset-4 hover:text-foreground"
@@ -170,18 +154,15 @@ export default function Home() {
       </section>
 
       {/* MCP band */}
-      <section className="mx-auto w-full max-w-[90rem] px-4 pb-20 pt-10 sm:px-6 sm:pb-24 sm:pt-12">
+      <section className="mx-auto w-full max-w-[90rem] px-4 py-20 sm:px-6 sm:py-24">
         <Reveal>
           <div className="relative overflow-hidden rounded-[2rem] border border-border/70 bg-muted px-6 py-14 sm:px-12 dark:bg-white/[0.03]">
           <div className="relative flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
             <div className="max-w-xl">
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-                AI-native
-              </p>
-              <h2 className="mt-3 font-display text-2xl font-bold tracking-tight sm:text-3xl">
-                Your AI agent speaks {REGISTRY_NAMESPACE}
-              </h2>
-              <p className="mt-2 text-muted-foreground">
+              <SectionHeading
+                title={`Your AI agent speaks ${REGISTRY_NAMESPACE}`}
+              />
+              <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
                 Register the namespace, run{" "}
                 <code className="rounded bg-background px-1.5 py-0.5 font-mono text-xs">
                   npx shadcn mcp init
@@ -191,7 +172,7 @@ export default function Home() {
             </div>
             <Link
               href="/docs/mcp"
-              className="inline-flex h-10 shrink-0 items-center gap-2 rounded-full bg-brand px-6 text-sm font-semibold text-brand-foreground transition-all duration-150 hover:opacity-90 active:scale-[0.96]"
+              className="inline-flex h-10 shrink-0 items-center gap-2 rounded-full bg-brand px-6 text-sm font-semibold text-brand-foreground [box-shadow:inset_0_-1px_1px_#0003,inset_0_0_0_1px_#0000001f,0_1px_3px_#0000002b,inset_0_2px_#ffffff26] transition-all duration-150 hover:opacity-90 active:scale-[0.96]"
             >
               Set up MCP
               <ArrowRight className="size-4" />
@@ -202,40 +183,33 @@ export default function Home() {
       </section>
 
       {/* FAQ */}
-      <section className="mx-auto w-full max-w-[90rem] px-4 pb-20 sm:px-6 sm:pb-24">
-        <p className="text-center text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-          FAQ
-        </p>
-        <h2 className="mx-auto mt-3 max-w-xl text-center font-display text-2xl font-bold tracking-tight sm:text-3xl">
-          Questions, answered
-        </h2>
+      <section className="mx-auto w-full max-w-[90rem] px-4 py-20 sm:px-6 sm:py-24">
+        <SectionHeading title="Questions, answered" align="center" />
         <div className="mt-8">
           <Faq />
         </div>
       </section>
 
-      <footer className="border-t border-border/60">
-        <div className="mx-auto grid max-w-[90rem] gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.5fr_1fr_1fr_1fr]">
+      <footer className="border-t border-border">
+        <div className="mx-auto grid max-w-[90rem] gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.5fr_1fr_1fr]">
           <div>
             <Link href="/" className="flex items-center gap-2">
               <Logo className="h-[22px] w-[22px]" />
-              <span className="font-display text-base font-extrabold tracking-tight">
-                noiceui
+              <span className="text-[15px] font-semibold tracking-tight">
+                Noice UI
               </span>
             </Link>
-            <p className="mt-3 max-w-xs text-sm text-muted-foreground">
-              Beautiful copy-paste components for React. Free forever, MIT
+            <p className="mt-3 max-w-xs text-pretty text-sm text-muted-foreground">
+              Copy-paste components for React. You own every line. MIT
               licensed.
             </p>
           </div>
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-              Library
-            </p>
-            <ul className="mt-3 space-y-2 text-sm">
+          <nav aria-label="Library">
+            <p className="text-[13px] font-medium">Library</p>
+            <ul className="mt-3 flex flex-col gap-2 text-sm">
               <li>
                 <Link href="/components" className="text-muted-foreground hover:text-foreground">
-                  Components
+                  All components
                 </Link>
               </li>
               <li>
@@ -254,51 +228,32 @@ export default function Home() {
                 </Link>
               </li>
             </ul>
-          </div>
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-              Components
-            </p>
-            <ul className="mt-3 space-y-2 text-sm">
-              {components.map((c) => (
-                <li key={c.name}>
-                  <Link
-                    href={`/components/${c.name}`}
-                    className="text-muted-foreground hover:text-foreground"
-                  >
-                    {c.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-              Resources
-            </p>
-            <ul className="mt-3 space-y-2 text-sm">
+          </nav>
+          <nav aria-label="Resources">
+            <p className="text-[13px] font-medium">Resources</p>
+            <ul className="mt-3 flex flex-col gap-2 text-sm">
               <li>
-                <Link href="/llms.txt" className="font-mono text-[13px] text-muted-foreground hover:text-foreground">
+                <Link href="/llms.txt" className="text-muted-foreground hover:text-foreground">
                   llms.txt
                 </Link>
               </li>
               <li>
-                <Link href="/r/index.json" className="font-mono text-[13px] text-muted-foreground hover:text-foreground">
-                  registry index
+                <Link href="/r/index.json" className="text-muted-foreground hover:text-foreground">
+                  Registry index
                 </Link>
               </li>
               <li>
-                <Link href="/sitemap.xml" className="font-mono text-[13px] text-muted-foreground hover:text-foreground">
-                  sitemap
+                <Link href="/sitemap.xml" className="text-muted-foreground hover:text-foreground">
+                  Sitemap
                 </Link>
               </li>
             </ul>
-          </div>
+          </nav>
         </div>
-        <div className="border-t border-border/60">
+        <div className="border-t border-border">
           <div className="mx-auto flex max-w-[90rem] flex-col gap-1 px-4 py-6 text-[13px] text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-6">
             <span>© 2026 noiceui</span>
-            <span>Copy, paste, ship.</span>
+            <span>Built with Next.js, Motion and Tailwind CSS</span>
           </div>
         </div>
       </footer>

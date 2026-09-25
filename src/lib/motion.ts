@@ -6,10 +6,14 @@
 export const spring = { type: "spring", stiffness: 300, damping: 24 } as const;
 
 /** Stagger delay between sequential elements, in seconds. */
-export const STEP = 0.09;
+export const STEP = 0.07;
 
-/** Blur-rise entrance used for hero content and scroll reveals. */
-export const rise = {
-  hidden: { y: 18, filter: "blur(4px)", opacity: 0 },
-  shown: { y: 0, filter: "blur(0px)", opacity: 1 },
+/**
+ * Zoom entrance. Content arrives by scaling up from slightly small and
+ * soft rather than sliding up from below, which keeps the page feeling
+ * like it opens toward you instead of assembling itself.
+ */
+export const zoom = {
+  hidden: { scale: 0.94, opacity: 0, filter: "blur(6px)" },
+  shown: { scale: 1, opacity: 1, filter: "blur(0px)" },
 };

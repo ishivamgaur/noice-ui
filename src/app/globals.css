@@ -25,6 +25,30 @@
   /* Brand accent - burgundy. Used sparingly: CTAs, logo mark, highlights. */
   --brand: oklch(0.45 0.14 19);
   --brand-foreground: oklch(0.985 0.01 30);
+  /* Recessed panel: dark inner shadow under the top lip, light bounce
+     along the bottom. Transparent fill keeps it invisible on the page
+     while still giving the inset something to shade. */
+  --inset-well: inset 0 3px 8px -3px oklch(0 0 0 / 0.14),
+    inset 0 -1px 0 0 oklch(1 0 0 / 0.9);
+  /* Brand marks. Light-mode values are darkened where the official
+     brand color would not clear contrast on a white surface. */
+  --icon-npm: #cb3837;
+  --icon-pnpm: #f69220;
+  --icon-yarn: #2c8ebb;
+  --icon-bun: #141414;
+  --icon-react: #149eca;
+  --icon-tailwind: #0e9cb0;
+  --icon-framer: #0055ff;
+  /* Card surface: one step off the page, neutral like the reference.
+     Cards sit on it at rest and the preview window sits on it. */
+  --surface: oklch(0.96 0 0);
+  /* Barely-there scrollbar. Neutral, not branded, so it never draws
+     attention away from content. */
+  --scrollbar-thumb: oklch(0 0 0 / 0.09);
+  --scrollbar-thumb-hover: oklch(0 0 0 / 0.4);
+  --shadow-raised: 0 0 0 1px oklch(0 0 0 / 0.05),
+    0 1px 2px oklch(0 0 0 / 0.05),
+    0 6px 16px -6px oklch(0 0 0 / 0.1);
 }
 
 .dark {
@@ -39,7 +63,7 @@
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
+  --muted-foreground: oklch(0.645 0 0);
   --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
@@ -49,12 +73,24 @@
   /* Brand accent - luminous rose on dark. */
   --brand: oklch(0.68 0.13 17);
   --brand-foreground: oklch(0.25 0.06 16);
+  /* Dark mode inverts the lighting: soft glow under the top lip,
+     shadow along the bottom. */
+  --inset-well: inset 0 3px 8px -3px oklch(1 0 0 / 0.07),
+    inset 0 -1px 0 0 oklch(0 0 0 / 0.5);
+  --icon-bun: #fbf1df;
+  --icon-react: #61dafb;
+  --icon-tailwind: #06b6d4;
+  --surface: oklch(0.21 0 0);
+  --scrollbar-thumb: oklch(1 0 0 / 0.11);
+  --scrollbar-thumb-hover: oklch(1 0 0 / 0.45);
+  --shadow-raised: 0 0 0 1px oklch(1 0 0 / 0.06),
+    0 1px 2px oklch(0 0 0 / 0.4),
+    0 6px 16px -6px oklch(0 0 0 / 0.6);
 }
 
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --font-display: var(--font-display);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -75,6 +111,16 @@
   --color-ring: var(--ring);
   --color-brand: var(--brand);
   --color-brand-foreground: var(--brand-foreground);
+  --color-icon-npm: var(--icon-npm);
+  --color-icon-pnpm: var(--icon-pnpm);
+  --color-icon-yarn: var(--icon-yarn);
+  --color-icon-bun: var(--icon-bun);
+  --color-icon-react: var(--icon-react);
+  --color-icon-tailwind: var(--icon-tailwind);
+  --color-icon-framer: var(--icon-framer);
+  --color-surface: var(--surface);
+  --shadow-raised: var(--shadow-raised);
+  --shadow-inset-well: var(--inset-well);
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
@@ -101,8 +147,6 @@
 
 @theme {
   --animate-marquee: marquee 40s linear infinite;
-  --animate-drift-up: drift-up 24s ease-in-out infinite alternate;
-  --animate-drift-down: drift-down 28s ease-in-out infinite alternate;
 }
 
 @keyframes marquee {
@@ -111,21 +155,15 @@
   }
 }
 
-@keyframes drift-up {
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(-48px);
-  }
+@property --beam-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
 }
 
-@keyframes drift-down {
-  from {
-    transform: translateY(-48px);
-  }
+@keyframes border-beam {
   to {
-    transform: translateY(0);
+    --beam-angle: 360deg;
   }
 }
 
@@ -134,6 +172,12 @@
   .animate-drift-up,
   .animate-drift-down {
     animation: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
   }
 }
 
@@ -144,26 +188,35 @@
   animation-play-state: paused !important;
 }
 
-/* Thin, theme-aware scrollbar. Thumb follows the muted token,
-   so it adapts to light and dark automatically. */
-html {
+/* Scrollbars are furniture: present when you need them, invisible when
+   you do not. A 5px thumb at low alpha, themed through a token so light
+   and dark stay in step. Firefox reads the first rule, WebKit the rest. */
+* {
   scrollbar-width: thin;
-  scrollbar-color: color-mix(in oklab, var(--brand) 22%, transparent) transparent;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
 }
+
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 3px;
+  height: 3px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: color-mix(in oklab, var(--brand) 18%, transparent);
+  background-color: var(--scrollbar-thumb);
   border-radius: 999px;
-  border: 2px solid transparent;
+  /* 1px inset on a 3px bar leaves a true hairline, while the bar itself
+     stays wide enough to grab. */
+  border: 1px solid transparent;
   background-clip: padding-box;
 }
+/* Near-invisible at rest so it never competes with content, then
+   unmistakably solid the moment you reach for it. */
 ::-webkit-scrollbar-thumb:hover {
-  background-color: color-mix(in oklab, var(--brand) 40%, transparent);
+  background-color: var(--scrollbar-thumb-hover);
   background-clip: padding-box;
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
 }

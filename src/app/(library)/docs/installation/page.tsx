@@ -1,103 +1,163 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { CodeBlock } from "@/components/code-block";
+import { DocsArticle } from "@/components/docs/docs-article";
+import { Requirement, Step } from "@/components/docs/step";
+import { InstallTabs } from "@/components/docs/install-tabs";
 import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Installation - noiceui",
+  title: "Installation",
   description: "Set up noiceui components in any React + Tailwind project.",
 };
 
+const NEXT_STEPS = [
+  {
+    href: "/docs/theming",
+    title: "Make it yours",
+    text: "Swap the tokens once and every component follows.",
+  },
+  {
+    href: "/docs/mcp",
+    title: "Let your agent install",
+    text: "Wire up MCP and describe what you want built.",
+  },
+];
+
 export default function InstallationPage() {
   return (
-    <article className="max-w-2xl">
-      <h1 className="font-display text-3xl font-bold tracking-tight">Installation</h1>
-      <p className="mt-2 text-muted-foreground">
-        noiceui is a shadcn-compatible registry. Components are copied into
-        your project - no npm package, no version lock.
+    <DocsArticle>
+      <h1 className="text-2xl font-semibold tracking-tight text-balance">
+        Installation
+      </h1>
+      <p className="mt-3 max-w-2xl text-[15px] leading-relaxed text-muted-foreground">
+        noiceui is a shadcn-compatible registry. Components are copied into your
+        project as source you own. There is no npm package to install, no
+        version to track, and nothing to upgrade.
       </p>
 
-      <h2 className="mb-3 mt-10 text-lg font-semibold">
-        1. Prepare your project
-      </h2>
-      <div className="space-y-3 text-sm leading-relaxed text-muted-foreground">
+      <Step n={1} title="Check the prerequisites">
         <p>
-          You need a React + Tailwind CSS v4 project, a{" "}
+          You need three things before a component will render correctly.
+        </p>
+        <div className="grid gap-3 sm:grid-cols-3">
+          <Requirement
+            title="React + Tailwind v4"
+            text="Any framework that runs React 19 with Tailwind CSS v4."
+          />
+          <Requirement
+            title="A cn() helper"
+            text="Lives at @/lib/utils and merges conflicting classes."
+          />
+          <Requirement
+            title="Design tokens"
+            text="The CSS variables in globals.css that theme every component."
+          />
+        </div>
+      </Step>
+
+      <Step n={2} title="Add cn() and the tokens">
+        <p>
+          If your project does not have a{" "}
           <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
             cn()
           </code>{" "}
-          helper at{" "}
-          <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
-            @/lib/utils
-          </code>
-          , and the noiceui design tokens in your CSS:
+          helper yet, add it. Every shipped component imports it.
         </p>
-      </div>
-      <div className="mt-3">
         <CodeBlock
           lang="ts"
-          code={`// lib/utils.ts\nimport { clsx, type ClassValue } from "clsx";\nimport { twMerge } from "tailwind-merge";\n\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs));\n}`}
-        />
-      </div>
-      <p className="mt-3 text-sm text-muted-foreground">
-        Copy the token set from{" "}
-        <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
-          src/app/globals.css
-        </code>{" "}
-        in{" "}
-        <a
-          href="https://github.com/noiceui/noiceui"
-          className="text-foreground underline underline-offset-4"
-        >
-          this repo
-        </a>{" "}
-        - it defines{" "}
-        <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
-          --background
-        </code>
-        ,{" "}
-        <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
-          --primary
-        </code>
-        ,{" "}
-        <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
-          .dark
-        </code>{" "}
-        overrides, and the Tailwind v4 theme mapping. See{" "}
-        <Link
-          href="/docs/theming"
-          className="text-foreground underline underline-offset-4"
-        >
-          Theming
-        </Link>{" "}
-        for details.
-      </p>
+          code={`// lib/utils.ts
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
-      <h2 className="mb-3 mt-10 text-lg font-semibold">
-        2. Install a component
-      </h2>
-      <CodeBlock
-        code={`npx shadcn@latest add ${SITE_URL}/r/button.json`}
-      />
-      <p className="mt-3 text-sm text-muted-foreground">
-        Or register the namespace once in{" "}
-        <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
-          components.json
-        </code>{" "}
-        and install short names:
-      </p>
-      <div className="mt-3">
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}`}
+        />
+        <p>
+          Then copy the token block from{" "}
+          <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
+            src/app/globals.css
+          </code>
+          . It defines the light palette, the{" "}
+          <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
+            .dark
+          </code>{" "}
+          overrides, and the Tailwind v4 theme mapping that connects them to
+          utility classes. The{" "}
+          <Link href="/docs/theming" className="text-foreground underline underline-offset-4">
+            theming guide
+          </Link>{" "}
+          explains what each token controls.
+        </p>
+      </Step>
+
+      <Step n={3} title="Install a component">
+        <p>
+          Pick a package manager, then run the command. It writes the source
+          straight into{" "}
+          <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
+            components/ui/
+          </code>
+          .
+        </p>
+        <InstallTabs name="button" />
+      </Step>
+
+      <Step n={4} title="Use it">
+        <p>
+          Import from{" "}
+          <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-xs text-foreground">
+            @/components/ui
+          </code>
+          . Variants and sizes are typed, so your editor autocompletes them.
+        </p>
         <CodeBlock
-          lang="json"
-          code={`{\n  "registries": {\n    "@noice": "${SITE_URL}/r/{name}.json"\n  }\n}\n\n// npx shadcn@latest add @noice/button`}
-        />
-      </div>
+          lang="tsx"
+          code={`import { Button } from "@/components/ui/button";
 
-      <h2 className="mb-3 mt-10 text-lg font-semibold">3. Use it</h2>
-      <CodeBlock
-        lang="tsx"
-        code={`import { Button } from "@/components/ui/button";\n\nexport function Page() {\n  return <Button>Get started</Button>;\n}`}
-      />
-    </article>
+export function Page() {
+  return (
+    <div className="flex gap-2">
+      <Button>Get started</Button>
+      <Button variant="outline">Documentation</Button>
+    </div>
+  );
+}`}
+        />
+        <p>
+          Every component page has a live preview, a viewport switcher, the full
+          prop table, and a Source tab with the exact code the CLI installs.
+        </p>
+      </Step>
+
+      <section className="mt-16 border-t border-border pt-8">
+        <p className="text-[13px] text-muted-foreground">
+          Next steps
+        </p>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          {NEXT_STEPS.map((s) => (
+            <Link
+              key={s.href}
+              href={s.href}
+              className="group flex items-start justify-between gap-4 rounded-xl border border-border bg-card p-4 transition-all duration-200 hover:border-muted-foreground/40"
+            >
+              <div>
+                <p className="text-sm font-medium">{s.title}</p>
+                <p className="mt-1 text-[13px] leading-relaxed text-muted-foreground">
+                  {s.text}
+                </p>
+              </div>
+              <ArrowRight className="mt-0.5 size-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
+            </Link>
+          ))}
+        </div>
+        <p className="mt-6 text-xs text-muted-foreground">
+          Registry endpoint:{" "}
+          <code className="font-mono">{SITE_URL}/r/{"{name}"}.json</code>
+        </p>
+      </section>
+    </DocsArticle>
   );
 }

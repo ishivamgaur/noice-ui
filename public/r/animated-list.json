@@ -1,0 +1,24 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "animated-list",
+  "type": "registry:ui",
+  "title": "Animated List",
+  "description": "Reveals its children in sequence when scrolled into view.",
+  "dependencies": [
+    "motion",
+    "clsx",
+    "tailwind-merge"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/ui/animated-list.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { motion, useReducedMotion } from \"motion/react\";\n\nexport interface AnimatedListProps extends React.HTMLAttributes<HTMLDivElement> {\n  /** Seconds between each child. @default 0.06 */\n  stagger?: number;\n  /** Travel distance in px. @default 14 */\n  distance?: number;\n  /** Fraction visible before it plays. @default 0.25 */\n  amount?: number;\n}\n\n/**\n * Reveals its direct children in sequence the first time the block\n * scrolls into view. Plays once, and renders flat under reduced motion.\n */\nexport function AnimatedList({\n  children,\n  className,\n  stagger = 0.06,\n  distance = 14,\n  amount = 0.25,\n  ...props\n}: AnimatedListProps) {\n  const reduceMotion = useReducedMotion();\n\n  if (reduceMotion) {\n    return (\n      <div className={className} {...props}>\n        {children}\n      </div>\n    );\n  }\n\n  return (\n    <motion.div\n      initial=\"hidden\"\n      whileInView=\"shown\"\n      viewport={{ once: true, amount }}\n      variants={{\n        hidden: {},\n        shown: { transition: { staggerChildren: stagger } },\n      }}\n      className={className}\n      {...(props as React.ComponentProps<typeof motion.div>)}\n    >\n      {React.Children.map(children, (child, i) =>\n        React.isValidElement(child) ? (\n          <motion.div\n            key={child.key ?? i}\n            variants={{\n              hidden: { opacity: 0, y: distance, filter: \"blur(4px)\" },\n              shown: {\n                opacity: 1,\n                y: 0,\n                filter: \"blur(0px)\",\n                transition: { type: \"spring\", stiffness: 260, damping: 26 },\n              },\n            }}\n          >\n            {child}\n          </motion.div>\n        ) : (\n          child\n        )\n      )}\n    </motion.div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/ui/animated-list.tsx"
+    }
+  ],
+  "categories": [
+    "effects"
+  ]
+}

@@ -40,6 +40,7 @@
       "title": "Card",
       "description": "Displays a card with header, content, and footer sections.",
       "category": "Layout",
+      "previewScale": 0.75,
       "dependencies": ["clsx", "tailwind-merge"],
       "registryDependencies": [],
       "usage": "import {\n  Card,\n  CardContent,\n  CardDescription,\n  CardFooter,\n  CardHeader,\n  CardTitle,\n} from \"@/components/ui/card\";\nimport { Button } from \"@/components/ui/button\";\n\nexport function Demo() {\n  return (\n    <Card className=\"w-[350px]\">\n      <CardHeader>\n        <CardTitle>Create project</CardTitle>\n        <CardDescription>\n          Deploy your new project in one-click.\n        </CardDescription>\n      </CardHeader>\n      <CardContent>\n        <p className=\"text-sm\">Your project is ready to ship.</p>\n      </CardContent>\n      <CardFooter className=\"gap-2\">\n        <Button>Deploy</Button>\n        <Button variant=\"outline\">Cancel</Button>\n      </CardFooter>\n    </Card>\n  );\n}",
@@ -142,6 +143,874 @@
           "type": "number",
           "default": "40",
           "description": "Seconds per loop."
+        }
+      ]
+    },
+    {
+      "name": "number-ticker",
+      "title": "Number Ticker",
+      "description": "Counts up to a value the first time it scrolls into view.",
+      "category": "Text",
+      "dependencies": ["motion", "clsx", "tailwind-merge"],
+      "registryDependencies": [],
+      "usage": "import { NumberTicker } from \"@/components/ui/number-ticker\";\n\nexport function Demo() {\n  return (\n    <NumberTicker value={1200} suffix=\"+\" className=\"text-4xl font-semibold\" />\n  );\n}",
+      "props": [
+        {
+          "name": "value",
+          "type": "number",
+          "default": "0",
+          "description": "Target value to count up to."
+        },
+        {
+          "name": "decimals",
+          "type": "number",
+          "default": "0",
+          "description": "Decimal places to display."
+        },
+        {
+          "name": "prefix / suffix",
+          "type": "string",
+          "default": "\"\"",
+          "description": "Text placed before or after the number."
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "default": "2",
+          "description": "Seconds the count takes."
+        }
+      ]
+    },
+    {
+      "name": "scroll-progress",
+      "title": "Scroll Progress",
+      "description": "A spring-smoothed bar that tracks document scroll.",
+      "category": "Effects",
+      "dependencies": ["motion"],
+      "registryDependencies": [],
+      "usage": "import { ScrollProgress } from \"@/components/ui/scroll-progress\";\n\nexport function Demo() {\n  return (\n    <div className=\"fixed top-0 left-0 w-full\">\n      <ScrollProgress />\n    </div>\n  );\n}",
+      "props": [
+        {
+          "name": "stiffness",
+          "type": "number",
+          "default": "120",
+          "description": "Spring stiffness."
+        },
+        {
+          "name": "damping",
+          "type": "number",
+          "default": "25",
+          "description": "Spring damping."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "default": "-",
+          "description": "Height, color, and position of the bar."
+        }
+      ]
+    },
+    {
+      "name": "glare-card",
+      "title": "Glare Card",
+      "description": "A card with a soft glare that follows the pointer.",
+      "category": "Effects",
+      "dependencies": ["clsx", "tailwind-merge"],
+      "registryDependencies": [],
+      "usage": "import { GlareCard } from \"@/components/ui/glare-card\";\n\nexport function Demo() {\n  return (\n    <GlareCard className=\"p-6\">\n      <p className=\"font-medium\">Hover me</p>\n      <p className=\"text-sm text-muted-foreground\">The glare tracks your pointer.</p>\n    </GlareCard>\n  );\n}",
+      "props": [
+        {
+          "name": "size",
+          "type": "number",
+          "default": "350",
+          "description": "Radius of the glare in px."
+        },
+        {
+          "name": "intensity",
+          "type": "number",
+          "default": "0.18",
+          "description": "Peak glare opacity from 0 to 1."
+        }
+      ]
+    },
+    {
+      "name": "animated-list",
+      "title": "Animated List",
+      "description": "Reveals its children in sequence when scrolled into view.",
+      "category": "Effects",
+      "dependencies": ["motion", "clsx", "tailwind-merge"],
+      "registryDependencies": [],
+      "usage": "import { AnimatedList } from \"@/components/ui/animated-list\";\n\nexport function Demo() {\n  return (\n    <AnimatedList className=\"space-y-2\">\n      {items.map((item) => (\n        <div key={item} className=\"rounded-lg border p-3\">{item}</div>\n      ))}\n    </AnimatedList>\n  );\n}",
+      "props": [
+        {
+          "name": "stagger",
+          "type": "number",
+          "default": "0.06",
+          "description": "Seconds between each child."
+        },
+        {
+          "name": "distance",
+          "type": "number",
+          "default": "14",
+          "description": "Travel distance in px."
+        },
+        {
+          "name": "amount",
+          "type": "number",
+          "default": "0.25",
+          "description": "Fraction visible before it plays."
+        }
+      ]
+    },
+    {
+      "name": "border-beam",
+      "title": "Border Beam",
+      "description": "A light travelling around the border of any element.",
+      "category": "Effects",
+      "dependencies": ["clsx", "tailwind-merge"],
+      "registryDependencies": [],
+      "usage": "import { BorderBeam } from \"@/components/ui/border-beam\";\n\nexport function Demo() {\n  return (\n    <div className=\"relative overflow-hidden rounded-xl border p-6\">\n      <BorderBeam />\n      <p className=\"relative font-medium\">Light runs the edge</p>\n    </div>\n  );\n}",
+      "props": [
+        {
+          "name": "duration",
+          "type": "number",
+          "default": "8",
+          "description": "Seconds per revolution."
+        },
+        {
+          "name": "size",
+          "type": "number",
+          "default": "140",
+          "description": "Beam width in px."
+        },
+        {
+          "name": "offset",
+          "type": "number",
+          "default": "0",
+          "description": "Starting offset along the border, in degrees."
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "default": "0",
+          "description": "Seconds before the beam starts."
+        }
+      ]
+    },
+    {
+      "name": "text-reveal",
+      "title": "Text Reveal",
+      "description": "Blurs and lifts each word into place, in sequence.",
+      "category": "Text",
+      "dependencies": ["motion", "clsx", "tailwind-merge"],
+      "registryDependencies": [],
+      "usage": "import { TextReveal } from \"@/components/ui/text-reveal\";\n\nexport function Demo() {\n  return <TextReveal className=\"text-2xl font-semibold\">Words arrive one by one</TextReveal>;\n}",
+      "props": [
+        {
+          "name": "stagger",
+          "type": "number",
+          "default": "0.045",
+          "description": "Seconds between each word."
+        },
+        {
+          "name": "delay",
+          "type": "number",
+          "default": "0",
+          "description": "Delay before the first word."
+        },
+        {
+          "name": "amount",
+          "type": "number",
+          "default": "0.5",
+          "description": "Fraction visible before it plays."
+        }
+      ]
+    },
+    {
+      "name": "accordion",
+      "title": "Accordion",
+      "description": "Panels unfold from a hairline, each open on its own.",
+      "category": "General",
+      "dependencies": ["clsx", "tailwind-merge"],
+      "registryDependencies": [],
+      "usage": "import { Accordion } from \"@/components/ui/accordion\";\n\nexport function Demo() {\n  return (\n    <Accordion\n      className=\"w-full max-w-md\"\n      defaultOpen={[0]}\n      items={[\n        {\n          question: \"Do I own the code?\",\n          answer: \"Yes. It is copied into your project as source.\",\n        },\n      ]}\n    />\n  );\n}",
+      "props": [
+        {
+          "name": "items",
+          "type": "AccordionItem[]",
+          "default": "-",
+          "description": "Questions and answers. Each item is { question, answer }."
+        },
+        {
+          "name": "defaultOpen",
+          "type": "number[]",
+          "default": "[]",
+          "description": "Indices open on first render."
+        },
+        {
+          "name": "multiple",
+          "type": "boolean",
+          "default": "true",
+          "description": "Allow more than one panel open at once."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "default": "-",
+          "description": "Additional classes merged with the container."
+        }
+      ]
+    },
+    {
+      "name": "gauge",
+      "title": "Gauge",
+      "description": "A half-circle meter whose needle springs to the value.",
+      "category": "Animation",
+      "previewScale": 1.15,
+      "dependencies": ["motion", "clsx", "tailwind-merge"],
+      "registryDependencies": [],
+      "usage": "import { Gauge } from \"@/components/ui/gauge\";\n\nexport function Demo() {\n  return <Gauge value={72} label=\"Build health\" />;\n}",
+      "props": [
+        {
+          "name": "value",
+          "type": "number",
+          "default": "-",
+          "description": "Current value, 0-100."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "-",
+          "description": "Caption under the reading."
+        },
+        {
+          "name": "threshold",
+          "type": "number",
+          "default": "85",
+          "description": "Value at or above which the peak marker flashes."
+        },
+        {
+          "name": "sweep",
+          "type": "number",
+          "default": "90",
+          "description": "Half sweep in degrees from each side of the arc."
+        }
+      ]
+    },
+    {
+      "name": "loader-set",
+      "title": "Loader Set",
+      "description": "Ring, dots, bar, and skeleton, each with a finished state.",
+      "category": "Animation",
+      "dependencies": ["clsx", "tailwind-merge"],
+      "registryDependencies": [],
+      "usage": "import { LoaderSet } from \"@/components/ui/loader-set\";\n\nexport function Demo() {\n  const [done, setDone] = useState(false);\n\n  return (\n    <button onClick={() => setDone(true)}>\n      <LoaderSet done={done} />\n    </button>\n  );\n}",
+      "props": [
+        {
+          "name": "done",
+          "type": "boolean",
+          "default": "false",
+          "description": "Flips every loader into its completion state."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "default": "-",
+          "description": "Additional classes merged with the grid."
+        }
+      ]
+    },
+    {
+      "name": "avatar-stack",
+      "title": "Avatar Stack",
+      "description": "Overlapping avatars that fan out on hover and focus.",
+      "category": "General",
+      "previewScale": 1.3,
+      "dependencies": ["clsx", "tailwind-merge"],
+      "registryDependencies": [],
+      "usage": "import { AvatarStack } from \"@/components/ui/avatar-stack\";\n\nexport function Demo() {\n  return <AvatarStack people={[\"Ada\", \"Linus\", \"Grace\"]} max={5} />;\n}",
+      "props": [
+        {
+          "name": "people",
+          "type": "string[]",
+          "default": "-",
+          "description": "Initials or image URLs, in order."
+        },
+        {
+          "name": "max",
+          "type": "number",
+          "default": "5",
+          "description": "How many to show before the overflow count."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "default": "-",
+          "description": "Additional classes merged with the container."
+        }
+      ]
+    },
+    {
+      "name": "number-stepper",
+      "title": "Number Stepper",
+      "description": "Minus and plus around a display that rolls digit by digit.",
+      "category": "General",
+      "dependencies": ["motion", "clsx", "tailwind-merge"],
+      "registryDependencies": [],
+      "usage": "import { NumberStepper } from \"@/components/ui/number-stepper\";\n\nexport function Demo() {\n  const [value, setValue] = useState(9);\n\n  return <NumberStepper label=\"Copies\" value={value} onChange={setValue} />;\n}",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": "-",
+          "description": "Text shown beside the control."
+        },
+        {
+          "name": "value",
+          "type": "number",
+          "default": "-",
+          "description": "Controlled current value."
+        },
+        {
+          "name": "onChange",
+          "type": "(value: number) => void",
+          "default": "-",
+          "description": "Called with the clamped next value."
+        },
+        {
+          "name": "min / max",
+          "type": "number",
+          "default": "0 / 99",
+          "description": "Bounds the value and disables the end buttons."
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "default": "1",
+          "description": "Amount added or removed per press."
+        }
+      ]
+    },
+    {
+      "name": "expanding-search",
+      "title": "Expanding Search",
+      "description": "A pill that grows into a real input and stays clickable.",
+      "category": "Navigation",
+      "previewScale": 1.2,
+      "dependencies": ["motion", "react-dom", "lucide-react", "clsx", "tailwind-merge"],
+      "registryDependencies": [],
+      "usage": "import { ExpandingSearch } from \"@/components/ui/expanding-search\";\n\nexport function Demo() {\n  return <ExpandingSearch placeholder=\"Search components\" />;\n}",
+      "props": [
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": "\"Search\"",
+          "description": "Placeholder and accessible label for the input."
+        },
+        {
+          "name": "width",
+          "type": "number",
+          "default": "260",
+          "description": "Expanded width in pixels."
+        },
+        {
+          "name": "onSearch",
+          "type": "(query: string) => void",
+          "default": "-",
+          "description": "Called on every keystroke and on clear."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "default": "-",
+          "description": "Additional classes merged with the wrapper."
+        }
+      ]
+    },
+    {
+      "name": "otp-input",
+      "title": "OTP Input",
+      "description": "One-time-code slots with paste fan-out and success rings.",
+      "category": "General",
+      "dependencies": ["motion", "clsx", "tailwind-merge"],
+      "registryDependencies": [],
+      "usage": "import { OtpInput } from \"@/components/ui/otp-input\";\n\nexport function Demo() {\n  const [code, setCode] = useState(\"\");\n\n  return (\n    <OtpInput\n      length={6}\n      value={code}\n      onChange={setCode}\n      onComplete={(done) => console.log(done)}\n    />\n  );\n}",
+      "props": [
+        {
+          "name": "length",
+          "type": "number",
+          "default": "6",
+          "description": "Number of slots."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "string",
+          "default": "- / \"\"",
+          "description": "Controlled code or the starting code."
+        },
+        {
+          "name": "onChange",
+          "type": "(code: string) => void",
+          "default": "-",
+          "description": "Called with the code on every edit."
+        },
+        {
+          "name": "onComplete",
+          "type": "(code: string) => void",
+          "default": "-",
+          "description": "Called once every slot is filled."
+        },
+        {
+          "name": "type",
+          "type": "\"numbers\" | \"letters\" | \"both\"",
+          "default": "\"numbers\"",
+          "description": "Which characters each slot accepts."
+        },
+        {
+          "name": "status",
+          "type": "\"idle\" | \"success\" | \"error\"",
+          "default": "\"idle\"",
+          "description": "Success tints the rings, error shakes the row."
+        },
+        {
+          "name": "size",
+          "type": "\"sm\" | \"md\" | \"lg\"",
+          "default": "\"md\"",
+          "description": "Slot dimensions."
+        }
+      ]
+    },
+    {
+      "name": "code-block",
+      "title": "Code Block",
+      "description": "Framed code with line numbers and copy, no highlighter needed.",
+      "category": "General",
+      "dependencies": ["lucide-react", "clsx", "tailwind-merge"],
+      "registryDependencies": [],
+      "usage": "import { CodeBlock } from \"@/components/ui/code-block\";\n\nexport function Demo() {\n  return (\n    <CodeBlock\n      code={'const hello = \"world\";'}\n      language=\"ts\"\n      filename=\"hello.ts\"\n    />\n  );\n}",
+      "props": [
+        {
+          "name": "code",
+          "type": "string",
+          "default": "-",
+          "description": "The source to display."
+        },
+        {
+          "name": "language",
+          "type": "string",
+          "default": "\"tsx\"",
+          "description": "Shown in the header when no filename is given."
+        },
+        {
+          "name": "filename",
+          "type": "string",
+          "default": "-",
+          "description": "File name shown in the header bar."
+        },
+        {
+          "name": "showLineNumbers",
+          "type": "boolean",
+          "default": "true",
+          "description": "Gutter with right-aligned line numbers."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "default": "-",
+          "description": "Additional classes merged with the frame."
+        }
+      ]
+    },
+    {
+      "name": "gooey-nav",
+      "title": "Gooey Nav",
+      "description": "Segmented nav where the active pill melts between stops.",
+      "category": "Navigation",
+      "dependencies": ["motion", "clsx", "tailwind-merge"],
+      "registryDependencies": [],
+      "usage": "import { GooeyNav } from \"@/components/ui/gooey-nav\";\n\nexport function Demo() {\n  return (\n    <GooeyNav\n      items={[\"Home\", \"Components\", \"Docs\"]}\n      defaultValue={1}\n    />\n  );\n}",
+      "props": [
+        {
+          "name": "items",
+          "type": "(string | { label: string; href?: string })[]",
+          "default": "-",
+          "description": "Segments. Plain strings render buttons, hrefs render anchors."
+        },
+        {
+          "name": "value / defaultValue",
+          "type": "number",
+          "default": "- / 0",
+          "description": "Controlled active index or the starting index."
+        },
+        {
+          "name": "onChange",
+          "type": "(index: number) => void",
+          "default": "-",
+          "description": "Called with the picked segment."
+        },
+        {
+          "name": "activeColor",
+          "type": "string",
+          "default": "\"var(--brand)\"",
+          "description": "Fill of the blob."
+        }
+      ]
+    },
+    {
+      "name": "command-palette",
+      "title": "Command Palette",
+      "description": "Cmd+K panel with grouped fuzzy search, no dependency.",
+      "category": "Navigation",
+      "dependencies": ["lucide-react", "clsx", "tailwind-merge"],
+      "registryDependencies": [],
+      "usage": "import { CommandPalette } from \"@/components/ui/command-palette\";\n\nexport function Demo() {\n  return (\n    <CommandPalette\n      commands={[\n        { id: \"theme\", label: \"Switch theme\", group: \"Setup\" },\n        { id: \"docs\", label: \"Open docs\", group: \"Go to\" },\n      ]}\n      onRun={(cmd) => console.log(cmd.id)}\n    />\n  );\n}",
+      "props": [
+        {
+          "name": "commands",
+          "type": "PaletteCommand[]",
+          "default": "-",
+          "description": "Each item is { id, label, group?, keywords?, hint? }."
+        },
+        {
+          "name": "onRun",
+          "type": "(command: PaletteCommand) => void",
+          "default": "-",
+          "description": "Called with the command picked by Enter or click."
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": "\"Type a command\"",
+          "description": "Placeholder of the filter input."
+        }
+      ]
+    },
+    {
+      "name": "magnetic-button",
+      "title": "Magnetic Button",
+      "description": "A button that leans toward the cursor, then settles.",
+      "category": "Animation",
+      "dependencies": ["motion", "clsx", "tailwind-merge"],
+      "registryDependencies": [],
+      "usage": "import { MagneticButton } from \"@/components/ui/magnetic-button\";\n\nexport function Demo() {\n  return <MagneticButton>Get started</MagneticButton>;\n}",
+      "props": [
+        {
+          "name": "strength",
+          "type": "number",
+          "default": "0.35",
+          "description": "How far the button follows the cursor, 0 to 1."
+        },
+        {
+          "name": "children",
+          "type": "React.ReactNode",
+          "default": "-",
+          "description": "Label. Accepts every other native button prop too."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "default": "-",
+          "description": "Additional classes merged with the pill."
+        }
+      ]
+    },
+    {
+      "name": "text-scramble",
+      "title": "Text Scramble",
+      "description": "Headlines that decode through glyphs, left to right.",
+      "category": "Text",
+      "dependencies": ["motion", "clsx", "tailwind-merge"],
+      "registryDependencies": [],
+      "usage": "import { TextScramble } from \"@/components/ui/text-scramble\";\n\nexport function Demo() {\n  return <TextScramble text=\"Own the source.\" />;\n}",
+      "props": [
+        {
+          "name": "text",
+          "type": "string",
+          "default": "-",
+          "description": "The copy. Monospace keeps the width steady."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "default": "-",
+          "description": "Additional classes merged with the wrapper."
+        }
+      ]
+    },
+    {
+      "name": "compare-slider",
+      "title": "Compare Slider",
+      "description": "Before and after split by a draggable divider.",
+      "category": "Layout",
+      "previewScale": 1.1,
+      "dependencies": ["motion", "clsx", "tailwind-merge"],
+      "registryDependencies": [],
+      "usage": "import { CompareSlider } from \"@/components/ui/compare-slider\";\n\nexport function Demo() {\n  return (\n    <CompareSlider\n      before={<img src=\"/before.png\" alt=\"Before\" />}\n      after={<img src=\"/after.png\" alt=\"After\" />}\n    />\n  );\n}",
+      "props": [
+        {
+          "name": "before / after",
+          "type": "React.ReactNode",
+          "default": "-",
+          "description": "The two layers. Images should share dimensions."
+        },
+        {
+          "name": "initial",
+          "type": "number",
+          "default": "0.5",
+          "description": "Start position, 0 to 1."
+        },
+        {
+          "name": "beforeLabel / afterLabel",
+          "type": "string",
+          "default": "\"Before\" / \"After\"",
+          "description": "Edge tags that fade as the divider nears."
+        },
+        {
+          "name": "onChange",
+          "type": "(position: number) => void",
+          "default": "-",
+          "description": "Called with the rounded position on move."
+        }
+      ]
+    },
+    {
+      "name": "slide-to-confirm",
+      "title": "Slide to Confirm",
+      "description": "A knob that must travel to commit, flicks count too.",
+      "category": "General",
+      "dependencies": ["motion", "lucide-react", "clsx", "tailwind-merge"],
+      "registryDependencies": [],
+      "usage": "import { SlideToConfirm } from \"@/components/ui/slide-to-confirm\";\n\nexport function Demo() {\n  return (\n    <SlideToConfirm\n      label=\"Slide to delete\"\n      onConfirm={() => console.log(\"deleted\")}\n    />\n  );\n}",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": "\"Slide to confirm\"",
+          "description": "Idle hint that fades as the knob travels."
+        },
+        {
+          "name": "confirmedLabel",
+          "type": "string",
+          "default": "\"Confirmed\"",
+          "description": "Shown with a check after completion."
+        },
+        {
+          "name": "onConfirm",
+          "type": "() => void",
+          "default": "-",
+          "description": "Called once the knob completes. Auto-resets after 2s."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "default": "-",
+          "description": "Additional classes merged with the track."
+        }
+      ]
+    },
+    {
+      "name": "hold-to-delete",
+      "title": "Hold to Delete",
+      "description": "A destructive action that only fires if you keep holding.",
+      "category": "Animation",
+      "dependencies": ["motion", "lucide-react", "clsx", "tailwind-merge"],
+      "registryDependencies": [],
+      "usage": "import { HoldToDelete } from \"@/components/ui/hold-to-delete\";\n\nexport function Demo() {\n  return <HoldToDelete onDelete={() => remove()} />;\n}",
+      "props": [
+        {
+          "name": "duration",
+          "type": "number",
+          "default": "2",
+          "description": "Seconds the press must be held before it fires."
+        },
+        {
+          "name": "label / doneLabel",
+          "type": "string",
+          "default": "\"Hold to delete\" / \"Deleted\"",
+          "description": "Idle and completed copy."
+        },
+        {
+          "name": "onDelete",
+          "type": "() => void",
+          "default": "-",
+          "description": "Called once the hold completes. Resets after 2s."
+        }
+      ]
+    },
+    {
+      "name": "tilt-card",
+      "title": "Tilt Card",
+      "description": "A card that tips toward the pointer with real perspective.",
+      "category": "Animation",
+      "previewScale": 1.15,
+      "dependencies": ["motion", "clsx", "tailwind-merge"],
+      "registryDependencies": [],
+      "usage": "import { TiltCard } from \"@/components/ui/tilt-card\";\n\nexport function Demo() {\n  return (\n    <TiltCard className=\"w-[300px]\">\n      <div className=\"p-6\">Hover me</div>\n    </TiltCard>\n  );\n}",
+      "props": [
+        {
+          "name": "max",
+          "type": "number",
+          "default": "12",
+          "description": "Peak rotation in degrees on each axis."
+        },
+        {
+          "name": "perspective",
+          "type": "number",
+          "default": "800",
+          "description": "Perspective distance in pixels."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "default": "-",
+          "description": "Additional classes merged with the moving card."
+        }
+      ]
+    },
+    {
+      "name": "segmented-control",
+      "title": "Segmented Control",
+      "description": "A radio group where the selection pill stretches as it travels.",
+      "category": "Navigation",
+      "dependencies": ["motion", "clsx", "tailwind-merge"],
+      "registryDependencies": [],
+      "usage": "import { SegmentedControl } from \"@/components/ui/segmented-control\";\n\nexport function Demo() {\n  const [tab, setTab] = useState(\"Preview\");\n\n  return (\n    <SegmentedControl\n      options={[\"Preview\", \"Code\", \"Install\"]}\n      value={tab}\n      onChange={setTab}\n      label=\"View\"\n    />\n  );\n}",
+      "props": [
+        {
+          "name": "options",
+          "type": "readonly string[]",
+          "default": "-",
+          "description": "Segment labels, shared equally."
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "default": "-",
+          "description": "The selected option."
+        },
+        {
+          "name": "onChange",
+          "type": "(value: string) => void",
+          "default": "-",
+          "description": "Called with the newly selected option."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "-",
+          "description": "Accessible name for the radio group."
+        }
+      ]
+    },
+    {
+      "name": "sparkline",
+      "title": "Sparkline",
+      "description": "A self-drawing line chart that scales to any width.",
+      "category": "Data",
+      "dependencies": ["motion", "clsx", "tailwind-merge"],
+      "registryDependencies": [],
+      "usage": "import { Sparkline } from \"@/components/ui/sparkline\";\n\nexport function Demo() {\n  return <Sparkline data={[12, 18, 14, 22, 19, 27]} label=\"Installs\" />;\n}",
+      "props": [
+        {
+          "name": "data",
+          "type": "number[]",
+          "default": "-",
+          "description": "The series to draw. Scaled to the viewBox."
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "default": "\"var(--color-brand)\"",
+          "description": "Stroke and fill colour."
+        },
+        {
+          "name": "area",
+          "type": "boolean",
+          "default": "true",
+          "description": "Fill the area under the line."
+        },
+        {
+          "name": "animate",
+          "type": "boolean",
+          "default": "true",
+          "description": "Draw the line when it first enters view."
+        },
+        {
+          "name": "height",
+          "type": "number",
+          "default": "40",
+          "description": "Height in pixels. Width stays fluid."
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "-",
+          "description": "Accessible description of the series."
+        }
+      ]
+    },
+    {
+      "name": "task-list",
+      "title": "Task List",
+      "description": "Checklist where finishing a row sweeps a strike across it.",
+      "category": "General",
+      "dependencies": ["motion", "clsx", "tailwind-merge"],
+      "registryDependencies": [],
+      "usage": "import { TaskList } from \"@/components/ui/task-list\";\n\nexport function Demo() {\n  return (\n    <TaskList\n      defaultTasks={[\n        { id: \"a\", label: \"Copy the command\" },\n        { id: \"b\", label: \"Paste it into your app\" },\n      ]}\n    />\n  );\n}",
+      "props": [
+        {
+          "name": "tasks / defaultTasks",
+          "type": "TaskItemData[]",
+          "default": "- / []",
+          "description": "Controlled list, or the starting list. Items are { id, label, done }."
+        },
+        {
+          "name": "onTasksChange",
+          "type": "(tasks: TaskItemData[]) => void",
+          "default": "-",
+          "description": "Called with the full list after a toggle."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "default": "-",
+          "description": "Additional classes merged with the list."
+        }
+      ]
+    },
+    {
+      "name": "word-rotator",
+      "title": "Word Rotator",
+      "description": "Cycles words by moving the letters they share.",
+      "category": "Text",
+      "previewScale": 1.2,
+      "dependencies": ["motion", "clsx", "tailwind-merge"],
+      "registryDependencies": [],
+      "usage": "import { WordRotator } from \"@/components/ui/word-rotator\";\n\nexport function Demo() {\n  return <WordRotator words={[\"copy it\", \"read it\", \"own it\"]} />;\n}",
+      "props": [
+        {
+          "name": "words",
+          "type": "string[]",
+          "default": "-",
+          "description": "The words to cycle through. Shared letters survive a swap."
+        },
+        {
+          "name": "interval",
+          "type": "number",
+          "default": "2600",
+          "description": "Milliseconds per word."
+        },
+        {
+          "name": "paused",
+          "type": "boolean",
+          "default": "false",
+          "description": "Stops rotation and returns to the first word."
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "default": "-",
+          "description": "Additional classes merged with the wrapper."
         }
       ]
     }

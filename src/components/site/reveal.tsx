@@ -2,12 +2,12 @@
 
 import * as React from "react";
 import { motion, useReducedMotion } from "motion/react";
-import { rise, spring } from "@/lib/motion";
+import { zoom, spring } from "@/lib/motion";
 
 /**
- * Subtle rise-in when scrolled into view. Fires once, respects
- * reduced motion. Wrap whole grids - never individual cards that
- * already have CSS hover transforms (motion would override them).
+ * Zoom-in when scrolled into view. Fires once, respects reduced motion.
+ * Wrap whole grids - never individual cards that already have CSS hover
+ * transforms (motion would override them).
  */
 export function Reveal({
   children,
@@ -25,8 +25,8 @@ export function Reveal({
   return (
     <motion.div
       className={className}
-      initial={rise.hidden}
-      whileInView={rise.shown}
+      initial={zoom.hidden}
+      whileInView={zoom.shown}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ ...spring, delay }}
     >
