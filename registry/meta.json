@@ -657,35 +657,6 @@
       ]
     },
     {
-      "name": "command-palette",
-      "title": "Command Palette",
-      "description": "Cmd+K panel with grouped fuzzy search, no dependency.",
-      "category": "Navigation",
-      "dependencies": ["lucide-react", "clsx", "tailwind-merge"],
-      "registryDependencies": [],
-      "usage": "import { CommandPalette } from \"@/components/ui/command-palette\";\n\nexport function Demo() {\n  return (\n    <CommandPalette\n      commands={[\n        { id: \"theme\", label: \"Switch theme\", group: \"Setup\" },\n        { id: \"docs\", label: \"Open docs\", group: \"Go to\" },\n      ]}\n      onRun={(cmd) => console.log(cmd.id)}\n    />\n  );\n}",
-      "props": [
-        {
-          "name": "commands",
-          "type": "PaletteCommand[]",
-          "default": "-",
-          "description": "Each item is { id, label, group?, keywords?, hint? }."
-        },
-        {
-          "name": "onRun",
-          "type": "(command: PaletteCommand) => void",
-          "default": "-",
-          "description": "Called with the command picked by Enter or click."
-        },
-        {
-          "name": "placeholder",
-          "type": "string",
-          "default": "\"Type a command\"",
-          "description": "Placeholder of the filter input."
-        }
-      ]
-    },
-    {
       "name": "magnetic-button",
       "title": "Magnetic Button",
       "description": "A button that leans toward the cursor, then settles.",

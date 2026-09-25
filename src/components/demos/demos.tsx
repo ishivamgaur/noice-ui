@@ -19,7 +19,6 @@ import { ExpandingSearchDemo } from "./expanding-search-demo";
 import { OtpInputDemo } from "./otp-input-demo";
 import { CodeBlockDemo } from "./code-block-demo";
 import { GooeyNavDemo } from "./gooey-nav-demo";
-import { CommandPaletteDemo } from "./command-palette-demo";
 import { MagneticButtonDemo } from "./magnetic-button-demo";
 import { TextScrambleDemo } from "./text-scramble-demo";
 import { CompareSliderDemo } from "./compare-slider-demo";
@@ -53,7 +52,6 @@ export const DEMOS: Record<string, () => React.JSX.Element> = {
   "otp-input": OtpInputDemo,
   "code-block": CodeBlockDemo,
   "gooey-nav": GooeyNavDemo,
-  "command-palette": CommandPaletteDemo,
   "magnetic-button": MagneticButtonDemo,
   "text-scramble": TextScrambleDemo,
   "compare-slider": CompareSliderDemo,

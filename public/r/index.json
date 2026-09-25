@@ -120,12 +120,6 @@
     "category": "Navigation"
   },
   {
-    "name": "command-palette",
-    "title": "Command Palette",
-    "description": "Cmd+K panel with grouped fuzzy search, no dependency.",
-    "category": "Navigation"
-  },
-  {
     "name": "magnetic-button",
     "title": "Magnetic Button",
     "description": "A button that leans toward the cursor, then settles.",

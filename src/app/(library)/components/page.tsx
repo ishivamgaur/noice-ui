@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Search } from "lucide-react";
 import { components, getCategories } from "@/lib/registry";
 import { SITE_URL } from "@/lib/site";
@@ -10,30 +11,46 @@ import { DEMOS } from "@/components/demos/demos";
 import { useUrlFilter } from "@/lib/use-url-filter";
 
 export default function ComponentsGallery() {
- const [query, setQuery] = React.useState("");
- const [category, setCategory] = useUrlFilter();
+  const [query, setQuery] = React.useState("");
+  const [category, setCategory] = useUrlFilter();
+  const pathname = usePathname();
+  // The shortcut belongs to this page and nowhere else. Gating on the
+  // route rather than relying on the effect being torn down means the key
+  // stays dead on the homepage even if the router keeps this component
+  // mounted while transitioning away.
+  const active = pathname === "/components";
  const inputRef = React.useRef<HTMLInputElement>(null);
 
- // "/" focuses search from anywhere, Escape clears then blurs.
- React.useEffect(() => {
- const onKey = (e: KeyboardEvent) => {
- const el = e.target as HTMLElement | null;
- const typing =
- el?.tagName === "INPUT" ||
- el?.tagName === "TEXTAREA" ||
- el?.isContentEditable;
- if (e.key === "/" && !typing) {
- e.preventDefault();
- inputRef.current?.focus();
- }
- if (e.key === "Escape" && document.activeElement === inputRef.current) {
- if (query) setQuery("");
- else inputRef.current?.blur();
- }
- };
- window.addEventListener("keydown", onKey);
- return () => window.removeEventListener("keydown", onKey);
- }, [query]);
+  // Cmd/Ctrl+K and "/" both focus the search. Escape clears the query
+  // first, then blurs. Every branch is scoped to this route, so the
+  // chord does nothing anywhere else in the app.
+  React.useEffect(() => {
+    if (!active) return;
+    const onKey = (e: KeyboardEvent) => {
+      const el = e.target as HTMLElement | null;
+      const typing =
+        el?.tagName === "INPUT" ||
+        el?.tagName === "TEXTAREA" ||
+        el?.isContentEditable;
+
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        inputRef.current?.focus();
+        inputRef.current?.select();
+        return;
+      }
+      if (e.key === "/" && !typing) {
+        e.preventDefault();
+        inputRef.current?.focus();
+      }
+      if (e.key === "Escape" && document.activeElement === inputRef.current) {
+        if (query) setQuery("");
+        else inputRef.current?.blur();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [query, active]);
 
  const filtered = components.filter((c) => {
  const words = query.toLowerCase().split(/\s+/).filter(Boolean);
@@ -86,16 +103,16 @@ export default function ComponentsGallery() {
  ref={inputRef}
  value={query}
  onChange={(e) => setQuery(e.target.value)}
- placeholder="Search"
+            placeholder="Search components"
  aria-label="Search components"
  className="h-9 w-full rounded-lg border border-border bg-transparent pr-10 pl-9 text-sm outline-none placeholder:text-muted-foreground focus-visible:border-muted-foreground/50"
  />
- <kbd
- aria-hidden
- className="pointer-events-none absolute top-1/2 right-3 hidden h-5 -translate-y-1/2 items-center rounded border border-border px-1.5 text-[11px] text-muted-foreground sm:flex"
- >
- /
- </kbd>
+          <kbd
+            aria-hidden
+            className="pointer-events-none absolute right-3 top-1/2 hidden h-5 -translate-y-1/2 items-center rounded border border-border px-1.5 text-[11px] text-muted-foreground sm:flex"
+          >
+            ⌘K
+          </kbd>
  </div>
  <p
  className="text-[13px] tabular-nums text-muted-foreground"

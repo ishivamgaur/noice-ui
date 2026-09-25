@@ -21,16 +21,28 @@
  *   2. Add one entry to `registry/meta.json`
  *   3. Run `npm run registry:build`
  */
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
+
+// Same resolution as src/lib/site.ts, kept in sync deliberately: the
+// catalog's homepage has to agree with the URLs the CLI hands users, and
+// hardcoding it here is how it silently drifts from the deployed domain.
+const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
+  "https://ui.noicess.fun"
+);
 const REGISTRY_DIR = join(root, "registry", "ui");
 const OUT_DIR = join(root, "public", "r");
 
 const meta = JSON.parse(readFileSync(join(root, "registry", "meta.json"), "utf8"));
 
+// Clear the output first. Writing over the top leaves JSON behind for any
+// component that has been deleted from meta.json, and that stale file stays
+// publicly installable long after the source is gone.
+rmSync(OUT_DIR, { recursive: true, force: true });
 mkdirSync(OUT_DIR, { recursive: true });
 
 for (const component of meta.components) {
@@ -74,7 +86,7 @@ console.log("built public/r/index.json");
 const registryJson = {
   $schema: "https://ui.shadcn.com/schema/registry.json",
   name: "noiceui",
-  homepage: "https://noiceui.com",
+  homepage: SITE_URL,
   items: meta.components.map((c) => ({
     name: c.name,
     type: "registry:ui",
@@ -82,5 +94,11 @@ const registryJson = {
     description: c.description,
   })),
 };
-writeFileSync(join(root, "registry.json"), JSON.stringify(registryJson, null, 2));
+const registryJsonString = JSON.stringify(registryJson, null, 2);
+writeFileSync(join(root, "registry.json"), registryJsonString);
+// Also emit it into public/, because only public/ is served over HTTP. The
+// root copy is for anyone cloning the repo or reading it on GitHub; without
+// this second write the index 404s at the site root, which is exactly where
+// the shadcn directory and MCP expect to find it.
+writeFileSync(join(OUT_DIR, "..", "registry.json"), registryJsonString);
 console.log("built registry.json");
