@@ -215,17 +215,33 @@ export default function ComponentsGallery() {
   {Demo ? (
   /* The canvas. A fixed logical width gives every demo the same frame to
   lay out in, so a component is never stretched to the grid track or
-  shrunk to fit it. max-w-full lets a demo wider than the canvas wrap or
-  clip on its own terms - a cropped marquee still reads as a marquee,
-  where a 70% scale reads as a mistake. The width caps out rather than
-  going full-bleed so the frame stays the same size on a phone. */
+  shrunk to fit it. The width caps out rather than going full-bleed so the
+  frame stays the same size on a phone.
+
+  The inner wrapper is w-full, and that is load-bearing rather than
+  cosmetic: 15 of the demos size themselves with `w-full`, and against a
+  content-width parent that percentage resolves circularly and collapses.
+  Compare slider was the visible symptom - it rendered 4x2, effectively
+  nothing, because its only content is an absolutely positioned pair. A
+  definite width here gives every one of them something to resolve
+  against, and keeps a wide demo wrapping or clipping inside the canvas
+  rather than being scaled to fit it. */
   <div
   className="flex h-full w-full max-w-[20rem] items-center justify-center overflow-hidden"
   >
   <div
-  className="flex max-w-full flex-wrap items-center justify-center gap-2"
+  className="flex w-full flex-wrap items-center justify-center gap-2"
   style={{
   scale: c.previewScale ? String(c.previewScale) : undefined,
+  // Only when scaling UP. A plain w-full wrapper scaled past 1 renders
+  // wider than the canvas it sits in, so the pre-scale width is divided by
+  // the factor to land back on the canvas edge. Left alone when scaling
+  // down: there the wrapper wants the full canvas so a wide demo wraps
+  // compactly inside it instead of spreading out.
+  width:
+  c.previewScale && c.previewScale > 1
+  ? `${100 / c.previewScale}%`
+  : undefined,
   }}
   >
   <Demo />

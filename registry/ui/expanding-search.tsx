@@ -56,7 +56,7 @@ export function ExpandingSearch({
             ? { duration: 0 }
             : { type: "spring", stiffness: 320, damping: 32 },
         }}
-        className="flex h-10 items-center overflow-hidden rounded-full border border-border bg-surface"
+        className="flex h-10 items-center overflow-hidden rounded-full border border-border bg-surface focus-within:ring-2 focus-within:ring-ring"
       >
         <button
           ref={buttonRef}
@@ -100,7 +100,11 @@ export function ExpandingSearch({
           placeholder={placeholder}
           aria-label={placeholder}
           tabIndex={open ? 0 : -1}
-          className="h-full w-full min-w-0 bg-transparent pr-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
+          // No focus ring of its own. The pill already has a border, so an
+          // inset ring on the field drew a second line just inside it and
+          // read as a mis-styled input. The container shows focus instead,
+          // as one ring around the whole control.
+          className="h-full w-full min-w-0 bg-transparent pr-3 text-sm outline-none"
         />
         {open && query && (
           <button
