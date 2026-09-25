@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "marquee",
+  "type": "registry:ui",
+  "title": "Marquee",
+  "description": "An infinite scrolling row with edge fade. Children loop seamlessly.",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/ui/marquee.tsx",
+      "content": "\"use client\";\n\nimport * as React from \"react\";\nimport { cn } from \"@/lib/utils\";\n\nexport interface MarqueeProps extends React.HTMLAttributes<HTMLDivElement> {\n  /** Reverse scroll direction. @default false */\n  reverse?: boolean;\n  /** Pause scrolling while hovered. @default true */\n  pauseOnHover?: boolean;\n  /** Seconds per loop. @default 40 */\n  duration?: number;\n}\n\n/**\n * An infinite scrolling row. Children are duplicated internally so the\n * loop is seamless. Edges fade via mask. Honors reduced motion.\n */\nexport function Marquee({\n  children,\n  className,\n  reverse = false,\n  pauseOnHover = true,\n  duration = 40,\n  ...props\n}: MarqueeProps) {\n  return (\n    <div\n      className={cn(\n        \"group flex w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]\",\n        className\n      )}\n      {...props}\n    >\n      <div\n        className={cn(\n          \"animate-marquee flex w-max shrink-0 items-stretch gap-4 pr-4\",\n          pauseOnHover && \"group-hover:[animation-play-state:paused]\"\n        )}\n        style={{\n          animationDuration: `${duration}s`,\n          animationDirection: reverse ? \"reverse\" : undefined,\n        }}\n      >\n        {children}\n        {children}\n      </div>\n    </div>\n  );\n}\n",
+      "type": "registry:ui",
+      "target": "components/ui/marquee.tsx"
+    }
+  ],
+  "categories": [
+    "animation"
+  ]
+}

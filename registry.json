@@ -26,6 +26,12 @@
       "type": "registry:ui",
       "title": "Dot Grid",
       "description": "A dotted texture layer that dissolves outward. Drop it under any section."
+    },
+    {
+      "name": "marquee",
+      "type": "registry:ui",
+      "title": "Marquee",
+      "description": "An infinite scrolling row with edge fade. Children loop seamlessly."
     }
   ]
 }

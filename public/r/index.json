@@ -22,5 +22,11 @@
     "title": "Dot Grid",
     "description": "A dotted texture layer that dissolves outward. Drop it under any section.",
     "category": "Backgrounds"
+  },
+  {
+    "name": "marquee",
+    "title": "Marquee",
+    "description": "An infinite scrolling row with edge fade. Children loop seamlessly.",
+    "category": "Animation"
   }
 ]

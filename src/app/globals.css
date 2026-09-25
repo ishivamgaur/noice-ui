@@ -98,3 +98,72 @@
   content-visibility: auto;
   contain-intrinsic-size: auto 320px;
 }
+
+@theme {
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-drift-up: drift-up 24s ease-in-out infinite alternate;
+  --animate-drift-down: drift-down 28s ease-in-out infinite alternate;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes drift-up {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-48px);
+  }
+}
+
+@keyframes drift-down {
+  from {
+    transform: translateY(-48px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-drift-up,
+  .animate-drift-down {
+    animation: none;
+  }
+}
+
+/* Background tabs freeze every CSS animation, not just JS ones. */
+[data-hidden] *,
+[data-hidden] *::before,
+[data-hidden] *::after {
+  animation-play-state: paused !important;
+}
+
+/* Thin, theme-aware scrollbar. Thumb follows the muted token,
+   so it adapts to light and dark automatically. */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklab, var(--brand) 22%, transparent) transparent;
+}
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: color-mix(in oklab, var(--brand) 18%, transparent);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: color-mix(in oklab, var(--brand) 40%, transparent);
+  background-clip: padding-box;
+}

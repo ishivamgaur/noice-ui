@@ -73,7 +73,7 @@ export function DocsSidebar() {
   return (
     <>
       {/* Desktop */}
-      <aside className="sticky top-24 hidden h-[calc(100vh-6rem)] w-64 shrink-0 overflow-y-auto py-6 pr-6 lg:block">
+      <aside className="sticky top-20 hidden w-64 shrink-0 self-start overflow-y-auto py-8 pr-6 lg:block">
         <Nav />
       </aside>
       {/* Mobile */}

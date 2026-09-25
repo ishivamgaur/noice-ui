@@ -3,6 +3,7 @@ import { ButtonDemo } from "./button-demo";
 import { CardDemo } from "./card-demo";
 import { SpotlightDemo } from "./spotlight-demo";
 import { DotGridDemo } from "./dot-grid-demo";
+import { MarqueeDemo } from "./marquee-demo";
 
 /** Maps registry names to their live demos (used by gallery + doc pages). */
 export const DEMOS: Record<string, () => React.JSX.Element> = {
@@ -10,4 +11,5 @@ export const DEMOS: Record<string, () => React.JSX.Element> = {
   card: CardDemo,
   spotlight: SpotlightDemo,
   "dot-grid": DotGridDemo,
+  marquee: MarqueeDemo,
 };

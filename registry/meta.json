@@ -115,6 +115,35 @@
           "description": "CSS mask so the field dissolves outward."
         }
       ]
+    },
+    {
+      "name": "marquee",
+      "title": "Marquee",
+      "description": "An infinite scrolling row with edge fade. Children loop seamlessly.",
+      "category": "Animation",
+      "dependencies": ["clsx", "tailwind-merge"],
+      "registryDependencies": [],
+      "usage": "import { Marquee } from \"@/components/ui/marquee\";\n\nexport function Demo() {\n  return (\n    <Marquee>\n      {items.map((item) => (\n        <span key={item} className=\"rounded-full border px-4 py-2 text-sm\">\n          {item}\n        </span>\n      ))}\n    </Marquee>\n  );\n}",
+      "props": [
+        {
+          "name": "reverse",
+          "type": "boolean",
+          "default": "false",
+          "description": "Reverse the scroll direction."
+        },
+        {
+          "name": "pauseOnHover",
+          "type": "boolean",
+          "default": "true",
+          "description": "Pause scrolling while hovered."
+        },
+        {
+          "name": "duration",
+          "type": "number",
+          "default": "40",
+          "description": "Seconds per loop."
+        }
+      ]
     }
   ]
 }

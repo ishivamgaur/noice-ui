@@ -5,29 +5,29 @@ import { installCommand } from "@/lib/registry";
 
 const COMMAND = installCommand("button");
 
-/**
- * Single CTA row: contrasting copy-command pill + brand button.
- * The pill inverts against the hero (black on light, white on dark).
- */
+/** Solid + outline CTA pair with a quiet copy-command line beneath. */
 export function HeroCta() {
   return (
-    <div className="flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap">
-      <div className="flex h-10 w-full max-w-md items-center gap-1 rounded-full bg-zinc-900 py-1 pl-4 pr-1 text-zinc-50 sm:w-auto sm:min-w-105 dark:bg-zinc-50 dark:text-zinc-900">
-        <code className="min-w-0 flex-1 truncate font-mono text-xs sm:text-[13px]">
-          {COMMAND}
-        </code>
-        <CopyButton
-          text={COMMAND}
-          className="h-8 w-8 shrink-0 rounded-full text-zinc-400 hover:bg-white/10 hover:text-white dark:text-zinc-500 dark:hover:bg-black/10 dark:hover:text-black"
-        />
+    <div className="flex flex-col items-center gap-4 lg:items-start">
+      <div className="flex w-full flex-col justify-center gap-3 sm:w-auto sm:flex-row sm:flex-wrap lg:justify-start">
+        <Link
+          href="/components"
+          className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-brand px-7 text-[15px] font-semibold text-brand-foreground transition-all duration-200 hover:scale-[1.02] hover:opacity-90 active:scale-[0.98]"
+        >
+          Browse components
+          <ArrowRight className="size-4" />
+        </Link>
+        <Link
+          href="/docs/installation"
+          className="inline-flex h-12 items-center justify-center rounded-xl border border-border bg-background px-7 text-[15px] font-semibold transition-all duration-200 hover:bg-accent active:scale-[0.98]"
+        >
+          Documentation
+        </Link>
       </div>
-      <Link
-        href="/components"
-        className="inline-flex h-10 shrink-0 items-center gap-2 rounded-full bg-brand px-6 text-sm font-semibold text-brand-foreground transition-all duration-200 hover:scale-[1.04] hover:opacity-90 active:scale-[0.96]"
-      >
-        Browse components
-        <ArrowRight className="size-4" />
-      </Link>
+      <div className="flex items-center gap-1 font-mono text-xs text-muted-foreground">
+        <span className="max-w-64 truncate sm:max-w-none">{COMMAND}</span>
+        <CopyButton text={COMMAND} className="h-7 w-7 rounded-full" />
+      </div>
     </div>
   );
 }

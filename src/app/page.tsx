@@ -1,14 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Star } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { HeroIntro } from "@/components/site/hero-intro";
 import { HeroCta } from "@/components/site/hero-cta";
 import { Scribble } from "@/components/site/scribble";
+import { StackIcons } from "@/components/site/stack-icons";
+import { Faq } from "@/components/site/faq";
 import { Reveal } from "@/components/site/reveal";
 import { Logo } from "@/components/site/logo";
-import { DotGrid } from "../../registry/ui/dot-grid";
+import { HeroCollage } from "@/components/site/hero-collage";
 import { components } from "@/lib/registry";
 import { REGISTRY_NAMESPACE } from "@/lib/site";
 import { DEMOS } from "@/components/demos/demos";
@@ -39,18 +41,8 @@ export default function Home() {
 
       {/* Hero */}
       <section className="relative w-full overflow-hidden bg-background dark:bg-[#0a0a0c]">
-        <DotGrid />
-          <div
-            aria-hidden
-            className="pointer-events-none absolute left-1/2 top-[68%] -translate-x-1/2 -translate-y-1/2"
-          >
-            <Logo className="h-[720px] w-[720px] max-w-none opacity-[0.04] dark:opacity-[0.06]" />
-          </div>
-          <div
-            aria-hidden
-            className="pointer-events-none absolute left-1/2 top-[-25%] h-[50vh] w-[70vw] max-w-5xl -translate-x-1/2 rounded-[100%] bg-brand/10 blur-[130px] dark:bg-brand/20"
-          />
-        <div className="relative mx-auto flex w-full max-w-4xl flex-col items-center px-4 pb-16 pt-32 text-center sm:px-6 sm:pt-40">
+          <div className="relative mx-auto grid w-full max-w-[90rem] items-center gap-12 px-4 pb-16 pt-20 sm:px-6 sm:pt-28 lg:grid-cols-[0.8fr_1.2fr] lg:gap-10">
+            <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
             <HeroIntro
               badge={
                 <Link
@@ -68,8 +60,7 @@ export default function Home() {
               }
               headline={
                 <>
-                  Beautiful components,
-                  <br />
+                  Beautiful components,{" "}
                   <span className="relative inline-block">
                     ready to ship.
                     <Scribble />
@@ -80,30 +71,32 @@ export default function Home() {
             >
               <HeroCta />
             </HeroIntro>
+            <p className="mt-8 flex items-center gap-2 text-[13px] text-muted-foreground">
+              <span className="h-1.5 w-1.5 rounded-full bg-brand" />
+              {components.length} components live - new drops weekly
+              <span className="ml-1 flex items-center gap-0.5" aria-label="5 out of 5 stars">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star key={i} className="size-3 fill-amber-400 text-amber-400" />
+                ))}
+              </span>
+            </p>
+            </div>
+            <HeroCollage />
           </div>
-          <div className="relative mx-auto w-full max-w-6xl px-4 pb-14 sm:px-6">
-            <div className="flex flex-col items-center gap-5 border-t border-border/70 pt-10">
+          <div className="relative mx-auto w-full max-w-[90rem] px-4 pb-12 sm:px-6">
+            <div className="flex flex-col items-center gap-4 border-t border-border/70 pt-8">
               <p className="text-[11px] font-medium uppercase tracking-[0.22em] text-muted-foreground">
                 Built for the modern stack
               </p>
-              <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-3">
-                {["React", "Tailwind CSS", "Motion", "shadcn", "MCP"].map(
-                  (t) => (
-                    <span
-                      key={t}
-                      className="font-display text-lg font-bold text-muted-foreground/70 transition-colors hover:text-foreground"
-                    >
-                      {t}
-                    </span>
-                  )
-                )}
+              <div className="flex flex-wrap items-center justify-center gap-2.5">
+                <StackIcons />
               </div>
             </div>
           </div>
       </section>
 
       {/* How it works */}
-      <section className="mx-auto w-full max-w-6xl px-4 pb-10 pt-20 sm:px-6 sm:pb-12 sm:pt-24">
+      <section className="mx-auto w-full max-w-[90rem] px-4 pb-10 pt-20 sm:px-6 sm:pb-12 sm:pt-24">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
           How it works
         </p>
@@ -127,7 +120,7 @@ export default function Home() {
       </section>
 
       {/* Featured components */}
-      <section className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-12">
+      <section className="mx-auto w-full max-w-[90rem] px-4 py-10 sm:px-6 sm:py-12">
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
           The library
         </p>
@@ -177,13 +170,9 @@ export default function Home() {
       </section>
 
       {/* MCP band */}
-      <section className="mx-auto w-full max-w-6xl px-4 pb-20 pt-10 sm:px-6 sm:pb-24 sm:pt-12">
+      <section className="mx-auto w-full max-w-[90rem] px-4 pb-20 pt-10 sm:px-6 sm:pb-24 sm:pt-12">
         <Reveal>
           <div className="relative overflow-hidden rounded-[2rem] border border-border/70 bg-muted px-6 py-14 sm:px-12 dark:bg-white/[0.03]">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 bg-[radial-gradient(50%_80%_at_85%_50%,var(--color-brand)/14%,transparent_70%)]"
-          />
           <div className="relative flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
             <div className="max-w-xl">
               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
@@ -212,11 +201,24 @@ export default function Home() {
         </Reveal>
       </section>
 
+      {/* FAQ */}
+      <section className="mx-auto w-full max-w-[90rem] px-4 pb-20 sm:px-6 sm:pb-24">
+        <p className="text-center text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+          FAQ
+        </p>
+        <h2 className="mx-auto mt-3 max-w-xl text-center font-display text-2xl font-bold tracking-tight sm:text-3xl">
+          Questions, answered
+        </h2>
+        <div className="mt-8">
+          <Faq />
+        </div>
+      </section>
+
       <footer className="border-t border-border/60">
-        <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.5fr_1fr_1fr]">
+        <div className="mx-auto grid max-w-[90rem] gap-10 px-4 py-14 sm:px-6 md:grid-cols-[1.5fr_1fr_1fr_1fr]">
           <div>
             <Link href="/" className="flex items-center gap-2">
-              <Logo className="h-[18px] w-[18px]" />
+              <Logo className="h-[22px] w-[22px]" />
               <span className="font-display text-base font-extrabold tracking-tight">
                 noiceui
               </span>
@@ -255,6 +257,23 @@ export default function Home() {
           </div>
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              Components
+            </p>
+            <ul className="mt-3 space-y-2 text-sm">
+              {components.map((c) => (
+                <li key={c.name}>
+                  <Link
+                    href={`/components/${c.name}`}
+                    className="text-muted-foreground hover:text-foreground"
+                  >
+                    {c.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-muted-foreground">
               Resources
             </p>
             <ul className="mt-3 space-y-2 text-sm">
@@ -277,7 +296,7 @@ export default function Home() {
           </div>
         </div>
         <div className="border-t border-border/60">
-          <div className="mx-auto flex max-w-6xl flex-col gap-1 px-4 py-6 text-[13px] text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-6">
+          <div className="mx-auto flex max-w-[90rem] flex-col gap-1 px-4 py-6 text-[13px] text-muted-foreground sm:flex-row sm:items-center sm:justify-between sm:px-6">
             <span>© 2026 noiceui</span>
             <span>Copy, paste, ship.</span>
           </div>

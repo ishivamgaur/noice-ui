@@ -27,7 +27,7 @@ export function HeroIntro({
           initial={reduceMotion ? false : rise.hidden}
           animate={rise.shown}
           transition={step(0)}
-          className="mb-6"
+          className="mb-4"
         >
           {badge}
         </motion.div>
@@ -36,7 +36,7 @@ export function HeroIntro({
         initial={reduceMotion ? false : rise.hidden}
         animate={rise.shown}
         transition={step(badge ? 1 : 0)}
-        className="max-w-3xl text-balance font-display text-4xl font-black leading-[1.08] tracking-tight text-foreground sm:text-6xl md:text-7xl"
+        className="mt-4 max-w-3xl text-balance font-display text-3xl font-black leading-[1.1] tracking-tight text-foreground sm:text-4xl lg:text-5xl"
       >
         {headline}
       </motion.h1>
@@ -44,7 +44,7 @@ export function HeroIntro({
         initial={reduceMotion ? false : rise.hidden}
         animate={rise.shown}
         transition={step(badge ? 2 : 1)}
-        className="mt-6 max-w-2xl text-balance text-muted-foreground sm:text-lg"
+        className="mt-5 max-w-xl text-balance text-muted-foreground sm:text-base"
       >
         {sub}
       </motion.p>
