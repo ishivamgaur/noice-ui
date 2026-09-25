@@ -13,23 +13,31 @@
    - `props` - rows for the props table
 3. Add a demo in `src/components/demos/<name>-demo.tsx` and register it in
    `src/components/demos/demos.tsx`
-4. Run `npm run registry:build` - regenerates `public/r/*.json` + `registry.json`
+4. Run `npm run registry:build` - regenerates `public/r/*.json` + `registry.json`.
+   This is also wired as `prebuild`, so `npm run build` runs it for you. Run it
+   directly only when you want to inspect the output without a full build.
 5. Run `npm run build` - the doc page, gallery card, sidebar entry, sitemap,
    and llms.txt are generated automatically from the catalog. No other files needed.
 
 ## Motion rules
 
-- Every animation uses `src/lib/motion.ts` (one spring, one `rise`, one
-  stagger step). No ad-hoc durations or easings.
+- Every animation uses `src/lib/motion.ts` (one `spring`, one `zoom`, one
+  `STEP` stagger interval). No ad-hoc durations or easings.
 - Every animated piece respects `useReducedMotion` - see `HeroIntro`,
   `Spotlight`, and `Reveal` for the pattern.
 - Scroll reveals wrap whole grids (`Reveal`), never cards with CSS hover
   transforms (motion's inline transform would override them).
-- Card grids get `cv-auto` (content-visibility) so offscreen demos skip
-  rendering until scrolled near.
+- `cv-auto` (content-visibility) is available in `globals.css` for long demo
+  grids, but no current surface uses it - don't add it by reflex.
 
 ## Conventions
 
+- **`registry/` is what users receive. `src/` is ours.** Anything in
+  `registry/ui/` ships verbatim to a user's machine, so it must be
+  self-contained and free of site-only styling. Site-specific visual polish
+  belongs in `src/`. This is the most common mistake to avoid.
+- Design system: flat color, hairlines and shadows only. No gradients, glows,
+  mesh orbs, or decorative effects. No `vh`/`svh` units anywhere.
 - Component APIs mirror shadcn where one exists (`variant`/`size` via `cva`).
 - Demos must render with zero props and zero providers.
 - Docs pages live under `src/app/(library)` and share blocks from
