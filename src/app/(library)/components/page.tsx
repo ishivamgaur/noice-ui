@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Search } from "lucide-react";
+import { ArrowUpRight, Search } from "lucide-react";
 import { components, getCategories } from "@/lib/registry";
 import { SITE_URL } from "@/lib/site";
 import { cn } from "@/lib/utils";
@@ -61,7 +61,7 @@ export default function ComponentsGallery() {
  });
 
  return (
- <div className="mx-auto w-full max-w-5xl">
+  <div className="mx-auto w-full max-w-[85rem]">
  <script
  type="application/ld+json"
  dangerouslySetInnerHTML={{
@@ -154,67 +154,79 @@ export default function ComponentsGallery() {
  })}
  </nav>
 
- {filtered.length === 0 ? (
- <p className="py-20 text-center text-sm text-muted-foreground">
- Nothing matches {query ? `“${query}”` : "that filter"}.
- </p>
- ) : (
- /* A ruled table, not a card grid: hairlines carry the structure, so
- each entry needs no box, shadow, or hover fill of its own. */
- <ul className="grid grid-cols-1 @min-[680px]:grid-cols-2">
- {filtered.map((c, i) => {
- const Demo = DEMOS[c.name];
- return (
- <li
- key={c.name}
- className={cn(
- "group relative border-b border-border py-8 @min-[680px]:pr-8",
- i % 2 === 1 && "@min-[680px]:border-l @min-[680px]:pl-8"
- )}
- >
- <div
- inert
- className={cn(
- "flex h-44 items-center justify-center overflow-hidden rounded-lg bg-surface p-5 [content-visibility:auto]",
- c.previewCrop
- ? "items-start pt-5 [mask-image:linear-gradient(to_bottom,black_75%,transparent)]"
- : "items-center"
- )}
- >
- {Demo ? (
- <div
- className="flex shrink-0 justify-center"
- style={{
- scale: c.previewScale
- ? String(c.previewScale)
- : undefined,
- transformOrigin: c.previewCrop ? "top" : undefined,
- width: c.previewScale
- ? `${100 / c.previewScale}%`
- : undefined,
- }}
- >
- <Demo />
- </div>
- ) : null}
- </div>
+  {filtered.length === 0 ? (
+  <p className="py-20 text-center text-sm text-muted-foreground">
+  Nothing matches {query ? `“${query}”` : "that filter"}.
+  </p>
+  ) : (
+  /* Bento, matching the homepage Featured grid: a repeating wide/single/
+  single unit so every four-column row totals exactly four tracks and no
+  cell is left orphaned on its own line. The span is derived from the
+  filtered index rather than stored, so filtering to a category still
+  packs cleanly instead of inheriting gaps from the full catalog.
 
- <h2 className="mt-5 text-[15px] font-medium tracking-tight">
- <Link
- href={`/components/${c.name}`}
- className="outline-none after:absolute after:inset-0 focus-visible:underline focus-visible:underline-offset-4"
- >
- {c.title}
- </Link>
- </h2>
- <p className="mt-1.5 max-w-sm text-pretty text-sm leading-relaxed text-muted-foreground">
- {c.description}
- </p>
- </li>
- );
- })}
- </ul>
- )}
+  Each cell is a div, not a link, so the demo inside stays live - hover,
+  drag, type, toggle. Navigation is separate and deliberate: the name and
+  the arrow both go to the detail page, and a click landing on the
+  component itself never navigates. */
+  <div className="mt-6 grid auto-rows-min grid-cols-1 gap-3 @min-[560px]:grid-cols-2 @min-[1000px]:grid-cols-4">
+  {filtered.map((c, i) => {
+  const Demo = DEMOS[c.name];
+  const wide = i % 3 === 0;
+  return (
+  <div
+  key={c.name}
+  className={cn(
+  "group flex min-w-0 flex-col overflow-hidden rounded-lg border border-border bg-background [content-visibility:auto]",
+  wide && "@min-[560px]:col-span-2"
+  )}
+  >
+  <div className="flex shrink-0 items-center gap-2 border-b border-border/60 px-3 py-2">
+  <Link
+  href={`/components/${c.name}`}
+  className="truncate text-[13px] font-medium outline-none hover:underline focus-visible:underline"
+  >
+  {c.title}
+  </Link>
+  <span className="truncate text-xs text-muted-foreground">
+  {c.category}
+  </span>
+  <Link
+  href={`/components/${c.name}`}
+  aria-label={`Open ${c.title} details`}
+  className="ml-auto flex size-6 shrink-0 items-center justify-center rounded-md text-muted-foreground outline-none hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-1"
+  >
+  <ArrowUpRight className="size-3.5" />
+  </Link>
+  </div>
+
+  <div
+  className={cn(
+  "flex flex-1 items-center justify-center p-5",
+  wide ? "min-h-44" : "min-h-36"
+  )}
+  >
+  {Demo ? (
+  <div
+  className="flex shrink-0 justify-center"
+  style={{
+  scale: c.previewScale ? String(c.previewScale) : undefined,
+  width: c.previewScale ? `${100 / c.previewScale}%` : undefined,
+  }}
+  >
+  <Demo />
+  </div>
+  ) : null}
+  </div>
+
+  <p className="shrink-0 px-3 pb-3 text-xs leading-relaxed text-pretty text-muted-foreground">
+  {c.description}
+  </p>
+  </div>
+  );
+  })}
+  </div>
+  )}
  </div>
  );
 }
