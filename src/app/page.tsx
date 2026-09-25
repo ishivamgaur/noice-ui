@@ -166,7 +166,7 @@ export default function Home() {
           stays live - hover, drag, type, toggle. Navigation is separate
           and deliberate: the name and the arrow both go to the detail
           page, and a click that lands on the component never navigates. */}
-      <div className="mt-6 grid auto-rows-min grid-cols-2 gap-3 @min-[720px]:grid-cols-4">
+      <div className="mt-6 grid auto-rows-min grid-cols-2 gap-3">
         {FEATURED.map((c) => {
           const Demo = DEMOS[c.name];
           return (

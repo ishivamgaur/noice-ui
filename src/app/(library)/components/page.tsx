@@ -159,27 +159,35 @@ export default function ComponentsGallery() {
   Nothing matches {query ? `“${query}”` : "that filter"}.
   </p>
   ) : (
-  /* Bento, matching the homepage Featured grid: a repeating wide/single/
-  single unit so every four-column row totals exactly four tracks and no
-  cell is left orphaned on its own line. The span is derived from the
-  filtered index rather than stored, so filtering to a category still
-  packs cleanly instead of inheriting gaps from the full catalog.
+  /* Uniform grid: every tile is the same size, so nothing is singled out
+  and the page reads as one repeating system. Uniformity comes from the
+  stage being a fixed height rather than from equalising rows - a
+  content-driven stage gives every demo a different height, and letting
+  the rows stretch instead just pads the short cards with dead space.
+
+  Inside that fixed card sits a fixed-width canvas, so a demo is never
+  stretched to the grid track or shrunk to fit it. previewScale only ever
+  scales a demo UP, for the handful that are genuinely tiny; nothing is
+  scaled down, because below 1 a component stops reading as the thing it
+  is. Those values were measured in headless Chrome against this stage.
+
+  Breakpoints are viewport-based (sm:/lg:) on purpose. Tailwind's
+  `@min-[Npx]:` compiles to a container query and nothing here establishes
+  a query container, so that syntax silently never matched and the grid was
+  stuck at a single column at every width.
 
   Each cell is a div, not a link, so the demo inside stays live - hover,
   drag, type, toggle. Navigation is separate and deliberate: the name and
   the arrow both go to the detail page, and a click landing on the
   component itself never navigates. */
-  <div className="mt-6 grid auto-rows-min grid-cols-1 gap-3 @min-[560px]:grid-cols-2 @min-[1000px]:grid-cols-4">
-  {filtered.map((c, i) => {
+  <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+  {filtered.map((c) => {
   const Demo = DEMOS[c.name];
-  const wide = i % 3 === 0;
   return (
   <div
   key={c.name}
-  className={cn(
-  "group flex min-w-0 flex-col overflow-hidden rounded-lg border border-border bg-background [content-visibility:auto]",
-  wide && "@min-[560px]:col-span-2"
-  )}
+  data-component={c.name}
+  className="group flex min-w-0 flex-col overflow-hidden rounded-lg border border-border bg-background [content-visibility:auto]"
   >
   <div className="flex shrink-0 items-center gap-2 border-b border-border/60 px-3 py-2">
   <Link
@@ -201,25 +209,35 @@ export default function ComponentsGallery() {
   </div>
 
   <div
-  className={cn(
-  "flex flex-1 items-center justify-center p-5",
-  wide ? "min-h-44" : "min-h-36"
-  )}
+  data-stage={c.name}
+  className="flex h-48 shrink-0 items-center justify-center overflow-hidden bg-surface p-4"
   >
   {Demo ? (
+  /* The canvas. A fixed logical width gives every demo the same frame to
+  lay out in, so a component is never stretched to the grid track or
+  shrunk to fit it. max-w-full lets a demo wider than the canvas wrap or
+  clip on its own terms - a cropped marquee still reads as a marquee,
+  where a 70% scale reads as a mistake. The width caps out rather than
+  going full-bleed so the frame stays the same size on a phone. */
   <div
-  className="flex shrink-0 justify-center"
+  className="flex h-full w-full max-w-[20rem] items-center justify-center overflow-hidden"
+  >
+  <div
+  className="flex max-w-full flex-wrap items-center justify-center gap-2"
   style={{
   scale: c.previewScale ? String(c.previewScale) : undefined,
-  width: c.previewScale ? `${100 / c.previewScale}%` : undefined,
   }}
   >
   <Demo />
   </div>
+  </div>
   ) : null}
   </div>
 
-  <p className="shrink-0 px-3 pb-3 text-xs leading-relaxed text-pretty text-muted-foreground">
+  {/* Reserved at two lines so every card is the same height. Without it
+      the four components with a two-line description stood 19px taller
+      than the rest and broke the grid's rhythm. */}
+  <p className="line-clamp-2 min-h-[3.75rem] shrink-0 border-t border-border/60 px-3 py-2.5 text-xs leading-relaxed text-pretty text-muted-foreground">
   {c.description}
   </p>
   </div>
