@@ -7,181 +7,655 @@
       "name": "button",
       "type": "registry:ui",
       "title": "Button",
-      "description": "Displays a button with multiple variants and sizes."
+      "description": "Displays a button with multiple variants and sizes.",
+      "dependencies": [
+        "class-variance-authority",
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/ui/button.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/button.tsx"
+        }
+      ],
+      "categories": [
+        "general"
+      ]
     },
     {
       "name": "card",
       "type": "registry:ui",
       "title": "Card",
-      "description": "Displays a card with header, content, and footer sections."
+      "description": "Displays a card with header, content, and footer sections.",
+      "dependencies": [
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/ui/card.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/card.tsx"
+        }
+      ],
+      "categories": [
+        "layout"
+      ]
     },
     {
       "name": "spotlight",
       "type": "registry:ui",
       "title": "Spotlight",
-      "description": "A container with a soft glow that follows the cursor. Perfect for hero sections."
+      "description": "A container with a soft glow that follows the cursor. Perfect for hero sections.",
+      "dependencies": [
+        "motion",
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/ui/spotlight.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/spotlight.tsx"
+        }
+      ],
+      "categories": [
+        "backgrounds"
+      ]
     },
     {
       "name": "dot-grid",
       "type": "registry:ui",
       "title": "Dot Grid",
-      "description": "A dotted texture layer that dissolves outward. Drop it under any section."
+      "description": "A dotted texture layer that dissolves outward. Drop it under any section.",
+      "dependencies": [
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/ui/dot-grid.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/dot-grid.tsx"
+        }
+      ],
+      "categories": [
+        "backgrounds"
+      ]
     },
     {
       "name": "marquee",
       "type": "registry:ui",
       "title": "Marquee",
-      "description": "An infinite scrolling row with edge fade. Children loop seamlessly."
+      "description": "An infinite scrolling row with edge fade. Children loop seamlessly.",
+      "dependencies": [
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/ui/marquee.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/marquee.tsx"
+        }
+      ],
+      "categories": [
+        "animation"
+      ]
     },
     {
       "name": "number-ticker",
       "type": "registry:ui",
       "title": "Number Ticker",
-      "description": "Counts up to a value the first time it scrolls into view."
+      "description": "Counts up to a value the first time it scrolls into view.",
+      "dependencies": [
+        "motion",
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/ui/number-ticker.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/number-ticker.tsx"
+        }
+      ],
+      "categories": [
+        "text"
+      ]
     },
     {
       "name": "scroll-progress",
       "type": "registry:ui",
       "title": "Scroll Progress",
-      "description": "A spring-smoothed bar that tracks document scroll."
+      "description": "A spring-smoothed bar that tracks document scroll.",
+      "dependencies": [
+        "motion"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/ui/scroll-progress.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/scroll-progress.tsx"
+        }
+      ],
+      "categories": [
+        "effects"
+      ]
     },
     {
       "name": "glare-card",
       "type": "registry:ui",
       "title": "Glare Card",
-      "description": "A card with a soft glare that follows the pointer."
+      "description": "A card with a soft glare that follows the pointer.",
+      "dependencies": [
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/ui/glare-card.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/glare-card.tsx"
+        }
+      ],
+      "categories": [
+        "effects"
+      ]
     },
     {
       "name": "animated-list",
       "type": "registry:ui",
       "title": "Animated List",
-      "description": "Reveals its children in sequence when scrolled into view."
+      "description": "Reveals its children in sequence when scrolled into view.",
+      "dependencies": [
+        "motion",
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/ui/animated-list.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/animated-list.tsx"
+        }
+      ],
+      "categories": [
+        "effects"
+      ]
     },
     {
       "name": "border-beam",
       "type": "registry:ui",
       "title": "Border Beam",
-      "description": "A light travelling around the border of any element."
+      "description": "A light travelling around the border of any element.",
+      "dependencies": [
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/ui/border-beam.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/border-beam.tsx"
+        }
+      ],
+      "categories": [
+        "effects"
+      ]
     },
     {
       "name": "text-reveal",
       "type": "registry:ui",
       "title": "Text Reveal",
-      "description": "Blurs and lifts each word into place, in sequence."
+      "description": "Blurs and lifts each word into place, in sequence.",
+      "dependencies": [
+        "motion",
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/ui/text-reveal.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/text-reveal.tsx"
+        }
+      ],
+      "categories": [
+        "text"
+      ]
     },
     {
       "name": "accordion",
       "type": "registry:ui",
       "title": "Accordion",
-      "description": "Panels unfold from a hairline, each open on its own."
+      "description": "Panels unfold from a hairline, each open on its own.",
+      "dependencies": [
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/ui/accordion.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/accordion.tsx"
+        }
+      ],
+      "categories": [
+        "general"
+      ]
     },
     {
       "name": "gauge",
       "type": "registry:ui",
       "title": "Gauge",
-      "description": "A half-circle meter whose needle springs to the value."
+      "description": "A half-circle meter whose needle springs to the value.",
+      "dependencies": [
+        "motion",
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/ui/gauge.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/gauge.tsx"
+        }
+      ],
+      "categories": [
+        "animation"
+      ]
     },
     {
       "name": "loader-set",
       "type": "registry:ui",
       "title": "Loader Set",
-      "description": "Ring, dots, bar, and skeleton, each with a finished state."
+      "description": "Ring, dots, bar, and skeleton, each with a finished state.",
+      "dependencies": [
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/ui/loader-set.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/loader-set.tsx"
+        }
+      ],
+      "categories": [
+        "animation"
+      ]
     },
     {
       "name": "avatar-stack",
       "type": "registry:ui",
       "title": "Avatar Stack",
-      "description": "Overlapping avatars that fan out on hover and focus."
+      "description": "Overlapping avatars that fan out on hover and focus.",
+      "dependencies": [
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/ui/avatar-stack.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/avatar-stack.tsx"
+        }
+      ],
+      "categories": [
+        "general"
+      ]
     },
     {
       "name": "number-stepper",
       "type": "registry:ui",
       "title": "Number Stepper",
-      "description": "Minus and plus around a display that rolls digit by digit."
+      "description": "Minus and plus around a display that rolls digit by digit.",
+      "dependencies": [
+        "motion",
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/ui/number-stepper.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/number-stepper.tsx"
+        }
+      ],
+      "categories": [
+        "general"
+      ]
     },
     {
       "name": "expanding-search",
       "type": "registry:ui",
       "title": "Expanding Search",
-      "description": "A pill that grows into a real input and stays clickable."
+      "description": "A pill that grows into a real input and stays clickable.",
+      "dependencies": [
+        "motion",
+        "react-dom",
+        "lucide-react",
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/ui/expanding-search.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/expanding-search.tsx"
+        }
+      ],
+      "categories": [
+        "navigation"
+      ]
     },
     {
       "name": "otp-input",
       "type": "registry:ui",
       "title": "OTP Input",
-      "description": "One-time-code slots with paste fan-out and success rings."
+      "description": "One-time-code slots with paste fan-out and success rings.",
+      "dependencies": [
+        "motion",
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/ui/otp-input.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/otp-input.tsx"
+        }
+      ],
+      "categories": [
+        "general"
+      ]
     },
     {
       "name": "code-block",
       "type": "registry:ui",
       "title": "Code Block",
-      "description": "Framed code with line numbers and copy, no highlighter needed."
+      "description": "Framed code with line numbers and copy, no highlighter needed.",
+      "dependencies": [
+        "lucide-react",
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/ui/code-block.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/code-block.tsx"
+        }
+      ],
+      "categories": [
+        "general"
+      ]
     },
     {
       "name": "gooey-nav",
       "type": "registry:ui",
       "title": "Gooey Nav",
-      "description": "Segmented nav where the active pill melts between stops."
+      "description": "Segmented nav where the active pill melts between stops.",
+      "dependencies": [
+        "motion",
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/ui/gooey-nav.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/gooey-nav.tsx"
+        }
+      ],
+      "categories": [
+        "navigation"
+      ]
     },
     {
       "name": "magnetic-button",
       "type": "registry:ui",
       "title": "Magnetic Button",
-      "description": "A button that leans toward the cursor, then settles."
+      "description": "A button that leans toward the cursor, then settles.",
+      "dependencies": [
+        "motion",
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/ui/magnetic-button.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/magnetic-button.tsx"
+        }
+      ],
+      "categories": [
+        "animation"
+      ]
     },
     {
       "name": "text-scramble",
       "type": "registry:ui",
       "title": "Text Scramble",
-      "description": "Headlines that decode through glyphs, left to right."
+      "description": "Headlines that decode through glyphs, left to right.",
+      "dependencies": [
+        "motion",
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/ui/text-scramble.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/text-scramble.tsx"
+        }
+      ],
+      "categories": [
+        "text"
+      ]
     },
     {
       "name": "compare-slider",
       "type": "registry:ui",
       "title": "Compare Slider",
-      "description": "Before and after split by a draggable divider."
+      "description": "Before and after split by a draggable divider.",
+      "dependencies": [
+        "motion",
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/ui/compare-slider.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/compare-slider.tsx"
+        }
+      ],
+      "categories": [
+        "layout"
+      ]
     },
     {
       "name": "slide-to-confirm",
       "type": "registry:ui",
       "title": "Slide to Confirm",
-      "description": "A knob that must travel to commit, flicks count too."
+      "description": "A knob that must travel to commit, flicks count too.",
+      "dependencies": [
+        "motion",
+        "lucide-react",
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/ui/slide-to-confirm.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/slide-to-confirm.tsx"
+        }
+      ],
+      "categories": [
+        "general"
+      ]
     },
     {
       "name": "hold-to-delete",
       "type": "registry:ui",
       "title": "Hold to Delete",
-      "description": "A destructive action that only fires if you keep holding."
+      "description": "A destructive action that only fires if you keep holding.",
+      "dependencies": [
+        "motion",
+        "lucide-react",
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/ui/hold-to-delete.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/hold-to-delete.tsx"
+        }
+      ],
+      "categories": [
+        "animation"
+      ]
     },
     {
       "name": "tilt-card",
       "type": "registry:ui",
       "title": "Tilt Card",
-      "description": "A card that tips toward the pointer with real perspective."
+      "description": "A card that tips toward the pointer with real perspective.",
+      "dependencies": [
+        "motion",
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/ui/tilt-card.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/tilt-card.tsx"
+        }
+      ],
+      "categories": [
+        "animation"
+      ]
     },
     {
       "name": "segmented-control",
       "type": "registry:ui",
       "title": "Segmented Control",
-      "description": "A radio group where the selection pill stretches as it travels."
+      "description": "A radio group where the selection pill stretches as it travels.",
+      "dependencies": [
+        "motion",
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/ui/segmented-control.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/segmented-control.tsx"
+        }
+      ],
+      "categories": [
+        "navigation"
+      ]
     },
     {
       "name": "sparkline",
       "type": "registry:ui",
       "title": "Sparkline",
-      "description": "A self-drawing line chart that scales to any width."
+      "description": "A self-drawing line chart that scales to any width.",
+      "dependencies": [
+        "motion",
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/ui/sparkline.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/sparkline.tsx"
+        }
+      ],
+      "categories": [
+        "data"
+      ]
     },
     {
       "name": "task-list",
       "type": "registry:ui",
       "title": "Task List",
-      "description": "Checklist where finishing a row sweeps a strike across it."
+      "description": "Checklist where finishing a row sweeps a strike across it.",
+      "dependencies": [
+        "motion",
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/ui/task-list.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/task-list.tsx"
+        }
+      ],
+      "categories": [
+        "general"
+      ]
     },
     {
       "name": "word-rotator",
       "type": "registry:ui",
       "title": "Word Rotator",
-      "description": "Cycles words by moving the letters they share."
+      "description": "Cycles words by moving the letters they share.",
+      "dependencies": [
+        "motion",
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/ui/word-rotator.tsx",
+          "type": "registry:ui",
+          "target": "components/ui/word-rotator.tsx"
+        }
+      ],
+      "categories": [
+        "text"
+      ]
     }
   ]
 }

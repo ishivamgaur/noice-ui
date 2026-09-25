@@ -12,6 +12,8 @@
  *   npx shadcn@latest add https://your-domain.com/r/button.json
  * Or namespaced (shadcn CLI 3.0+) via `registries` in components.json:
  *   npx shadcn@latest add @noice/button
+ * Or straight from GitHub, no server involved:
+ *   npx shadcn@latest add ishivamgaur/noice-ui/button
  *
  * The official shadcn MCP server (`npx shadcn mcp init`) reads those same
  * registry URLs, so AI agents can discover + install components for free.
@@ -92,6 +94,16 @@ const registryJson = {
     type: "registry:ui",
     title: c.title,
     description: c.description,
+    dependencies: c.dependencies,
+    registryDependencies: c.registryDependencies,
+    files: [
+      {
+        path: `registry/ui/${c.name}.tsx`,
+        type: "registry:ui",
+        target: `components/ui/${c.name}.tsx`,
+      },
+    ],
+    categories: [c.category.toLowerCase()],
   })),
 };
 const registryJsonString = JSON.stringify(registryJson, null, 2);
