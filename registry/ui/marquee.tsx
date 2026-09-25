@@ -6,15 +6,21 @@ import { cn } from "@/lib/utils";
 export interface MarqueeProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Reverse scroll direction. @default false */
   reverse?: boolean;
-  /** Pause scrolling while hovered. @default true */
+  /** Pause scrolling while hovered or focused. @default true */
   pauseOnHover?: boolean;
   /** Seconds per loop. @default 40 */
   duration?: number;
+  /** Scroll this far instead of 50%, for grids that do not split evenly. */
+  distance?: string;
 }
 
+let uid = 0;
+
 /**
- * An infinite scrolling row. Children are duplicated internally so the
- * loop is seamless. Edges fade via mask. Honors reduced motion.
+ * An infinite scrolling row. Children are duplicated internally to make
+ * the loop seamless, so the copy is hidden from assistive technology and
+ * only the original set is announced. The keyframes are emitted with the
+ * component so the file needs nothing from the host stylesheet.
  */
 export function Marquee({
   children,
@@ -22,27 +28,49 @@ export function Marquee({
   reverse = false,
   pauseOnHover = true,
   duration = 40,
+  distance = "50%",
   ...props
 }: MarqueeProps) {
+  const id = React.useMemo(() => `mq-${++uid}`, []);
+
   return (
     <div
       className={cn(
-        "group flex w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]",
+        "group relative flex w-full flex-nowrap overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]",
         className
       )}
       {...props}
     >
+      <style>{`
+@keyframes marquee-${id} { from { transform: translateX(0); } to { transform: translateX(-${distance}); } }
+`}</style>
       <div
         className={cn(
-          "animate-marquee flex w-max shrink-0 items-stretch gap-4 pr-4",
-          pauseOnHover && "group-hover:[animation-play-state:paused]"
+          "flex w-max shrink-0 flex-nowrap items-stretch gap-4 pr-4 motion-reduce:[animation:none]",
+          pauseOnHover && "group-hover:[animation-play-state:paused] group-focus-within:[animation-play-state:paused]"
         )}
         style={{
-          animationDuration: `${duration}s`,
-          animationDirection: reverse ? "reverse" : undefined,
+          animation: `marquee-${id} ${duration}s linear infinite${
+            reverse ? " reverse" : ""
+          }`,
         }}
       >
         {children}
+      </div>
+      {/* The loop copy. Hidden from the accessibility tree and from the
+          tab order, so the row is not read or tabbed through twice. */}
+      <div
+        aria-hidden
+        className={cn(
+          "flex w-max shrink-0 flex-nowrap items-stretch gap-4 pr-4 motion-reduce:[animation:none]",
+          pauseOnHover && "group-hover:[animation-play-state:paused] group-focus-within:[animation-play-state:paused]"
+        )}
+        style={{
+          animation: `marquee-${id} ${duration}s linear infinite${
+            reverse ? " reverse" : ""
+          }`,
+        }}
+      >
         {children}
       </div>
     </div>

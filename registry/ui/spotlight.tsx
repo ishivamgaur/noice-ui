@@ -30,7 +30,7 @@ export function Spotlight({
   const x = useSpring(mouseX, { stiffness: 150, damping: 25 });
   const y = useSpring(mouseY, { stiffness: 150, damping: 25 });
 
-  const background = useMotionTemplate`radial-gradient(${size}px circle at ${x}px ${y}px, color-mix(in oklab, var(--color-brand) ${Math.round(
+  const background = useMotionTemplate`radial-gradient(${size}px circle at ${x}px ${y}px, color-mix(in oklab, var(--brand, var(--color-brand, #932a35)) ${Math.round(
     intensity * 100
   )}%, transparent), transparent 70%)`;
 

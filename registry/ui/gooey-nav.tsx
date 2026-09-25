@@ -12,7 +12,7 @@ export interface GooeyNavProps
   value?: number;
   defaultValue?: number;
   onChange?: (index: number) => void;
-  /** Brand fill of the blob. @default "var(--brand)" */
+  /** Brand fill of the blob. Falls back to the theme brand, then a literal. */
   activeColor?: string;
 }
 
@@ -32,7 +32,7 @@ export function GooeyNav({
   value,
   defaultValue = 0,
   onChange,
-  activeColor = "var(--brand)",
+  activeColor = "var(--brand, #932a35)",
   className,
   ...props
 }: GooeyNavProps) {

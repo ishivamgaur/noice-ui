@@ -59,15 +59,22 @@ export function Gauge({
   const needle = useTransform(spring, (v) => START + (v / 100) * FULL - 270);
 
   // Paint ticks and the readout directly, bypassing React on every frame.
+  // The meter's value is kept in step with it, since the animated number
+  // is the accessible reading and must not drift from the picture.
   React.useEffect(() => {
     const paint = (v: number) => {
+      const pct = Math.round(v);
       const lit = Math.round((v / 100) * TICKS);
       ticks.current.forEach((tick, i) => {
         if (i <= lit) tick?.setAttribute("data-lit", "");
         else tick?.removeAttribute("data-lit");
       });
-      if (readout.current)
-        readout.current.textContent = String(Math.round(v));
+      if (readout.current) readout.current.textContent = String(pct);
+      const root = ref.current;
+      if (root) {
+        root.setAttribute("aria-valuenow", String(pct));
+        root.setAttribute("aria-valuetext", `${pct} of 100`);
+      }
     };
     paint(spring.get());
     return spring.on("change", paint);
@@ -96,6 +103,15 @@ export function Gauge({
   return (
     <div
       ref={ref}
+      // The needle and ticks are decorative, but the reading is the point,
+      // so expose it as a meter. The value tracks the animation, so it is
+      // written to the DOM directly alongside the readout.
+      role="meter"
+      aria-valuenow={Math.round(value)}
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-label={label}
+      aria-valuetext={`${Math.round(value)} of 100`}
       className={cn("flex flex-col items-center", className)}
       {...props}
     >

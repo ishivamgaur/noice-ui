@@ -46,7 +46,7 @@ export function GlareCard({
       style={
         {
           "--glare-size": `${size}px`,
-          "--glare": `radial-gradient(${size}px circle at var(--glare-x, 50%) var(--glare-y, 50%), color-mix(in oklab, var(--color-brand) ${Math.round(intensity * 100)}%, transparent), transparent 70%)`,
+          "--glare": `radial-gradient(${size}px circle at var(--glare-x, 50%) var(--glare-y, 50%), color-mix(in oklab, var(--brand, var(--color-brand, #932a35)) ${Math.round(intensity * 100)}%, transparent), transparent 70%)`,
           ...style,
         } as React.CSSProperties
       }

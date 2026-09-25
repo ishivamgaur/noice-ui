@@ -51,6 +51,20 @@ export function CommandPalette({
   const [query, setQuery] = React.useState("");
   const [active, setActive] = React.useState(0);
   const options = React.useRef<Array<HTMLDivElement | null>>([]);
+  const panel = React.useRef<HTMLDivElement>(null);
+  const trigger = React.useRef<HTMLButtonElement>(null);
+  // Per-instance ids, so two palettes on one page cannot collide and
+  // break each other's aria-controls and aria-activedescendant.
+  const uid = React.useId().replace(/[^a-zA-Z0-9]/g, "");
+  const listId = `palette-${uid}-list`;
+  const optionId = (id: string) => `palette-${uid}-${id}`;
+
+  const close = React.useCallback(() => {
+    setOpen(false);
+    // Focus has to go back where it came from, or a keyboard user is
+    // dumped at the top of the document when the dialog unmounts.
+    trigger.current?.focus({ preventScroll: true });
+  }, []);
 
   React.useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -102,9 +116,40 @@ export function CommandPalette({
   };
 
   const run = (command: PaletteCommand) => {
-    setOpen(false);
+    close();
     onRun?.(command);
   };
+
+  // Keep Tab inside the dialog while it is open, and stop the page behind
+  // it from scrolling. A modal that leaks focus to the page underneath is
+  // disorienting for keyboard and screen reader users alike.
+  React.useEffect(() => {
+    if (!open) return;
+    const root = panel.current;
+    const previousOverflow = document.documentElement.style.overflow;
+    document.documentElement.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Tab" || !root) return;
+      const focusable = root.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), input, [tabindex]:not([tabindex="-1"])'
+      );
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.documentElement.style.overflow = previousOverflow;
+    };
+  }, [open]);
 
   const onInputKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "ArrowDown") {
@@ -131,13 +176,14 @@ export function CommandPalette({
       const hit = results[active];
       if (hit) run(hit.command);
     } else if (e.key === "Escape") {
-      setOpen(false);
+      close();
     }
   };
 
   return (
     <div className={cn("flex justify-center", className)} {...props}>
       <button
+        ref={trigger}
         type="button"
         onClick={openPalette}
         aria-haspopup="dialog"
@@ -156,12 +202,13 @@ export function CommandPalette({
           <div
             aria-hidden
             className="absolute inset-0 bg-black/30"
-            onClick={() => setOpen(false)}
+            onClick={close}
           />
           <div
             role="dialog"
             aria-modal="true"
             aria-label="Commands"
+            ref={panel}
             className="relative w-full max-w-md overflow-hidden rounded-2xl border border-border bg-background shadow-raised"
           >
             <input
@@ -175,14 +222,14 @@ export function CommandPalette({
               placeholder={placeholder}
               role="combobox"
               aria-expanded="true"
-              aria-controls="palette-list"
+              aria-controls={listId}
               aria-activedescendant={
-                results[active] ? `palette-${results[active].command.id}` : undefined
+                results[active] ? optionId(results[active].command.id) : undefined
               }
               className="h-12 w-full border-b border-border bg-transparent px-4 text-[15px] outline-none placeholder:text-muted-foreground"
             />
             <div
-              id="palette-list"
+              id={listId}
               role="listbox"
               aria-label="Matching commands"
               className="max-h-64 overflow-y-auto p-2"
@@ -206,7 +253,7 @@ export function CommandPalette({
                     ref={(el) => {
                       options.current[row.index] = el;
                     }}
-                    id={`palette-${row.command.id}`}
+                    id={optionId(row.command.id)}
                     role="option"
                     aria-selected={row.index === active}
                     onMouseMove={() => setActive(row.index)}

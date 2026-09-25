@@ -59,15 +59,25 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/*
+          Applies the stored theme before first paint. It lives in the
+          document head rather than inside ThemeProvider, because React
+          does not execute scripts produced during client render, and
+          warns about them. Here it ships in the initial HTML and runs
+          immediately, so there is no flash of the wrong theme.
+        */}
+        <script
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var k="theme",t=localStorage.getItem(k)||"system",d=t==="dark"||(t==="system"&&window.matchMedia("(prefers-color-scheme: dark)").matches),r=document.documentElement;r.classList.toggle("dark",d);r.style.colorScheme=d?"dark":"light"}catch(e){}})();`,
+          }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-background font-sans text-foreground antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <ThemeProvider defaultTheme="system">
           <VisibilityGuard />
           {children}
         </ThemeProvider>

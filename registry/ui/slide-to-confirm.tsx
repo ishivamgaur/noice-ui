@@ -82,7 +82,9 @@ export function SlideToConfirm({
     recent.current = recent.current.filter((p) => now - p.t < 100);
   };
 
-  const onPointerUp = () => {
+  // Only a real release can complete. A cancelled gesture (the OS took
+  // over, a notification stole it) must snap home rather than confirm.
+  const release = () => {
     const d = drag.current;
     if (!d.active || done) return;
     d.active = false;
@@ -97,6 +99,15 @@ export function SlideToConfirm({
       finish();
       return;
     }
+    snapHome();
+  };
+
+  const onPointerCancel = () => {
+    drag.current.active = false;
+    snapHome();
+  };
+
+  const snapHome = () => {
     if (reduceMotion) setKnob(0);
     else {
       animate(knob, 0, {
@@ -123,8 +134,8 @@ export function SlideToConfirm({
       ref={track}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
-      onPointerUp={onPointerUp}
-      onPointerCancel={onPointerUp}
+      onPointerUp={release}
+      onPointerCancel={onPointerCancel}
       className={cn(
         "relative h-14 w-full max-w-72 touch-none overflow-hidden rounded-full border border-border bg-surface select-none",
         className

@@ -94,13 +94,19 @@ export function TextScramble({ text, className, ...props }: TextScrambleProps) {
       aria-label={`Replay scramble: ${text}`}
       onMouseEnter={scramble}
       onFocus={scramble}
+      // A role of button promises it responds to activation, so a plain
+      // click has to replay too, not just hover and the keyboard.
+      onClick={scramble}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
           scramble();
         }
       }}
-      className={cn("inline-flex cursor-default outline-none", className)}
+      className={cn(
+        "inline-flex cursor-default rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+        className
+      )}
       {...props}
     >
       <span aria-hidden className="font-mono">

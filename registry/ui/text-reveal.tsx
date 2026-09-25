@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { motion, useInView } from "motion/react";
+import { motion, useInView, useReducedMotion } from "motion/react";
 import { cn } from "@/lib/utils";
 
 export interface TextRevealProps extends React.HTMLAttributes<HTMLSpanElement> {
@@ -14,8 +14,9 @@ export interface TextRevealProps extends React.HTMLAttributes<HTMLSpanElement> {
 }
 
 /**
- * Blurs and lifts each word into place, in sequence, the first time
- * the line scrolls into view. Plays once; static under reduced motion.
+ * Blurs and lifts each word into place, in sequence, the first time the
+ * line scrolls into view. Plays once. Under reduced motion the words are
+ * simply rendered in place, with no travel and no blur.
  */
 export function TextReveal({
   children,
@@ -26,6 +27,7 @@ export function TextReveal({
   ...props
 }: TextRevealProps) {
   const ref = React.useRef<HTMLSpanElement>(null);
+  const reduceMotion = useReducedMotion();
   const inView = useInView(ref, { once: true, amount });
   const text = typeof children === "string" ? children : null;
 
@@ -37,13 +39,23 @@ export function TextReveal({
     );
   }
 
+  const words = text.split(" ");
+
+  if (reduceMotion) {
+    return (
+      <span ref={ref} className={cn("inline-block", className)} {...props}>
+        {text}
+      </span>
+    );
+  }
+
   return (
     <span
       ref={ref}
       className={cn("inline-block", className)}
       {...props}
     >
-      {text.split(" ").map((word, i) => (
+      {words.map((word, i) => (
         <motion.span
           key={`${word}-${i}`}
           className="inline-block [will-change:transform,opacity,filter]"
@@ -60,8 +72,10 @@ export function TextReveal({
             damping: 26,
           }}
         >
+          {/* The space lives outside the animated span, so a word can never
+              be the last thing on a line and lose its separator. */}
           {word}
-          {i < text.split(" ").length - 1 ? " " : ""}
+          {i < words.length - 1 ? "\u00A0" : ""}
         </motion.span>
       ))}
     </span>

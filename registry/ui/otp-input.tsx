@@ -54,6 +54,11 @@ export function OtpInput({
   const code = (value ?? inner).slice(0, length);
   const reduceMotion = useReducedMotion();
   const slots = React.useRef<Array<HTMLInputElement | null>>([]);
+  const uid = React.useId().replace(/[^a-zA-Z0-9]/g, "");
+  // A slot is not always a digit: naming every one "Digit" misleads anyone
+  // using the letters or mixed mode.
+  const slotNoun =
+    type === "numbers" ? "Digit" : type === "letters" ? "Letter" : "Character";
 
   const commit = (next: string) => {
     const clean = next.slice(0, length);
@@ -61,7 +66,6 @@ export function OtpInput({
     onChange?.(clean);
     if (clean.length === length) onComplete?.(clean);
   };
-
   const focusSlot = (i: number) => {
     const clamped = Math.max(0, Math.min(length - 1, i));
     slots.current[clamped]?.focus();
@@ -77,9 +81,12 @@ export function OtpInput({
   };
 
   const onSlotChange = (i: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    // Mobile and IME keyboards commit through input events, not keydown.
-    const char = e.target.value.slice(-1);
-    if (!char) {
+    // Browsers and password managers drop a whole code into the first
+    // field via autofill, and iOS pastes the entire string into whichever
+    // slot was tapped. Both arrive here, so take every accepted character
+    // rather than only the last one, which used to throw the code away.
+    const raw = e.target.value;
+    if (!raw) {
       if (code[i]) {
         const next = code.split("");
         next[i] = "";
@@ -88,13 +95,20 @@ export function OtpInput({
       focusSlot(i);
       return;
     }
-    if (FILTER[type].test(char)) {
-      put(i, char);
-    } else {
-      // Rejected keystroke: restore the controlled value by hand,
-      // since no state changed and React would not re-render.
+    const chars = raw
+      .split("")
+      .filter((c) => FILTER[type].test(c))
+      .slice(0, length);
+    if (chars.length === 0) {
+      // Nothing acceptable was typed. Put the controlled value back by
+      // hand, since no state changed and React will not re-render.
       e.target.value = code[i] ?? "";
+      return;
     }
+    const next = Array.from({ length }, (_, k) => code[k] ?? "");
+    for (let k = 0; k < chars.length && i + k < length; k++) next[i + k] = chars[k];
+    commit(next.join(""));
+    focusSlot(Math.min(length - 1, i + chars.length));
   };
 
   const onKeyDown = (i: number) => (e: React.KeyboardEvent) => {
@@ -159,7 +173,9 @@ export function OtpInput({
           autoFocus={autoFocus && i === 0}
           inputMode={type === "letters" ? "text" : "numeric"}
           autoComplete={i === 0 ? "one-time-code" : "off"}
-          aria-label={`Digit ${i + 1} of ${length}`}
+          aria-label={`${slotNoun} ${i + 1} of ${length}`}
+          aria-invalid={status === "error" || undefined}
+          aria-describedby={status === "error" ? `${uid}-status` : undefined}
           className={cn(
             "rounded-xl border bg-card text-center font-semibold tabular-nums outline-none transition-[border-color,box-shadow] duration-150 placeholder:text-muted-foreground focus:border-brand focus:ring-2 focus:ring-brand/25 disabled:opacity-50",
             SIZES[size],
@@ -168,6 +184,12 @@ export function OtpInput({
           )}
         />
       ))}
+      {/* Status was previously signalled by border colour alone, which is
+          invisible to anyone who cannot distinguish the hues. */}
+      <span id={`${uid}-status`} role="status" className="sr-only">
+        {status === "error" ? "That code is not correct." : ""}
+        {status === "success" ? "Code accepted." : ""}
+      </span>
     </motion.div>
   );
 }

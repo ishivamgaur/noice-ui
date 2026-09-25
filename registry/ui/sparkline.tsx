@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 export interface SparklineProps extends React.SVGProps<SVGSVGElement> {
   /** The series to draw. */
   data: number[];
-  /** Stroke colour. @default "var(--color-brand)" */
+  /** Stroke colour. Falls back to the theme brand, then a literal. */
   color?: string;
   /** Fill the area under the line. @default true */
   area?: boolean;
@@ -31,7 +31,7 @@ const r2 = (n: number) => Math.round(n * 100) / 100;
  */
 export function Sparkline({
   data,
-  color = "var(--color-brand)",
+  color = "var(--brand, var(--color-brand, #932a35))",
   area = true,
   animate = true,
   height = 40,

@@ -36,9 +36,6 @@
   --icon-pnpm: #f69220;
   --icon-yarn: #2c8ebb;
   --icon-bun: #141414;
-  --icon-react: #149eca;
-  --icon-tailwind: #0e9cb0;
-  --icon-framer: #0055ff;
   /* Card surface: one step off the page, neutral like the reference.
      Cards sit on it at rest and the preview window sits on it. */
   --surface: oklch(0.96 0 0);
@@ -78,8 +75,6 @@
   --inset-well: inset 0 3px 8px -3px oklch(1 0 0 / 0.07),
     inset 0 -1px 0 0 oklch(0 0 0 / 0.5);
   --icon-bun: #fbf1df;
-  --icon-react: #61dafb;
-  --icon-tailwind: #06b6d4;
   --surface: oklch(0.21 0 0);
   --scrollbar-thumb: oklch(1 0 0 / 0.11);
   --scrollbar-thumb-hover: oklch(1 0 0 / 0.45);
@@ -115,9 +110,6 @@
   --color-icon-pnpm: var(--icon-pnpm);
   --color-icon-yarn: var(--icon-yarn);
   --color-icon-bun: var(--icon-bun);
-  --color-icon-react: var(--icon-react);
-  --color-icon-tailwind: var(--icon-tailwind);
-  --color-icon-framer: var(--icon-framer);
   --color-surface: var(--surface);
   --shadow-raised: var(--shadow-raised);
   --shadow-inset-well: var(--inset-well);
@@ -219,4 +211,20 @@
 }
 ::-webkit-scrollbar-corner {
   background: transparent;
+}
+
+/*
+ * Theme switching is a hard cut, never a crossfade.
+ *
+ * The class on <html> flips in one go, so every token-driven colour,
+ * border and shadow changes at once. A transition declared anywhere would
+ * otherwise animate all of them together and read as a flicker. The
+ * marker attribute is set for the duration of the swap and removed after
+ * the frame is committed, so this costs nothing when idle and cannot be
+ * left on by a component that adds a transition later.
+ */
+html[data-theme-switching="true"] *,
+html[data-theme-switching="true"] *::before,
+html[data-theme-switching="true"] *::after {
+  transition: none !important;
 }

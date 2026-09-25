@@ -31,6 +31,7 @@ export function ExpandingSearch({
   const [open, setOpen] = React.useState(false);
   const [query, setQuery] = React.useState("");
   const inputRef = React.useRef<HTMLInputElement>(null);
+  const buttonRef = React.useRef<HTMLButtonElement>(null);
 
   const expand = () => {
     if (open) return;
@@ -41,7 +42,8 @@ export function ExpandingSearch({
     }
     // Let the width start growing before focus steals the interaction.
     flushSync(() => setOpen(true));
-    requestAnimationFrame(() => inputRef.current?.focus());
+    const id = requestAnimationFrame(() => inputRef.current?.focus());
+    return () => cancelAnimationFrame(id);
   };
 
   return (
@@ -57,6 +59,7 @@ export function ExpandingSearch({
         className="flex h-10 items-center overflow-hidden rounded-full border border-border bg-surface"
       >
         <button
+          ref={buttonRef}
           type="button"
           aria-label={open ? "Close search" : "Open search"}
           onClick={() => (open ? setOpen(false) : expand())}
@@ -85,13 +88,19 @@ export function ExpandingSearch({
           onKeyDown={(e) => {
             if (e.key === "Escape") {
               setOpen(false);
-              setQuery("");
+              // The consumer's query has to be cleared too, otherwise their
+              // state keeps the old search while the field is empty.
+              if (query) {
+                setQuery("");
+                onSearch?.("");
+              }
+              buttonRef.current?.focus();
             }
           }}
           placeholder={placeholder}
           aria-label={placeholder}
           tabIndex={open ? 0 : -1}
-          className="h-full w-full min-w-0 bg-transparent pr-3 text-sm outline-none placeholder:text-muted-foreground"
+          className="h-full w-full min-w-0 bg-transparent pr-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
         />
         {open && query && (
           <button

@@ -48,9 +48,13 @@ export function HoldToDelete({
     navigator.vibrate?.(10);
   };
 
+  // A zero duration has no transition to end, so there is no
+  // `transitionend` to wait for. Fire straight away instead of silently
+  // never deleting.
   const start = () => {
     if (phase === "done") return;
     setPhase("holding");
+    if (duration <= 0) fire();
   };
 
   const cancel = () => {
@@ -59,7 +63,11 @@ export function HoldToDelete({
 
   const onTransitionEnd = (e: React.TransitionEvent) => {
     // Only the fill's own transition signals completion.
-    if (e.target === fill.current && e.propertyName === "clip-path" && phase === "holding")
+    if (
+      e.target === fill.current &&
+      e.propertyName === "clip-path" &&
+      phase === "holding"
+    )
       fire();
   };
 
@@ -84,7 +92,17 @@ export function HoldToDelete({
   return (
     <button
       type="button"
-      onPointerDown={start}
+      // Consumer props land first so the handlers below win. Letting a
+      // caller replace onPointerDown or onTransitionEnd would quietly break
+      // the guard that makes this button safe.
+      {...props}
+      // Only the primary button starts a destructive hold. Without this a
+      // right or middle click would begin filling, and releasing it would
+      // delete.
+      onPointerDown={(e) => {
+        if (e.button !== 0) return;
+        start();
+      }}
       onPointerUp={cancel}
       onPointerLeave={cancel}
       onPointerCancel={cancel}
@@ -93,12 +111,16 @@ export function HoldToDelete({
       onBlur={cancel}
       onContextMenu={(e) => e.preventDefault()}
       onTransitionEnd={onTransitionEnd}
+      // A zero-duration activation has no key to hold, so a plain click
+      // commits. This is also the only path assistive technology can take.
+      onClick={(e) => {
+        if (e.detail === 0 && duration <= 0 && phase !== "done") fire();
+      }}
       className={cn(
         "relative isolate inline-flex h-11 select-none items-center justify-center overflow-hidden rounded-full border border-border px-6 text-sm font-medium outline-none transition-[transform,color] focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-[0.98] motion-reduce:active:scale-100",
         phase === "done" ? "text-brand" : "text-foreground",
         className
       )}
-      {...props}
     >
       <span
         ref={fill}

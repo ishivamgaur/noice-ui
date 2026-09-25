@@ -60,18 +60,37 @@ export function CodeBlock({
   const copy = async () => {
     try {
       await navigator.clipboard.writeText(code);
+      setCopied(true);
     } catch {
+      // Clipboard API is blocked in some contexts, so fall back to a
+      // throwaway textarea. Its result matters: reporting success when
+      // the copy silently failed is worse than not reporting at all.
       const ta = document.createElement("textarea");
       ta.value = code;
+      ta.setAttribute("readonly", "");
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
       document.body.appendChild(ta);
       ta.select();
-      document.execCommand("copy");
-      ta.remove();
+      let ok = false;
+      try {
+        ok = document.execCommand("copy");
+      } catch {
+        ok = false;
+      } finally {
+        ta.remove();
+      }
+      setCopied(ok);
     }
-    setCopied(true);
     if (timer.current) clearTimeout(timer.current);
     timer.current = setTimeout(() => setCopied(false), 1800);
   };
+
+  React.useEffect(() => {
+    return () => {
+      if (timer.current) clearTimeout(timer.current);
+    };
+  }, []);
 
   const lines = code.replace(/\n$/, "").split("\n");
   const gutter = String(lines.length).length;
@@ -106,7 +125,7 @@ export function CodeBlock({
         role="region"
         aria-label={filename ? `${filename} code` : `${language} code`}
         tabIndex={0}
-        className="overflow-x-auto p-4 outline-none"
+        className="overflow-x-auto p-4 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
       >
         <pre className="font-mono text-[13px] leading-6">
           {lines.map((line, i) => (

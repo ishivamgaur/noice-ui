@@ -28,13 +28,44 @@ export function SegmentedControl({
   ...props
 }: SegmentedControlProps) {
   const reduceMotion = useReducedMotion();
+  // Guard the empty case: `100 / 0` would put NaN into the motion values
+  // and the pill would fly off to nowhere.
+  if (options.length === 0) return null;
+
+  return (
+    <SegmentedControlInner
+      options={options}
+      value={value}
+      onChange={onChange}
+      label={label}
+      reduceMotion={reduceMotion}
+      className={className}
+      {...props}
+    />
+  );
+}
+
+function SegmentedControlInner({
+  options,
+  value,
+  onChange,
+  label,
+  reduceMotion,
+  className,
+  ...props
+}: SegmentedControlProps & { reduceMotion: boolean | null }) {
+  const buttons = React.useRef<Array<HTMLButtonElement | null>>([]);
   const index = Math.max(0, options.indexOf(value));
   const n = options.length;
   const width = 100 / n;
 
+  // Roving focus: selecting with the keyboard has to actually move DOM
+  // focus, not just the tabIndex. Without this the focus ring stays on the
+  // radio that was just deselected.
   const move = (next: number) => {
     const wrapped = (next + n) % n;
     onChange(options[wrapped]);
+    buttons.current[wrapped]?.focus();
   };
 
   const onKeyDown = (e: React.KeyboardEvent) => {
@@ -46,10 +77,10 @@ export function SegmentedControl({
       move(index - 1);
     } else if (e.key === "Home") {
       e.preventDefault();
-      onChange(options[0]);
+      move(0);
     } else if (e.key === "End") {
       e.preventDefault();
-      onChange(options[n - 1]);
+      move(n - 1);
     }
   };
 
@@ -85,12 +116,18 @@ export function SegmentedControl({
           return (
             <button
               key={option}
+              ref={(el) => {
+                buttons.current[i] = el;
+              }}
               type="button"
               role="radio"
               aria-checked={selected}
               // Roving tab focus: the group is one tab stop.
               tabIndex={selected ? 0 : -1}
-              onClick={() => onChange(option)}
+              onClick={() => {
+                onChange(option);
+                buttons.current[i]?.focus();
+              }}
               className={cn(
                 // Equal flex width plus a fixed minimum, so every label
                 // breathes the same amount on both sides however the track
