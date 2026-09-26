@@ -1,182 +1,219 @@
 [
   {
+    "name": "utils",
+    "title": "Utils",
+    "description": "The cn helper for merging Tailwind classes.",
+    "category": "General",
+    "path": "registry/ui/utils.ts"
+  },
+  {
     "name": "button",
     "title": "Button",
     "description": "Displays a button with multiple variants and sizes.",
-    "category": "General"
+    "category": "General",
+    "path": "registry/ui/button.tsx"
   },
   {
     "name": "card",
     "title": "Card",
     "description": "Displays a card with header, content, and footer sections.",
-    "category": "Layout"
+    "category": "Layout",
+    "path": "registry/ui/card.tsx"
   },
   {
     "name": "spotlight",
     "title": "Spotlight",
     "description": "A container with a soft glow that follows the cursor. Perfect for hero sections.",
-    "category": "Backgrounds"
+    "category": "Backgrounds",
+    "path": "registry/ui/spotlight.tsx"
   },
   {
     "name": "dot-grid",
     "title": "Dot Grid",
     "description": "A dotted texture layer that dissolves outward. Drop it under any section.",
-    "category": "Backgrounds"
+    "category": "Backgrounds",
+    "path": "registry/ui/dot-grid.tsx"
   },
   {
     "name": "marquee",
     "title": "Marquee",
     "description": "An infinite scrolling row with edge fade. Children loop seamlessly.",
-    "category": "Animation"
+    "category": "Animation",
+    "path": "registry/ui/marquee.tsx"
   },
   {
     "name": "number-ticker",
     "title": "Number Ticker",
     "description": "Counts up to a value the first time it scrolls into view.",
-    "category": "Text"
+    "category": "Text",
+    "path": "registry/ui/number-ticker.tsx"
   },
   {
     "name": "scroll-progress",
     "title": "Scroll Progress",
     "description": "A spring-smoothed bar that tracks document scroll.",
-    "category": "Effects"
+    "category": "Effects",
+    "path": "registry/ui/scroll-progress.tsx"
   },
   {
     "name": "glare-card",
     "title": "Glare Card",
     "description": "A card with a soft glare that follows the pointer.",
-    "category": "Effects"
+    "category": "Effects",
+    "path": "registry/ui/glare-card.tsx"
   },
   {
     "name": "animated-list",
     "title": "Animated List",
     "description": "Reveals its children in sequence when scrolled into view.",
-    "category": "Effects"
+    "category": "Effects",
+    "path": "registry/ui/animated-list.tsx"
   },
   {
     "name": "border-beam",
     "title": "Border Beam",
     "description": "A light travelling around the border of any element.",
-    "category": "Effects"
+    "category": "Effects",
+    "path": "registry/ui/border-beam.tsx"
   },
   {
     "name": "text-reveal",
     "title": "Text Reveal",
     "description": "Blurs and lifts each word into place, in sequence.",
-    "category": "Text"
+    "category": "Text",
+    "path": "registry/ui/text-reveal.tsx"
   },
   {
     "name": "accordion",
     "title": "Accordion",
     "description": "Panels unfold from a hairline, each open on its own.",
-    "category": "General"
+    "category": "General",
+    "path": "registry/ui/accordion.tsx"
   },
   {
     "name": "gauge",
     "title": "Gauge",
     "description": "A half-circle meter whose needle springs to the value.",
-    "category": "Animation"
+    "category": "Animation",
+    "path": "registry/ui/gauge.tsx"
   },
   {
     "name": "loader-set",
     "title": "Loader Set",
     "description": "Ring, dots, bar, and skeleton, each with a finished state.",
-    "category": "Animation"
+    "category": "Animation",
+    "path": "registry/ui/loader-set.tsx"
   },
   {
     "name": "avatar-stack",
     "title": "Avatar Stack",
     "description": "Overlapping avatars that fan out on hover and focus.",
-    "category": "General"
+    "category": "General",
+    "path": "registry/ui/avatar-stack.tsx"
   },
   {
     "name": "number-stepper",
     "title": "Number Stepper",
     "description": "Minus and plus around a display that rolls digit by digit.",
-    "category": "General"
+    "category": "General",
+    "path": "registry/ui/number-stepper.tsx"
   },
   {
     "name": "expanding-search",
     "title": "Expanding Search",
     "description": "A pill that grows into a real input and stays clickable.",
-    "category": "Navigation"
+    "category": "Navigation",
+    "path": "registry/ui/expanding-search.tsx"
   },
   {
     "name": "otp-input",
     "title": "OTP Input",
     "description": "One-time-code slots with paste fan-out and success rings.",
-    "category": "General"
+    "category": "General",
+    "path": "registry/ui/otp-input.tsx"
   },
   {
     "name": "code-block",
     "title": "Code Block",
     "description": "Framed code with line numbers and copy, no highlighter needed.",
-    "category": "General"
+    "category": "General",
+    "path": "registry/ui/code-block.tsx"
   },
   {
     "name": "gooey-nav",
     "title": "Gooey Nav",
     "description": "Segmented nav where the active pill melts between stops.",
-    "category": "Navigation"
+    "category": "Navigation",
+    "path": "registry/ui/gooey-nav.tsx"
   },
   {
     "name": "magnetic-button",
     "title": "Magnetic Button",
     "description": "A button that leans toward the cursor, then settles.",
-    "category": "Animation"
+    "category": "Animation",
+    "path": "registry/ui/magnetic-button.tsx"
   },
   {
     "name": "text-scramble",
     "title": "Text Scramble",
     "description": "Headlines that decode through glyphs, left to right.",
-    "category": "Text"
+    "category": "Text",
+    "path": "registry/ui/text-scramble.tsx"
   },
   {
     "name": "compare-slider",
     "title": "Compare Slider",
     "description": "Before and after split by a draggable divider.",
-    "category": "Layout"
+    "category": "Layout",
+    "path": "registry/ui/compare-slider.tsx"
   },
   {
     "name": "slide-to-confirm",
     "title": "Slide to Confirm",
     "description": "A knob that must travel to commit, flicks count too.",
-    "category": "General"
+    "category": "General",
+    "path": "registry/ui/slide-to-confirm.tsx"
   },
   {
     "name": "hold-to-delete",
     "title": "Hold to Delete",
     "description": "A destructive action that only fires if you keep holding.",
-    "category": "Animation"
+    "category": "Animation",
+    "path": "registry/ui/hold-to-delete.tsx"
   },
   {
     "name": "tilt-card",
     "title": "Tilt Card",
     "description": "A card that tips toward the pointer with real perspective.",
-    "category": "Animation"
+    "category": "Animation",
+    "path": "registry/ui/tilt-card.tsx"
   },
   {
     "name": "segmented-control",
     "title": "Segmented Control",
     "description": "A radio group where the selection pill stretches as it travels.",
-    "category": "Navigation"
+    "category": "Navigation",
+    "path": "registry/ui/segmented-control.tsx"
   },
   {
     "name": "sparkline",
     "title": "Sparkline",
     "description": "A self-drawing line chart that scales to any width.",
-    "category": "Data"
+    "category": "Data",
+    "path": "registry/ui/sparkline.tsx"
   },
   {
     "name": "task-list",
     "title": "Task List",
     "description": "Checklist where finishing a row sweeps a strike across it.",
-    "category": "General"
+    "category": "General",
+    "path": "registry/ui/task-list.tsx"
   },
   {
     "name": "word-rotator",
     "title": "Word Rotator",
     "description": "Cycles words by moving the letters they share.",
-    "category": "Text"
+    "category": "Text",
+    "path": "registry/ui/word-rotator.tsx"
   }
 ]

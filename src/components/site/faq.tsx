@@ -1,5 +1,6 @@
 import { Accordion } from "../../../registry/ui/accordion";
 import { Reveal } from "@/components/site/reveal";
+import { REGISTRY_NAMESPACE } from "@/lib/site";
 
 const FAQS = [
   {
@@ -20,7 +21,7 @@ const FAQS = [
   {
     question: "How does the MCP integration work?",
     answer:
-      "Register the @noice namespace in your components.json once, then run npx shadcn mcp init. Cursor, Claude, and Copilot can then browse, search, and install components in plain language.",
+      `Register the ${REGISTRY_NAMESPACE} namespace in your components.json once, then run npx shadcn mcp init. Cursor, Claude, and Copilot can then browse, search, and install components in plain language.`,
   },
   {
     question: "Can I use noiceui in commercial projects?",

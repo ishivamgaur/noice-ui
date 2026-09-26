@@ -129,14 +129,14 @@ Users add this once to their `components.json`:
     "utils": "@/lib/utils"
   },
   "registries": {
-    "@noice": {
+    "@noiceui": {
       "url": "https://ui.noicess.fun/r/{name}.json"
     }
   }
 }
 ```
 
-`{name}` is the whole trick. It lets `@noice/accordion` resolve to
+`{name}` is the whole trick. It lets `@noiceui/accordion` resolve to
 `https://ui.noicess.fun/r/accordion.json`.
 
 The `aliases` block matters: your components import from

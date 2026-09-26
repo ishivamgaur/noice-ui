@@ -202,7 +202,7 @@ export default function ComponentsGallery() {
   <Link
   href={`/components/${c.name}`}
   aria-label={`Open ${c.title} details`}
-  className="ml-auto flex size-6 shrink-0 items-center justify-center rounded-md text-muted-foreground outline-none hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-1"
+  className="ml-auto flex size-6 shrink-0 items-center justify-center rounded-md text-muted-foreground outline-none after:absolute after:-inset-2.5 after:content-[''] hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-1"
   >
   <ArrowUpRight className="size-3.5" />
   </Link>
@@ -210,7 +210,7 @@ export default function ComponentsGallery() {
 
   <div
   data-stage={c.name}
-  className="flex h-48 shrink-0 items-center justify-center overflow-hidden bg-surface p-4"
+  className="canvas-dots flex h-48 shrink-0 items-center justify-center overflow-hidden bg-surface p-4"
   >
   {Demo ? (
   /* The canvas. A fixed logical width gives every demo the same frame to

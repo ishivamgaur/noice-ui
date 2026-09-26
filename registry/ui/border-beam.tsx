@@ -14,7 +14,6 @@ export interface BorderBeamProps extends React.HTMLAttributes<HTMLDivElement> {
   color?: string;
 }
 
-let uid = 0;
 
 /**
  * A light travelling around the border. The rotating conic gradient is
@@ -37,7 +36,7 @@ export function BorderBeam({
 }: BorderBeamProps) {
   // Stable per instance so two beams on a page cannot fight over the same
   // registered angle or keyframe name.
-  const id = React.useMemo(() => `bb-${++uid}`, []);
+  const id = "bb";
 
   return (
     <div

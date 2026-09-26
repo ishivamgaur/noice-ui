@@ -11,7 +11,7 @@
  * Users install with:
  *   npx shadcn@latest add https://your-domain.com/r/button.json
  * Or namespaced (shadcn CLI 3.0+) via `registries` in components.json:
- *   npx shadcn@latest add @noice/button
+ *   npx shadcn@latest add @noiceui/button
  * Or straight from GitHub, no server involved:
  *   npx shadcn@latest add ishivamgaur/noice-ui/button
  *
@@ -23,7 +23,7 @@
  *   2. Add one entry to `registry/meta.json`
  *   3. Run `npm run registry:build`
  */
-import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -48,26 +48,47 @@ rmSync(OUT_DIR, { recursive: true, force: true });
 mkdirSync(OUT_DIR, { recursive: true });
 
 for (const component of meta.components) {
-  const sourcePath = join(REGISTRY_DIR, `${component.name}.tsx`);
+  // Components are .tsx; a registry:lib like `utils` has no JSX and is .ts.
+  // Try both rather than hardcoding one extension per item type.
+  const sourcePath = ["tsx", "ts"]
+    .map((ext) => join(REGISTRY_DIR, `${component.name}.${ext}`))
+    .find((p) => existsSync(p));
+  if (!sourcePath) {
+    throw new Error(
+      `No source found for "${component.name}" in ${REGISTRY_DIR} (.tsx or .ts)`
+    );
+  }
   const content = readFileSync(sourcePath, "utf8");
+
+  // `utils` is a registry:lib that lands at lib/utils.ts rather than a
+  // registry:ui under components/ui. Both the type and the install path are
+  // per-item for that reason, so they come from the catalog with defaults
+  // rather than being hardcoded here.
+  const type = component.type ?? "registry:ui";
+  const target =
+    component.target ?? `components/ui/${component.name}.tsx`;
+  // Repo-relative, and with the real extension: the catalog is what the
+  // GitHub registry channel reads to locate the file, so a hardcoded .tsx
+  // would send it looking for a utils.tsx that does not exist.
+  const repoPath = sourcePath.slice(root.length + 1).split("\\").join("/");
 
   const item = {
     $schema: "https://ui.shadcn.com/schema/registry-item.json",
     name: component.name,
-    type: "registry:ui",
+    type,
     title: component.title,
     description: component.description,
     dependencies: component.dependencies,
     registryDependencies: component.registryDependencies,
     files: [
       {
-        path: `registry/ui/${component.name}.tsx`,
+        path: repoPath,
         content,
-        type: "registry:ui",
-        target: `components/ui/${component.name}.tsx`,
+        type,
+        target,
       },
     ],
-    categories: [component.category.toLowerCase()],
+    categories: component.category ? [component.category.toLowerCase()] : [],
   };
 
   writeFileSync(join(OUT_DIR, `${component.name}.json`), JSON.stringify(item, null, 2));
@@ -75,12 +96,18 @@ for (const component of meta.components) {
 }
 
 // Machine-readable catalog index (used by docs + future MCP metadata)
-const catalog = meta.components.map((c) => ({
-  name: c.name,
-  title: c.title,
-  description: c.description,
-  category: c.category,
-}));
+const catalog = meta.components.map((c) => {
+  const src = ["tsx", "ts"]
+    .map((ext) => join(REGISTRY_DIR, `${c.name}.${ext}`))
+    .find((p) => existsSync(p));
+  return {
+    name: c.name,
+    title: c.title,
+    description: c.description,
+    category: c.category,
+    path: src ? src.slice(root.length + 1).split("\\").join("/") : null,
+  };
+});
 writeFileSync(join(OUT_DIR, "index.json"), JSON.stringify(catalog, null, 2));
 console.log("built public/r/index.json");
 
@@ -89,22 +116,27 @@ const registryJson = {
   $schema: "https://ui.shadcn.com/schema/registry.json",
   name: "noiceui",
   homepage: SITE_URL,
-  items: meta.components.map((c) => ({
-    name: c.name,
-    type: "registry:ui",
-    title: c.title,
-    description: c.description,
-    dependencies: c.dependencies,
-    registryDependencies: c.registryDependencies,
-    files: [
-      {
-        path: `registry/ui/${c.name}.tsx`,
-        type: "registry:ui",
-        target: `components/ui/${c.name}.tsx`,
-      },
-    ],
-    categories: [c.category.toLowerCase()],
-  })),
+  items: meta.components.map((c) => {
+    const src = ["tsx", "ts"]
+      .map((ext) => join(REGISTRY_DIR, `${c.name}.${ext}`))
+      .find((p) => existsSync(p));
+    return {
+      name: c.name,
+      type: c.type ?? "registry:ui",
+      title: c.title,
+      description: c.description,
+      dependencies: c.dependencies,
+      registryDependencies: c.registryDependencies,
+      files: [
+        {
+          path: src.slice(root.length + 1).split("\\").join("/"),
+          type: c.type ?? "registry:ui",
+          target: c.target ?? `components/ui/${c.name}.tsx`,
+        },
+      ],
+      categories: c.category ? [c.category.toLowerCase()] : [],
+    };
+  }),
 };
 const registryJsonString = JSON.stringify(registryJson, null, 2);
 writeFileSync(join(root, "registry.json"), registryJsonString);

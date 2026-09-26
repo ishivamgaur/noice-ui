@@ -1,6 +1,7 @@
 import { components, githubItem, registryUrl } from "@/lib/registry";
 import {
   GITHUB_SLUG,
+  REGISTRY_NAMESPACE,
   SITE_DESCRIPTION,
   SITE_NAME,
   SITE_URL,
@@ -17,7 +18,7 @@ export function GET() {
     ``,
     `> ${SITE_DESCRIPTION}`,
     ``,
-    `Registry namespace for shadcn CLI 3.0+: \`@noice\` -> \`${SITE_URL}/r/{name}.json\``,
+    `Registry namespace for shadcn CLI 3.0+: \`${REGISTRY_NAMESPACE}\` -> \`${SITE_URL}/r/{name}.json\``,
     ``,
     `Install straight from GitHub (no domain, no components.json entry): \`npx shadcn@latest add ${GITHUB_SLUG}/<name>\``,
     ``,

@@ -72,7 +72,7 @@ export default function Home() {
  <SiteHeader />
 
  {/* Hero */}
- <section className="relative w-full overflow-hidden bg-background dark:bg-[#0a0a0c]">
+    <section className="relative w-full overflow-hidden bg-background">
  <div className="relative mx-auto grid w-full max-w-[90rem] items-center gap-12 px-4 pb-16 pt-20 sm:px-6 sm:pt-28 lg:grid-cols-[0.8fr_1.2fr] lg:gap-10">
  <div className="flex flex-col items-center text-center lg:items-start lg:text-left">
  <HeroIntro

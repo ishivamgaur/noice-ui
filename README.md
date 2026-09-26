@@ -33,7 +33,7 @@ Or register the namespace once in your `components.json` and use short names:
     "utils": "@/lib/utils"
   },
   "registries": {
-    "@noice": {
+    "@noiceui": {
       "url": "https://ui.noicess.fun/r/{name}.json"
     }
   }
@@ -41,7 +41,7 @@ Or register the namespace once in your `components.json` and use short names:
 ```
 
 ```bash
-npx shadcn@latest add @noice/accordion
+npx shadcn@latest add @noiceui/accordion
 ```
 
 ### Install from GitHub
@@ -85,7 +85,7 @@ Register the namespace, then let your agent pull components in from a plain
 language request:
 
 ```bash
-npx shadcn@latest mcp init @noice
+npx shadcn@latest mcp init @noiceui
 ```
 
 Works with Cursor, Claude, and Copilot. See the

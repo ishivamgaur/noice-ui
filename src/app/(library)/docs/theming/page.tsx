@@ -95,25 +95,27 @@ export default function ThemingPage() {
  Dark mode is class-based, so it can be toggled at runtime. Add the
  variant to your stylesheet, then wrap your app once.
  </p>
- <CodeBlock lang="css" code={`@custom-variant dark (&:where(.dark, .dark *));`} />
- <CodeBlock
- lang="tsx"
- code={`// app/layout.tsx
+  <CodeBlock lang="css" code={`@custom-variant dark (&:where(.dark, .dark *));`} />
+  <CodeBlock
+  lang="tsx"
+  code={`// app/layout.tsx
 <html lang="en" suppressHydrationWarning>
- <head>
- {/* Applies the stored theme before first paint. */}
- <script dangerouslySetInnerHTML={{ __html: noFlashScript }} />
- </head>
- <body>
- <ThemeProvider defaultTheme="system">{children}</ThemeProvider>
- </body>
+  <head>
+  <meta name="color-scheme" content="light dark" />
+  </head>
+  <body>
+  <ThemeProvider defaultTheme="system">{children}</ThemeProvider>
+  </body>
 </html>`}
- />
- <p>
- The head script matters. Without it the page paints light, then
- snaps to dark once React hydrates. Both it and the provider are
- exported from <Token>@/components/theme-provider</Token>.
- </p>
+  />
+  <p>
+  <Token>next-themes</Token> injects its own script into the server HTML, so
+  the stored theme is applied before the first paint and there is no flash
+  to hide. The <Token>color-scheme</Token> meta tells the browser which
+  canvas to use before your stylesheet arrives, and{" "}
+  <Token>disableTransitionOnChange</Token> makes a theme switch a hard cut
+  rather than an animated crossfade.
+  </p>
  </Step>
 
  <Step title="Per-component overrides">

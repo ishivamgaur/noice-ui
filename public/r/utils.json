@@ -1,0 +1,23 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "utils",
+  "type": "registry:lib",
+  "title": "Utils",
+  "description": "The cn helper for merging Tailwind classes.",
+  "dependencies": [
+    "clsx",
+    "tailwind-merge"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "registry/ui/utils.ts",
+      "content": "import { clsx, type ClassValue } from \"clsx\";\nimport { twMerge } from \"tailwind-merge\";\n\n/**\n * Merge conditional class names, with later Tailwind utilities winning over\n * earlier ones in the same group.\n *\n * This ships as a registry item rather than being assumed to exist. Every\n * other component here imports `cn` from \"@/lib/utils\", and a consumer who\n * installs a component into a project that has not run `shadcn init` has no\n * such file - the import would resolve to nothing and the build would fail.\n * Declaring it as a registryDependency means the CLI copies it in alongside\n * the component.\n */\nexport function cn(...inputs: ClassValue[]) {\n  return twMerge(clsx(inputs));\n}\n",
+      "type": "registry:lib",
+      "target": "lib/utils.ts"
+    }
+  ],
+  "categories": [
+    "general"
+  ]
+}

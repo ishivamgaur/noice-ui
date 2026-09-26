@@ -107,10 +107,10 @@ export function PreviewTabs({
  filename={tab === "Usage" ? "usage.tsx" : `${slug}.tsx`}
  />
  ) : (
- <div
- className="flex justify-center rounded-lg border border-border bg-surface p-4 sm:p-8"
- style={{ maxWidth: width ? width + 64 : undefined }}
- >
+  <div
+  className="canvas-dots flex justify-center rounded-lg border border-border bg-surface p-4 sm:p-8"
+  style={{ maxWidth: width ? width + 64 : undefined }}
+  >
  <div
  style={width ? { width: `${width}px` } : undefined}
  className={cn(

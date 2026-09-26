@@ -1,6 +1,21 @@
 {
   "components": [
     {
+      "name": "utils",
+      "type": "registry:lib",
+      "title": "Utils",
+      "description": "The cn helper for merging Tailwind classes.",
+      "category": "General",
+      "dependencies": [
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryDependencies": [],
+      "target": "lib/utils.ts",
+      "usage": "import { cn } from \"@/lib/utils\";\n\nexport function Example() {\n  return <div className={cn(\"p-4\", isWide && \"max-w-md\")} />;\n}",
+      "props": []
+    },
+    {
       "name": "button",
       "title": "Button",
       "description": "Displays a button with multiple variants and sizes.",

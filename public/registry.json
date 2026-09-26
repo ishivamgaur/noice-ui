@@ -4,6 +4,27 @@
   "homepage": "https://ui.noicess.fun",
   "items": [
     {
+      "name": "utils",
+      "type": "registry:lib",
+      "title": "Utils",
+      "description": "The cn helper for merging Tailwind classes.",
+      "dependencies": [
+        "clsx",
+        "tailwind-merge"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "registry/ui/utils.ts",
+          "type": "registry:lib",
+          "target": "lib/utils.ts"
+        }
+      ],
+      "categories": [
+        "general"
+      ]
+    },
+    {
       "name": "button",
       "type": "registry:ui",
       "title": "Button",

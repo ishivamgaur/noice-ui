@@ -3,8 +3,7 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-export interface MarqueeProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** Reverse scroll direction. @default false */
+export interface MarqueeProps extends React.HTMLAttributes<HTMLDivElement> {  /** Reverse scroll direction. @default false */
   reverse?: boolean;
   /** Pause scrolling while hovered or focused. @default true */
   pauseOnHover?: boolean;
@@ -14,7 +13,6 @@ export interface MarqueeProps extends React.HTMLAttributes<HTMLDivElement> {
   distance?: string;
 }
 
-let uid = 0;
 
 /**
  * An infinite scrolling row. Children are duplicated internally to make
@@ -31,7 +29,8 @@ export function Marquee({
   distance = "50%",
   ...props
 }: MarqueeProps) {
-  const id = React.useMemo(() => `mq-${++uid}`, []);
+  const slug = distance.replace(/[^a-z0-9]/gi, "") || "50";
+  const id = `mq-${slug}`;
 
   return (
     <div

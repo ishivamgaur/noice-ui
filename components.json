@@ -1,6 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema.json",
   "style": "new-york",
+  "base": "radix",
   "rsc": true,
   "tsx": true,
   "tailwind": {
@@ -17,7 +18,7 @@
     "utils": "@/lib/utils"
   },
   "registries": {
-    "@noice": {
+    "@noiceui": {
       "url": "https://ui.noicess.fun/r/{name}.json"
     }
   }

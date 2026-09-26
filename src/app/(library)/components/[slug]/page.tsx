@@ -109,7 +109,7 @@ export default async function ComponentPage({
 
  {/* A quiet well so every piece is shown the same way. Clipped
  sideways so thrown or dragged demos cannot widen the page. */}
- <div className="flex min-h-100 items-center justify-center overflow-x-clip rounded-lg border border-border bg-surface p-4 sm:min-h-130 sm:p-8">
+ <div   className="canvas-dots flex min-h-100 items-center justify-center overflow-x-clip rounded-lg border border-border bg-surface p-4 sm:min-h-130 sm:p-8">
  {Demo ? <Demo /> : null}
  </div>
 

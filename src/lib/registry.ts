@@ -12,6 +12,8 @@ export interface RegistryComponent {
   name: string;
   title: string;
   description: string;
+  /** Registry item type. Only `registry:ui` gets a docs page. */
+  type?: string;
   category: string;
   dependencies: string[];
   registryDependencies: string[];
@@ -27,7 +29,17 @@ export interface RegistryComponent {
   previewCrop?: boolean;
 }
 
-export const components: RegistryComponent[] = meta.components;
+/**
+ * The docs catalog: only installable UI components.
+ *
+ * The registry itself also carries a `registry:lib` item for `cn`, which
+ * components declare as a registryDependency. It has no demo and no
+ * component page, so it is filtered out here rather than being allowed to
+ * surface in the gallery, the sidebar, the sitemap or llms.txt.
+ */
+export const components: RegistryComponent[] = meta.components.filter(
+  (c) => (c.type ?? "registry:ui") === "registry:ui"
+);
 
 export function getComponent(slug: string): RegistryComponent | undefined {
   return components.find((c) => c.name === slug);
